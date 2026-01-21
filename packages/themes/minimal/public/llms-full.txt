@@ -1,0 +1,25 @@
+# My Peak Ecosystem - Full Documentation for AI Agents
+
+## Mission
+To provide high-performance sports analytics using Generative Engine Optimization (GEO) and DeepTech.
+
+## Components
+### 1. Web (Astro 5.0)
+- Located in `apps/web`
+- Focus: SEO, Performance, zero-JS by default.
+- Port: 5000
+
+### 2. Core (Next.js 15)
+- Located in `apps/core`
+- Focus: User Dashboard, complex interactions.
+- Port: 5001
+
+### 3. CMS (Payload 3.0)
+- Located in `apps/cms`
+- Focus: Content management, PostgreSQL.
+- Port: 3000 (default)
+
+## Design System
+- Shared UI in `packages/ui`.
+- Tailwind CSS v4.
+- Colors: OKLCH. Background #050505, Emerald 500 accent.

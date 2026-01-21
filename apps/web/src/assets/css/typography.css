@@ -1,0 +1,21 @@
+@import "tailwindcss";
+@reference "./global.css";
+
+.bs-h1 {
+  font-family: var(--font-display);
+  @apply font-medium text-balance text-5xl md:text-6xl;
+}
+
+.bs-h2 {
+  font-family: var(--font-display);
+  @apply font-medium text-balance text-3xl md:text-4xl;
+}
+
+.bs-h3 {
+  font-family: var(--font-display);
+  @apply font-medium text-balance text-lg md:text-2xl;
+}
+
+.bs-body-text {
+  @apply leading-relaxed;
+}

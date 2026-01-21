@@ -1,10 +1,29 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro"
+
+// Landing компоненты для My Peak OS
+import HeroSection from "../components/landing/HeroSection.astro"
+import ChaosVsOrderSection from "../components/landing/ChaosVsOrderSection.astro"
+import OSCoreSection from "../components/landing/OSCoreSection.astro"
+import ROISection from "../components/landing/ROISection.astro"
+import FeaturesSection from "../components/landing/FeaturesSection.astro"
+import FooterSection from "../components/landing/FooterSection.astro"
+
+import global_settings from "../data/global_settings.json"
 ---
 
-<Layout>
-	<main class="flex min-h-screen flex-col items-center justify-center p-24">
-		<h1 class="text-6xl font-bold text-accent">MY PEAK</h1>
-		<p class="mt-4 text-xl text-foreground">DeepTech Ecosystem 2026</p>
-	</main>
+<Layout title="My Peak | Операционная система управления спортивной подготовкой">
+  
+  <HeroSection />
+  
+  <ChaosVsOrderSection />
+  
+  <OSCoreSection />
+  
+  <ROISection />
+  
+  <FeaturesSection />
+  
+  <FooterSection />
+
 </Layout>

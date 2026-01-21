@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@reference "./global.css";
+
+:root {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  scroll-padding-top: 2em;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body);
+  @apply selection:text-black selection:bg-amber-300;
+}

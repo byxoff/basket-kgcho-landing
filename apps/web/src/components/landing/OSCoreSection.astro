@@ -1,0 +1,80 @@
+---
+// The OS Core Section - Архитектура My Peak
+---
+
+<section class="py-24 bg-background text-foreground">
+  <div class="container mx-auto px-6">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-5xl md:text-6xl font-bold mb-16 text-center">
+        Архитектура <span class="text-aurora-purple">My Peak</span>
+      </h2>
+      
+      <!-- Flow: INPUT → PROCESS → OUTPUT -->
+      <div class="grid md:grid-cols-3 gap-8 items-center">
+        <!-- INPUT -->
+        <div class="p-8 border-2 border-primary/30 bg-primary/5 rounded-xl text-center">
+          <div class="text-5xl mb-4">📥</div>
+          <h3 class="text-3xl font-bold mb-4 text-aurora-purple">INPUT</h3>
+          <p class="text-xl mb-4 text-foreground/80">Сбор</p>
+          <p class="text-foreground/70 leading-relaxed">
+            Интеграция с любыми источниками:<br />
+            Apple, Garmin, Polar, InStat
+          </p>
+        </div>
+        
+        <!-- Arrow -->
+        <div class="hidden md:block text-center">
+          <div class="text-4xl text-aurora-purple">→</div>
+        </div>
+        
+        <!-- PROCESS -->
+        <div class="p-8 border-2 border-primary/50 bg-primary/10 rounded-xl text-center">
+          <div class="text-5xl mb-4">⚙️</div>
+          <h3 class="text-3xl font-bold mb-4 text-aurora-purple">PROCESS</h3>
+          <p class="text-xl mb-4 text-foreground/80">Ядро</p>
+          <p class="text-foreground/70 leading-relaxed">
+            Анализ нагрузки и восстановления.<br />
+            Сверка с индивидуальной нормой атлета.
+          </p>
+        </div>
+        
+        <!-- Arrow -->
+        <div class="hidden md:block text-center">
+          <div class="text-4xl text-aurora-purple">→</div>
+        </div>
+        
+        <!-- OUTPUT -->
+        <div class="p-8 border-2 border-primary/30 bg-primary/5 rounded-xl text-center">
+          <div class="text-5xl mb-4">📤</div>
+          <h3 class="text-3xl font-bold mb-4 text-aurora-purple">OUTPUT</h3>
+          <p class="text-xl mb-4 text-foreground/80">Решение</p>
+          <p class="text-foreground/70 leading-relaxed mb-6">
+            Статус готовности игрока на сегодня
+          </p>
+          
+          <!-- Traffic Light -->
+          <div class="space-y-3 mt-6">
+            <div class="flex items-center gap-3 justify-center">
+              <div class="w-4 h-4 bg-aurora-blue rounded-full"></div>
+              <span class="text-sm text-foreground/70">Зеленый</span>
+            </div>
+            <div class="flex items-center gap-3 justify-center">
+              <div class="w-4 h-4 bg-yellow-500 rounded-full"></div>
+              <span class="text-sm text-foreground/70">Желтый</span>
+            </div>
+            <div class="flex items-center gap-3 justify-center">
+              <div class="w-4 h-4 bg-destructive-red rounded-full"></div>
+              <span class="text-sm text-foreground/70">Красный</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Mobile arrows -->
+      <div class="md:hidden flex justify-center gap-4 my-8">
+        <div class="text-2xl text-aurora-purple">→</div>
+        <div class="text-2xl text-aurora-purple">→</div>
+      </div>
+    </div>
+  </div>
+</section>

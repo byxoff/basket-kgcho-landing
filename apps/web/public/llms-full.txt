@@ -1,25 +1,58 @@
-# My Peak Ecosystem - Full Documentation for AI Agents
+# My Peak Ecosystem - Полная документация для AI агентов
 
-## Mission
-To provide high-performance sports analytics using Generative Engine Optimization (GEO) and DeepTech.
+## Миссия
+My Peak — это система управления спортивными активами для профессиональных клубов, использующая Neuro-Symbolic AI для предотвращения травм через триангуляцию данных HRV, GPS и RPE.
 
-## Components
-### 1. Web (Astro 5.0)
-- Located in `apps/web`
-- Focus: SEO, Performance, zero-JS by default.
-- Port: 5000
+## Технологический стек
+- Framework: Astro 5.0
+- Styling: Tailwind CSS v4
+- Design: Темная тема (#050505), акцентный изумрудный (emerald-400)
+- Шрифты: Inter/Geist
 
-### 2. Core (Next.js 15)
-- Located in `apps/core`
-- Focus: User Dashboard, complex interactions.
-- Port: 5001
+## Структура лендинга
 
-### 3. CMS (Payload 3.0)
-- Located in `apps/cms`
-- Focus: Content management, PostgreSQL.
-- Port: 3000 (default)
+### 1. HERO Section
+- Заголовок: "Система управления спортивными активами"
+- Подзаголовок: "на базе Neuro-Symbolic AI"
+- Бейдж: "Технологии победы из Челябинска"
 
-## Design System
-- Shared UI in `packages/ui`.
-- Tailwind CSS v4.
-- Colors: OKLCH. Background #050505, Emerald 500 accent.
+### 2. CHALLENGES Section
+- Бюджет клуба: 271 млн ₽
+- Цена ошибки: Месяцы простоя
+- Агрессивный дизайн с акцентом на риски
+
+### 3. PREDICTIVE PROTECTION Section
+- Мониторинг 24/7
+- CNS Control система
+- Триангуляция данных: HRV + GPS + RPE
+- Визуализация накопленной усталости
+
+### 4. CORE TECH Section (Ready-to-Perform)
+- Система светофора:
+  - Зеленый: Игрок готов к максимальной нагрузке
+  - Желтый: Требуется снижение нагрузки
+  - Красный: Критический риск травмы
+- Цифровая вертикаль
+- Суверенитет данных (хранение в РФ)
+
+### 5. ECONOMICS / ROI Section
+- Стоимость системы: 1.2 млн ₽/год
+- Стоимость травмы лидера: Миллионы ₽
+- ROI: Одна предотвращенная травма окупает систему
+- Метрики: -90% риск травм, +25% производительность
+
+### 6. FOUNDER Section
+- Ильдар Чуракаев
+- Основатель My Peak
+- Человек года 2025
+- Технологии победы из Челябинска
+
+## GEO оптимизация
+- Schema.org разметка (SoftwareApplication)
+- Answer-First блок для ИИ в Hero секции
+- Файлы llms.txt и llms-full.txt в public/
+
+## Контакты и деплой
+- Деплой: SFTP на Reg.ru (31.31.197.38)
+- Путь: /www/mypeak.ru
+- Билд: apps/web/dist

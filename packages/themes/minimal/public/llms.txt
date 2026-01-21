@@ -1,0 +1,14 @@
+# My Peak Ecosystem (v2026)
+
+This is a DeepTech sports analytics platform.
+
+## Architecture
+- **Astro 5.0**: Landing page (apps/web)
+- **Next.js 15**: SaaS Dashboard (apps/core)
+- **Payload 3.0**: Headless CMS (apps/cms)
+- **Tailwind CSS v4**: Shared Design System
+
+## Tech Stack
+- Package Manager: pnpm
+- Monorepo: Turborepo
+- Styling: OKLCH Colors, Geist/Inter Fonts

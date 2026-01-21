@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+/* 1. SOURCES */
+@source "../../../apps/**/*.{ts,tsx,astro}";
+@source "../../../packages/**/*.{ts,tsx,astro}";
+
+/* 2. THEME: Liquid Glass 2026 */
+@theme {
+  --color-zinc-50: oklch(0.985 0 0);
+  --color-zinc-950: oklch(0.145 0.004 285.823);
+
+  /* Кастомные цвета для использования в Tailwind классах */
+  --color-aurora-purple: oklch(0.65 0.3 290);
+  --color-aurora-blue: oklch(0.60 0.20 250);
+  --color-brand-telegram: oklch(0.70 0.11 235);
+  --color-destructive-red: oklch(0.627 0.194 28.918);
+
+  --color-primary: oklch(0.3958 0.2481 266.82);
+  --color-background: var(--color-zinc-950);
+  --color-card: oklch(1 0 0 / 0.05);
+  --color-muted: oklch(1 0 0 / 0.03);
+  --color-foreground: oklch(0.95 0.01 260);
+  --color-border: oklch(1 0 0 / 0.1);
+  --color-ring: var(--color-aurora-purple);
+
+  /* Шрифты */
+  --font-body: var(--font-inter, "Inter", ui-sans-serif, system-ui, sans-serif);
+  --font-display: var(--font-inter-display, "Inter Display", ui-sans-serif, system-ui, sans-serif);
+
+  /* SPACING: THE HARD GRID */
+  --spacing-0_5: 0.125rem;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+
+  --shadow-glass: 0 20px 80px -10px oklch(0 0 0 / 0.5);
+  --shadow-glow: 0 0 50px -12px color-mix(in oklch, var(--color-primary), transparent 70%);
+}
+
+/* 3. ГЛОБАЛЬНЫЕ СТИЛИ */
+html, body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  background-image: 
+    radial-gradient(at 0% 0%, color-mix(in oklch, var(--color-aurora-blue), transparent 80%) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, color-mix(in oklch, var(--color-aurora-purple), transparent 95%) 0px, transparent 50%);
+  min-height: 100vh;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer base {
+  * { 
+    border-color: var(--color-border);
+  }
+}
+
+@layer utilities {
+  .animate-blob { 
+    animation: blob 7s infinite; 
+  }
+  .aurora-blur { 
+    filter: blur(100px);
+    border-radius: 9999px;
+    opacity: 0.3;
+  }
+  
+  /* Утилиты для цветов через CSS переменные */
+  .text-aurora-purple { color: var(--color-aurora-purple); }
+  .bg-aurora-purple { background-color: var(--color-aurora-purple); }
+  .border-aurora-purple { border-color: var(--color-aurora-purple); }
+  
+  .text-aurora-blue { color: var(--color-aurora-blue); }
+  .bg-aurora-blue { background-color: var(--color-aurora-blue); }
+  .border-aurora-blue { border-color: var(--color-aurora-blue); }
+  
+  .text-destructive-red { color: var(--color-destructive-red); }
+  .bg-destructive-red { background-color: var(--color-destructive-red); }
+  .border-destructive-red { border-color: var(--color-destructive-red); }
+  
+  .text-primary { color: var(--color-primary); }
+  .bg-primary { background-color: var(--color-primary); }
+  .border-primary { border-color: var(--color-primary); }
+  
+  .bg-background { background-color: var(--color-background); }
+  .text-foreground { color: var(--color-foreground); }
+  .bg-card { background-color: var(--color-card); }
+  .bg-muted { background-color: var(--color-muted); }
+  .border-border { border-color: var(--color-border); }
+  
+  .shadow-glow { box-shadow: var(--shadow-glow); }
+  .shadow-glass { box-shadow: var(--shadow-glass); }
+  
+  /* Маппинг старых классов Blackspike на новую тему */
+  .bg-bs-surface-0 { background-color: var(--color-background); }
+  .bg-bs-surface-1 { background-color: oklch(0.18 0.004 285.823); }
+  .bg-bs-surface-2 { background-color: var(--color-card); }
+  .bg-bs-surface-3 { background-color: var(--color-border); }
+  
+  .text-bs-foreground-light { color: var(--color-foreground); }
+  .text-bs-foreground-dark { color: var(--color-foreground); opacity: 0.7; }
+  
+  .border-bs-surface-3 { border-color: var(--color-border); }
+  
+  /* Шрифты */
+  .font-body { 
+    font-family: var(--font-inter, "Inter", ui-sans-serif, system-ui, sans-serif); 
+  }
+  .font-display { 
+    font-family: var(--font-inter-display, "Inter Display", ui-sans-serif, system-ui, sans-serif); 
+  }
+}
+
+@keyframes blob {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
