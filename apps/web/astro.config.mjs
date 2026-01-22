@@ -6,7 +6,7 @@ import keystatic from '@keystatic/astro'
 import vercel from '@astrojs/vercel'
 
 export default defineConfig({
-  output: 'hybrid',
+  output: 'static',
   adapter: vercel(),
   integrations: [
     react(),
