@@ -1,0 +1,10 @@
+{
+  "videoUrl": "#",
+  "gallery": [
+    { "image": "/tournament/logo-big.png", "link": "#", "alt": "Лучший момент 1" },
+    { "image": "/tournament/logo-big.png", "link": "#", "alt": "Лучший момент 2" },
+    { "image": "/tournament/logo-big.png", "link": "#", "alt": "Лучший момент 3" },
+    { "image": "/tournament/logo-big.png", "link": "#", "alt": "Лучший момент 4" },
+    { "image": "/tournament/logo-big.png", "link": "#", "alt": "Лучший момент 5" }
+  ]
+}

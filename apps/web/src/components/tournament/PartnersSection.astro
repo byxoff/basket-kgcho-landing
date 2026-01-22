@@ -1,63 +1,16 @@
 ---
 // Секция партнеров турнира
+import Image from "astro/components/Image.astro";
 import Button from '../ui/Button.astro';
-
-const partnerItems = [
-  {
-    image: "",
-    link: "#partners",
-  },
-  {
-    image: "",
-    link: "#partners",
-  },
-  {
-    image: "",
-    link: "#partners",
-  },
-  {
-    image: "",
-    link: "#partners",
-  },
-  {
-    image: "",
-    link: "#partners",
-  },
-  {
-    image: "",
-    link: "#partners",
-  },
-  {
-    image: "",
-    link: "#partners",
-  },
-  {
-    image: "",
-    link: "#partners",
-  },
-  {
-    image: "",
-    link: "#partners",
-  },
-  {
-    image: "",
-    link: "#partners",
-  },
-  {
-    image: "",
-    link: "#partners",
-  },
-  {
-    image: "",
-    link: "#partners",
-  },
-];
+import partnersBg from '../../assets/tournament/partners.png';
+import partnersData from '../../content/partners/index.json';
+const partnerItems = partnersData.items;
 ---
 
 <section class="relative py-20 px-8 overflow-hidden" id="partners">
   <!-- Оранжевый фон с неоном -->
   <div class="absolute inset-0 z-0">
-    <img src="/tournament/partners.png" alt="" class="w-full h-full object-cover" />
+    <Image src={partnersBg} alt="" format="avif" quality="high" width={1920} height={1080} class="w-full h-full object-cover" loading="lazy" />
   </div>
 
   <div class="relative z-10 max-w-7xl mx-auto">
@@ -72,16 +25,23 @@ const partnerItems = [
     </div>
 
     <!-- Карточки партнёров - ЧЕРНЫЕ с ОРАНЖЕВЫМИ РАМКАМИ -->
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-12">
       {partnerItems.map((item) => (
-        <a 
-          href={item.link}
-          class="aspect-square bg-black border-2 border-tournament-orange rounded-lg hover:scale-105 hover:shadow-2xl hover:border-orange-400 transition-all duration-300 flex items-center justify-center"
-        >
-          {item.image && (
-            <img src={item.image} alt="" class="w-full h-full object-contain p-4" />
+        <div class="flex flex-col gap-3 group">
+          <a 
+            href={item.link}
+            class="aspect-square bg-black border-2 border-tournament-orange rounded-lg group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(216,90,33,0.4)] group-hover:border-orange-400 transition-all duration-300 flex items-center justify-center overflow-hidden"
+          >
+            {item.image && (
+              <img src={item.image} alt={item.name || ''} class="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-110" />
+            )}
+          </a>
+          {item.name && (
+            <p class="text-white text-center text-sm font-bold uppercase tracking-wider opacity-80 group-hover:opacity-100 group-hover:text-tournament-orange transition-all duration-300">
+              {item.name}
+            </p>
           )}
-        </a>
+        </div>
       ))}
     </div>
 

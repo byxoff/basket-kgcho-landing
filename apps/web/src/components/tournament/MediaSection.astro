@@ -1,5 +1,10 @@
 ---
 // Медиа галерея - лучшие моменты прошлого турнира
+import Image from "astro/components/Image.astro";
+import heroBg from '../../assets/tournament/hero-bg.png';
+import balls2 from '../../assets/tournament/balls_2.png';
+import mediaLogoBig from '../../assets/tournament/media-logo-big.png';
+import media from '../../content/media/index.json';
 ---
 
 <section class="w-full bg-tournament-dark flex flex-col" id="media">
@@ -18,9 +23,9 @@
       </header>
 
       <div class="w-[1160px] max-w-[95%] aspect-video bg-[#2C2C2C] border-4 border-tournament-orange rounded-[5px] shadow-[0px_4px_4px_rgba(216,90,33,1)] flex justify-center items-center relative md:border-[3px]">
-        <button class="bg-none border-none cursor-pointer w-[142px] h-[142px] transition-transform duration-200 hover:scale-105 md:w-20 md:h-20" aria-label="Воспроизвести видео">
+        <a href={media.videoUrl} target="_blank" class="bg-none border-none cursor-pointer w-[142px] h-[142px] transition-transform duration-200 hover:scale-105 md:w-20 md:h-20" aria-label="Воспроизвести видео">
           <img src="/tournament/icon-play.svg" alt="Play" class="w-full h-full" />
-        </button>
+        </a>
       </div>
     </div>
   </div>
@@ -32,43 +37,39 @@
   <div class="relative w-full overflow-hidden flex justify-center pt-[50px] pb-[50px] z-1 max-lg:pt-[30px]">
     <!-- Background Bottom -->
     <div class="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
-      <img src="/tournament/balls_2.png" class="absolute left-1/2 -translate-x-1/2 w-[1707px] max-w-none h-auto" alt="" />
+      <Image src={balls2} format="avif" quality="high" width={1707} height={960} class="absolute left-1/2 -translate-x-1/2 w-[1707px] max-w-none h-auto" alt="" loading="lazy" />
     </div>
 
     <div class="relative z-1 w-full max-w-[1440px] flex flex-col items-center px-4">
       <div class="relative w-full max-w-[1414px]">
         
         <!-- Logo Layer (Overlapping) - скрыт на маленьких экранах -->
-        <div class="absolute top-75 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10ointer-events-none max-lg:hidden">
-          <img src="/tournament/media-logo-big.png?v=1" alt="Logo" class="w-[650px]"/>
+        <div class="absolute top-75 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none max-lg:hidden">
+          <Image src={mediaLogoBig} alt="Logo" format="avif" quality="high" width={650} height={650} class="w-[650px]" loading="lazy" />
         </div>
 
         <!-- Windows Grid - 5 карточек вокруг лого -->
         <div class="gallery-grid">
-          <!-- Карточка 1: Верхняя левая -->
-          <div class="gallery-card gallery-card-1">
-            <img src="/tournament/hero-bg.png" alt="Gallery 1" class="w-full h-full object-cover opacity-70 transition-opacity duration-300 hover:opacity-100" />
-          </div>
-          
-          <!-- Карточка 2: Верхняя правая -->
-          <div class="gallery-card gallery-card-2">
-            <img src="/tournament/hero-bg.png" alt="Gallery 2" class="w-full h-full object-cover opacity-70 transition-opacity duration-300 hover:opacity-100" />
-          </div>
-          
-          <!-- Карточка 3: Средняя левая -->
-          <div class="gallery-card gallery-card-3">
-            <img src="/tournament/hero-bg.png" alt="Gallery 3" class="w-full h-full object-cover opacity-70 transition-opacity duration-300 hover:opacity-100" />
-          </div>
-          
-          <!-- Карточка 4: Средняя правая -->
-          <div class="gallery-card gallery-card-4">
-            <img src="/tournament/hero-bg.png" alt="Gallery 4" class="w-full h-full object-cover opacity-70 transition-opacity duration-300 hover:opacity-100" />
-          </div>
-          
-          <!-- Карточка 5: Нижняя центральная -->
-          <div class="gallery-card gallery-card-5">
-            <img src="/tournament/hero-bg.png" alt="Gallery 5" class="w-full h-full object-cover opacity-70 transition-opacity duration-300 hover:opacity-100" />
-          </div>
+          {media.gallery.map((item, index) => {
+            const Tag = item.link ? 'a' : 'div';
+            const extraProps = item.link ? { href: item.link, target: "_blank" } : {};
+            
+            return (
+              <Tag 
+                {...extraProps}
+                class={`gallery-card gallery-card-${index + 1} group`}
+                style={`background-image: url('${item.image}');`}
+              >
+                <div class="w-full h-full bg-black/40 group-hover:bg-transparent transition-colors duration-300">
+                  {item.alt && (
+                    <div class="absolute bottom-0 left-0 w-full bg-black/60 p-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                      <p class="text-white text-[10px] font-bold uppercase text-center m-0">{item.alt}</p>
+                    </div>
+                  )}
+                </div>
+              </Tag>
+            );
+          })}
         </div>
 
       </div>
@@ -88,11 +89,15 @@
     position: absolute;
     width: 450px;
     aspect-ratio: 16 / 9;
-    background: #2C2C2C;
+    background-color: #2C2C2C;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     border: 4px solid #D85921;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    text-decoration: none;
   }
 
   /* Верхняя левая - чуть выше и левее */

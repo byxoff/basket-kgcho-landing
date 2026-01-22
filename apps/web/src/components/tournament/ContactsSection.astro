@@ -1,9 +1,13 @@
 ---
 // Секция контактов турнира - footer
+import Image from "astro/components/Image.astro";
 import Button from '../ui/Button.astro';
+import vkIcon from '../../assets/tournament/vk.png';
+import tgIcon from '../../assets/tournament/tg.png';
+import contacts from '../../content/contacts/index.json';
 ---
 
-<footer class="py-16 px-8 bg-tournament-orange">
+<footer class="py-16 px-8 bg-tournament-orange" id="contacts">
   <div class="max-w-5xl mx-auto">
     <!-- Заголовок -->
     <div class="text-center mb-16">
@@ -19,10 +23,7 @@ import Button from '../ui/Button.astro';
         <h3 class="text-3xl font-bold text-white uppercase mb-4">
           адрес
         </h3>
-        <p class="text-base text-white font-semibold leading-relaxed">
-          ДС Юность, г. Челябинск<br />
-          пр. Свердловский, 51
-        </p>
+        <p class="text-base text-white font-semibold leading-relaxed" set:html={contacts.address.replace(/\n/g, '<br />')} />
       </div>
 
       <!-- 2. Телефон -->
@@ -31,27 +32,34 @@ import Button from '../ui/Button.astro';
           телефон
         </h3>
         <p class="text-base text-white font-semibold leading-relaxed">
-          ДС Юность, г. Челябинск<br />
-          пр. Свердловский, 51
+          {contacts.phone}
         </p>
       </div>
 
       <!-- 3. Соцсети -->
       <div class="flex gap-4 justify-start md:justify-end items-start">
-        <a 
-          href="#" 
-          class="w-16 h-16 hover:scale-110 transition-transform duration-200"
-          aria-label="ВКонтакте"
-        >
-          <img src="/tournament/vk.png" alt="VK" class="w-full h-full object-contain" />
-        </a>
-        <a 
-          href="#" 
-          class="w-16 h-16 hover:scale-110 transition-transform duration-200"
-          aria-label="Telegram"
-        >
-          <img src="/tournament/tg.png" alt="Telegram" class="w-full h-full object-contain" />
-        </a>
+        {contacts.vkUrl && (
+          <a 
+            href={contacts.vkUrl} 
+            class="w-16 h-16 hover:scale-110 transition-transform duration-200"
+            aria-label="ВКонтакте"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image src={vkIcon} alt="VK" format="avif" quality="high" width={64} height={64} class="w-full h-full object-contain" loading="lazy" />
+          </a>
+        )}
+        {contacts.tgUrl && (
+          <a 
+            href={contacts.tgUrl} 
+            class="w-16 h-16 hover:scale-110 transition-transform duration-200"
+            aria-label="Telegram"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image src={tgIcon} alt="Telegram" format="avif" quality="high" width={64} height={64} class="w-full h-full object-contain" loading="lazy" />
+          </a>
+        )}
       </div>
 
       <!-- 4. Email -->
@@ -60,7 +68,7 @@ import Button from '../ui/Button.astro';
           email
         </h3>
         <p class="text-base text-white font-semibold">
-          info@3x3tournament.ru
+          {contacts.email}
         </p>
       </div>
 

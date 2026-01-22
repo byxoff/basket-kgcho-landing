@@ -1,56 +1,24 @@
 ---
 // Секция магазина официальной атрибутики
+import Image from "astro/components/Image.astro";
 import { HoverEffect } from "../ui/card-hover-effect";
+import shopBg from '../../assets/tournament/shop-bg.png';
+import shopData from '../../content/shop/index.json';
 
-const shopItems = [
-  {
-    title: "Официальный мяч Турнира",
-    description: "Профессиональный мяч для игры в настольный теннис",
-    price: "1490 ₽",
-    image: "/tournament/balls_2.png",
-    link: "#shop",
-  },
-  {
-    title: "Официальный мяч Турнира",
-    description: "Профессиональный мяч для игры в настольный теннис",
-    price: "1490 ₽",
-    image: "/tournament/balls_2.png",
-    link: "#shop",
-  },
-  {
-    title: "Официальный мяч Турнира",
-    description: "Профессиональный мяч для игры в настольный теннис",
-    price: "1490 ₽",
-    image: "/tournament/balls_2.png",
-    link: "#shop",
-  },
-  {
-    title: "Официальный мяч Турнира",
-    description: "Профессиональный мяч для игры в настольный теннис",
-    price: "1490 ₽",
-    image: "/tournament/balls_2.png",
-    link: "#shop",
-  },
-  {
-    title: "Официальный мяч Турнира",
-    description: "Профессиональный мяч для игры в настольный теннис",
-    price: "1490 ₽",
-    image: "/tournament/balls_2.png",
-    link: "#shop",
-  },
-  {
-    title: "Официальный мяч Турнира",
-    description: "Профессиональный мяч для игры в настольный теннис",
-    price: "1490 ₽",
-    image: "/tournament/balls_2.png",
-    link: "#shop",
-  },
-];
+type ShopItem = {
+  title: string;
+  description: string;
+  price: string;
+  image: string;
+  link?: string;
+};
+
+const shopItems = shopData.items;
 ---
 
 <section class="relative py-20 px-8 bg-tournament-orange overflow-hidden md:py-12 md:px-4" id="shop">
   <div class="absolute inset-0 z-0">
-    <img src="/tournament/shop-bg.png" alt="" class="w-full h-full object-cover object-center" />
+    <Image src={shopBg} alt="" format="avif" quality="high" width={1920} height={1080} class="w-full h-full object-cover object-center" loading="lazy" />
     <div class="absolute left-0 bottom-0 w-full h-[30%] bg-linear-to-b from-black/3 to-black pointer-events-none"></div>
   </div>
 

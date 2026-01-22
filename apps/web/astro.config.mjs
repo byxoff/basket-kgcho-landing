@@ -1,9 +1,15 @@
 import { defineConfig } from 'astro/config'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@astrojs/react'
+import mdx from '@astrojs/mdx'
+import keystatic from '@keystatic/astro'
 
 export default defineConfig({
-  integrations: [react()],
+  integrations: [
+    react(),
+    mdx(),
+    keystatic(),
+  ],
   vite: {
     plugins: [tailwindcss()]
   },

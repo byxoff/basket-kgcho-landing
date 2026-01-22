@@ -1,13 +1,17 @@
 ---
 // Hero секция для турнира КГЧО
+import Image from "astro/components/Image.astro";
 import Button from '../ui/Button.astro';
 import HeroCard from './HeroCard.astro';
+import heroBg from '../../assets/tournament/hero-bg.png';
+import logoBig from '../../assets/tournament/logo-big.png';
+import tournamentSettings from '../../content/tournament-settings/index.json';
 ---
 
 <section class="relative min-h-screen flex flex-col overflow-hidden bg-black">
   <!-- Фоновые элементы -->
   <div class="absolute inset-0 z-0">
-    <img src="/tournament/hero-bg.png" alt="" class="absolute w-full h-full object-cover opacity-90" />
+    <Image src={heroBg} alt="" format="avif" quality="high" width={1920} height={1080} class="absolute w-full h-full object-cover opacity-90" loading="eager" />
     <img src="/tournament/bg-elements-hero.svg" alt="" class="absolute w-full h-full object-cover opacity-70 mix-blend-screen" />
   </div>
 
@@ -29,17 +33,14 @@ import HeroCard from './HeroCard.astro';
   <div class="relative z-10 flex-1 flex flex-col items-center justify-center px-8 gap-6 text-center max-w-6xl mx-auto lg:gap-5 md:gap-4 md:py-8">
     <!-- Большой логотип в центре -->
     <div class="w-72 h-72 drop-shadow-orange lg:w-64 lg:h-64 md:w-52 md:h-52">
-      <img src="/tournament/logo-big.png" alt="Логотип турнира" class="w-full h-full object-contain brightness-110 contrast-110" />
+      <Image src={logoBig} alt="Логотип турнира" format="avif" quality="high" width={800} height={800} class="w-full h-full object-contain brightness-110 contrast-110" loading="eager" />
     </div>
 
     <!-- Заголовок -->
-    <h1 class="text-5xl font-bold text-white uppercase m-0 leading-tight max-w-4xl max-lg:text-6xl max-md:text-4xl md:leading-tight">
-      МЕЖДУНАРОДНЫЙ<br />
-      ТУРНИР ПО БАСКЕТБОЛУ 3Х3
-    </h1>
+    <h1 class="text-5xl font-bold text-white uppercase m-0 leading-tight max-w-4xl max-lg:text-6xl max-md:text-4xl md:leading-tight" set:html={tournamentSettings.title.replace(/\n/g, '<br />')} />
     
     <p class="text-3xl font-bold text-tournament-orange uppercase mt-0 mb-0 lg:text-xl md:text-lg">
-      НА КУБОК ГУБЕРНАТОРА ЧЕЛЯБИНСКОЙ ОБЛАСТИ
+      {tournamentSettings.subtitle}
     </p>
 
     <!-- Карточки с датой и местом -->
@@ -47,13 +48,13 @@ import HeroCard from './HeroCard.astro';
       <HeroCard 
         icon="/tournament/icon-calendar.svg"
         label="Дата проведения"
-        value="13-14 марта 2026"
+        value={tournamentSettings.date}
       />
       
       <HeroCard 
         icon="/tournament/icon-location.svg"
         label="Место проведения"
-        value="ДС «Юность»"
+        value={tournamentSettings.location}
       />
     </div>
 
