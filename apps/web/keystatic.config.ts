@@ -11,7 +11,7 @@ export default config({
   singletons: {
     schedule: singleton({
       label: 'Расписание турнира',
-      path: 'src/content/schedule/',
+      path: 'apps/web/src/content/schedule/',
       format: { data: 'json' },
       schema: {
         showSection: fields.checkbox({ label: 'Отображать блок', defaultValue: true }),
@@ -33,7 +33,7 @@ export default config({
     }),
     shop: singleton({
       label: 'Магазин',
-      path: 'src/content/shop/',
+      path: 'apps/web/src/content/shop/',
       format: { data: 'json' },
       schema: {
         showSection: fields.checkbox({ label: 'Отображать блок', defaultValue: true }),
@@ -51,7 +51,7 @@ export default config({
     }),
     partners: singleton({
       label: 'Партнёры',
-      path: 'src/content/partners/',
+      path: 'apps/web/src/content/partners/',
       format: { data: 'json' },
       schema: {
         showSection: fields.checkbox({ label: 'Отображать блок', defaultValue: true }),
@@ -67,7 +67,7 @@ export default config({
     }),
     tournamentSettings: singleton({
       label: 'Настройки турнира',
-      path: 'src/content/tournament-settings/',
+      path: 'apps/web/src/content/tournament-settings/',
       format: { data: 'json' },
       schema: {
         title: fields.text({ label: 'Заголовок' }),
@@ -80,7 +80,7 @@ export default config({
     }),
     contacts: singleton({
       label: 'Контакты',
-      path: 'src/content/contacts/',
+      path: 'apps/web/src/content/contacts/',
       format: { data: 'json' },
       schema: {
         address: fields.text({ label: 'Адрес', multiline: true }),
@@ -93,7 +93,7 @@ export default config({
     }),
     media: singleton({
       label: 'Медиа галерея',
-      path: 'src/content/media/',
+      path: 'apps/web/src/content/media/',
       format: { data: 'json' },
       schema: {
         showSection: fields.checkbox({ label: 'Отображать блок', defaultValue: true }),
@@ -110,7 +110,7 @@ export default config({
     }),
     headliners: singleton({
       label: 'Хедлайнеры',
-      path: 'src/content/headliners/',
+      path: 'apps/web/src/content/headliners/',
       format: { data: 'json' },
       schema: {
         showSection: fields.checkbox({ label: 'Отображать блок', defaultValue: true }),
