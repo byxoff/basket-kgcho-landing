@@ -1,0 +1,31 @@
+---
+interface Props {
+  title: string;
+  price: string;
+  image: string;
+  link?: string;
+}
+
+const { title, price, image, link = "#" } = Astro.props;
+---
+
+<a href={link} class="group block w-[451px] max-w-full transition-transform duration-300 hover:-translate-y-1">
+  <div class="flex flex-col gap-[5px]">
+    
+    <!-- Image Box (Rectangle 10) -->
+    <div class="w-full h-[308px] bg-white rounded-[4px] overflow-hidden flex items-center justify-center">
+      <img src={image} alt={title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+    </div>
+
+    <!-- Content Box (Rectangle 11) -->
+    <div class="bg-[#D85921] rounded-[4px] px-[17px] py-[27px] flex flex-col gap-[24px] shadow-[0px_4.19px_4.19px_rgba(0,0,0,0.25)] text-white">
+      <h3 class="font-montserrat font-semibold text-[24px] leading-[1.2] m-0">
+        {title}
+      </h3>
+      <div class="font-montserrat font-semibold text-[28px] leading-none">
+        {price}
+      </div>
+    </div>
+
+  </div>
+</a>

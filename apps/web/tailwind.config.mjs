@@ -7,6 +7,8 @@ export default {
       'sans': ['"Bebas Neue"', 'system-ui', 'sans-serif'],
       // Явный класс для Bebas Neue (для заголовков)
       'bebas': ['"Bebas Neue"', 'system-ui', 'sans-serif'],
+      // Класс для Montserrat
+      'montserrat': ['"Montserrat"', 'sans-serif'],
     },
     // Базовые размеры шрифтов (16px базовый)
     fontSize: {
@@ -33,11 +35,11 @@ export default {
         'xl': '1280px',
         '2xl': '1536px',
         // Desktop first (max-width) - используй эти для "уменьшения"
-        'max-2xl': {'max': '1535px'},
-        'max-xl': {'max': '1279px'},
-        'max-lg': {'max': '1023px'},
-        'max-md': {'max': '767px'},
-        'max-sm': {'max': '639px'},
+        'max-2xl': { 'max': '1535px' },
+        'max-xl': { 'max': '1279px' },
+        'max-lg': { 'max': '1023px' },
+        'max-md': { 'max': '767px' },
+        'max-sm': { 'max': '639px' },
       },
       colors: {
         // Tournament palette

@@ -11,8 +11,8 @@ const { icon, label, value } = Astro.props;
 
 <div class="flex items-center gap-4 bg-linear-to-br from-black/80 via-black/70 to-tournament-orange/15 backdrop-blur-md border border-white/10 py-5 px-7 rounded-xl text-white shadow-xl shadow-orange-glow">
   <img src={icon} alt="" class="w-10 h-10 shrink-0 brightness-110 md:w-9 md:h-9" />
-  <div class="flex flex-col gap-1 text-left">
-    <div class="text-sm font-normal text-white/60 leading-none uppercase">{label}</div>
-    <div class="text-xl font-bold leading-none">{value}</div>
+  <div class="flex flex-col gap-0 text-left !font-montserrat">
+    <div class="text-[14px] font-normal text-white/70 leading-none uppercase mb-1">{label}</div>
+    <div class="text-[24px] font-semibold text-white leading-none uppercase">{value}</div>
   </div>
 </div>

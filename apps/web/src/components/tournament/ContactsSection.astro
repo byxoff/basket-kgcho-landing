@@ -7,77 +7,76 @@ import tgIcon from '../../assets/tournament/tg.png';
 import contacts from '../../content/contacts/index.json';
 ---
 
-<footer class="py-16 px-8 bg-tournament-orange" id="contacts">
-  <div class="max-w-5xl mx-auto">
-    <!-- Заголовок -->
-    <div class="text-center mb-16">
-      <h2 class="text-6xl md:text-7xl font-bold text-white uppercase leading-none">
-        контакты
-      </h2>
-    </div>
+<footer class="relative py-24 px-5 bg-[#D85A21] overflow-hidden" id="contacts">
+  <!-- Background Gradient -->
+  <div class="absolute bottom-0 left-0 w-full h-[317px] z-1 pointer-events-none" style="background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.03) 12.34%, rgba(0, 0, 0, 0.7) 90%, #000 100%);"></div>
 
-    <!-- Грид: 3 колонки на десктопе, 1 колонка на мобилке -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <!-- 1. Адрес -->
-      <div>
-        <h3 class="text-3xl font-bold text-white uppercase mb-4">
-          адрес
-        </h3>
-        <p class="text-base text-white font-semibold leading-relaxed" set:html={contacts.address.replace(/\n/g, '<br />')} />
+  <div class="relative z-10 w-full max-w-[1440px] mx-auto flex flex-col items-center">
+    <!-- Title -->
+    <header class="text-center mb-20">
+      <h2 class="font-bebas font-bold text-[64px] text-white leading-none m-0 uppercase tracking-tight">Контакты</h2>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-[100px] gap-y-16 w-full max-w-[1100px]">
+      
+      <!-- Column 1: Info (Address & Email) -->
+      <div class="flex flex-col gap-[80px]">
+        <!-- Address Section -->
+        <div class="flex flex-col gap-4">
+          <h3 class="font-bebas font-bold text-[40px] text-white uppercase leading-none m-0">Адрес</h3>
+          <div class="font-montserrat font-semibold text-[20px] text-white leading-[1.2]">
+            <p class="m-0 whitespace-pre-line">{contacts.address}</p>
+          </div>
+        </div>
+
+        <!-- Email Section -->
+        <div class="flex flex-col gap-4">
+          <h3 class="font-bebas font-bold text-[40px] text-white uppercase leading-none m-0">Email</h3>
+          <p class="font-montserrat font-semibold text-[20px] text-white m-0">
+            {contacts.email}
+          </p>
+        </div>
       </div>
 
-      <!-- 2. Телефон -->
-      <div>
-        <h3 class="text-3xl font-bold text-white uppercase mb-4">
-          телефон
-        </h3>
-        <p class="text-base text-white font-semibold leading-relaxed">
-          {contacts.phone}
-        </p>
+      <!-- Column 2 & 3 Combined Area -->
+      <div class="md:col-span-2 flex flex-col gap-[75px]">
+        <!-- Top Row: Phone and Socials -->
+        <div class="flex flex-col md:flex-row gap-x-[100px] gap-y-12">
+            <div class="flex flex-col gap-4">
+               <h3 class="font-bebas font-bold text-[40px] text-white uppercase leading-none m-0">Телефон</h3>
+               <div class="font-montserrat font-semibold text-[20px] text-white leading-[1.2]">
+                  <p class="m-0">{contacts.phone1}</p>
+                  {contacts.phone2 && <p class="m-0">{contacts.phone2}</p>}
+               </div>
+            </div>
+
+            <!-- Socials Section -->
+            <div class="flex gap-6 mt-[40px]"> <!-- Compensating for header height -->
+               {contacts.vkUrl && (
+                 <a href={contacts.vkUrl} target="_blank" class="w-[95px] h-[72px] bg-[#176dcc] rounded-[4px] flex items-center justify-center transition-all hover:scale-105 active:scale-95">
+                   <img src="/tournament/vk.svg" alt="VK" class="w-12 h-auto" />
+                 </a>
+               )}
+               {contacts.tgUrl && (
+                 <a href={contacts.tgUrl} target="_blank" class="w-[95px] h-[72px] bg-[#229ed9] rounded-[4px] flex items-center justify-center transition-all hover:scale-105 active:scale-95">
+                   <img src="/tournament/telegram.svg" alt="Telegram" class="w-10 h-auto" />
+                 </a>
+               )}
+            </div>
+        </div>
+
+        <!-- Bottom Row: Ask Question Button -->
+        <div>
+            <Button 
+                variant="secondary" 
+                class="w-[571px] h-[72px] max-w-full !bg-black !text-white !font-bebas !text-[28px] !font-bold flex items-center justify-center shadow-2xl transition-all hover:brightness-125"
+            >
+                задать вопрос
+            </Button>
+        </div>
       </div>
 
-      <!-- 3. Соцсети -->
-      <div class="flex gap-4 justify-start md:justify-end items-start">
-        {contacts.vkUrl && (
-          <a 
-            href={contacts.vkUrl} 
-            class="w-16 h-16 hover:scale-110 transition-transform duration-200"
-            aria-label="ВКонтакте"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image src={vkIcon} alt="VK" format="avif" quality="high" width={64} height={64} class="w-full h-full object-contain" loading="lazy" />
-          </a>
-        )}
-        {contacts.tgUrl && (
-          <a 
-            href={contacts.tgUrl} 
-            class="w-16 h-16 hover:scale-110 transition-transform duration-200"
-            aria-label="Telegram"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image src={tgIcon} alt="Telegram" format="avif" quality="high" width={64} height={64} class="w-full h-full object-contain" loading="lazy" />
-          </a>
-        )}
-      </div>
-
-      <!-- 4. Email -->
-      <div>
-        <h3 class="text-3xl font-bold text-white uppercase mb-4">
-          email
-        </h3>
-        <p class="text-base text-white font-semibold">
-          {contacts.email}
-        </p>
-      </div>
-
-      <!-- 5. Кнопка (занимает колонки 2-3 на десктопе) -->
-      <div class="md:col-span-2">
-        <Button variant="secondary" size="lg" class="w-full">
-          задать вопрос
-        </Button>
-      </div>
     </div>
   </div>
 </footer>

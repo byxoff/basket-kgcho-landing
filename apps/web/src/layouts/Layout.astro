@@ -16,9 +16,22 @@ const defaultDescription = "Турнир КГЧО по классическом�
 <html lang="ru">
 
   <head>
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+      (function(m,e,t,r,i,k,a){
+          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106407948', 'ym');
+
+      ym(106407948, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/106407948" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
 
     <title>{ title ?? defaultTitle }</title>
 
@@ -33,11 +46,30 @@ const defaultDescription = "Турнир КГЧО по классическом�
     <!-- Подключаем Google Fonts для Montserrat и Bebas Neue -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Yandex Tickets Dealer Config -->
+    <script is:inline>
+      window.YandexTicketsDealer = window.YandexTicketsDealer || [];
+      YandexTicketsDealer.push(['setDefaultClientKey', '2c4a0e91-c3fa-4469-9e2f-acffa4a5ddd2']);
+      YandexTicketsDealer.push(['setDefaultRegionId', 56]);
+
+      (function () {
+        var rnd = '?' + new Date().getTime() * Math.random();
+        var script = document.createElement('script');
+        var target = document.getElementsByTagName('script')[0];
+        script.async = true;
+        script.src = 'https://widget.afisha.yandex.ru/dealer/dealer.js'+rnd;
+        target.parentNode.insertBefore(script, target);
+      })();
+    </script>
 
   </head>
 
   <body id="top">
+    <!-- Container for Yandex Ticket Widget -->
+    <div id="ya-widget-frame" class="fixed inset-0 z-[9999] pointer-events-none empty:hidden bg-black/60 flex items-center justify-center"></div>
+
 
     <!-- Skip link -->
     <a class="fixed -top-20 focus-visible:top-0 p-3 bg-black/90 transition-all duration-300" href="#main">Skip to content</a>

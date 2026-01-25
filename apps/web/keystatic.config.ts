@@ -10,6 +10,7 @@ export default config({
       path: 'src/content/schedule/',
       format: { data: 'json' },
       schema: {
+        showSection: fields.checkbox({ label: 'Отображать блок', defaultValue: true }),
         day1: fields.array(
           fields.object({
             time: fields.text({ label: 'Время' }),
@@ -31,6 +32,7 @@ export default config({
       path: 'src/content/shop/',
       format: { data: 'json' },
       schema: {
+        showSection: fields.checkbox({ label: 'Отображать блок', defaultValue: true }),
         items: fields.array(
           fields.object({
             title: fields.text({ label: 'Название' }),
@@ -48,6 +50,7 @@ export default config({
       path: 'src/content/partners/',
       format: { data: 'json' },
       schema: {
+        showSection: fields.checkbox({ label: 'Отображать блок', defaultValue: true }),
         items: fields.array(
           fields.object({
             image: fields.text({ label: 'Изображение (путь)', validation: { isRequired: false } }),
@@ -77,7 +80,8 @@ export default config({
       format: { data: 'json' },
       schema: {
         address: fields.text({ label: 'Адрес', multiline: true }),
-        phone: fields.text({ label: 'Телефон' }),
+        phone1: fields.text({ label: 'Телефон 1' }),
+        phone2: fields.text({ label: 'Телефон 2', validation: { isRequired: false } }),
         email: fields.text({ label: 'Email' }),
         vkUrl: fields.text({ label: 'VK URL', validation: { isRequired: false } }),
         tgUrl: fields.text({ label: 'Telegram URL', validation: { isRequired: false } }),
@@ -88,6 +92,7 @@ export default config({
       path: 'src/content/media/',
       format: { data: 'json' },
       schema: {
+        showSection: fields.checkbox({ label: 'Отображать блок', defaultValue: true }),
         videoUrl: fields.text({ label: 'Ссылка на видео', validation: { isRequired: false } }),
         gallery: fields.array(
           fields.object({
@@ -96,6 +101,27 @@ export default config({
             alt: fields.text({ label: 'Описание (alt)', validation: { isRequired: false } }),
           }),
           { label: 'Галерея (5 фото)', itemLabel: (props) => props.fields.alt.value || 'Фото' }
+        ),
+      },
+    }),
+    headliners: singleton({
+      label: 'Хедлайнеры',
+      path: 'src/content/headliners/',
+      format: { data: 'json' },
+      schema: {
+        showSection: fields.checkbox({ label: 'Отображать блок', defaultValue: true }),
+        title: fields.text({ label: 'Заголовок' }),
+        subtitle: fields.text({ label: 'Подзаголовок' }),
+        items: fields.array(
+          fields.object({
+            badge: fields.text({ label: 'Бэйдж (например, 2 день)' }),
+            title: fields.text({ label: 'Название события' }),
+            description: fields.text({ label: 'Краткое описание', multiline: true }),
+            date: fields.text({ label: 'Дата' }),
+            time: fields.text({ label: 'Время' }),
+            image: fields.text({ label: 'Изображение (путь)', validation: { isRequired: false } }),
+          }),
+          { label: 'События', itemLabel: (props) => props.fields.title.value || 'Новое событие' }
         ),
       },
     }),

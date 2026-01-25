@@ -1,5 +1,46 @@
 @import "tailwindcss";
 
+/* LOCAL FONTS */
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('/fonts/BebasNeue Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('/fonts/BebasNeue Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('/fonts/BebasNeue Book.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('/fonts/BebasNeue Light.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('/fonts/BebasNeue Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* 1. SOURCES */
 @source "../../../apps/**/*.{ts,tsx,astro}";
 @source "../../../packages/**/*.{ts,tsx,astro}";
@@ -21,7 +62,7 @@
   --color-destructive-red: oklch(0.627 0.194 28.918);
 
   --color-primary: var(--color-tournament-orange);
-  --color-background: var(--color-tournament-white);
+  --color-background: #000000;
   --color-card: oklch(1 0 0 / 0.05);
   --color-muted: oklch(1 0 0 / 0.03);
   --color-foreground: var(--color-tournament-dark);
@@ -29,8 +70,10 @@
   --color-ring: var(--color-tournament-orange);
 
   /* Шрифты */
-  --font-body: "Bebas Neue", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Bebas Neue", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-bebas: "Bebas Neue", sans-serif;
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-display: "Bebas Neue", sans-serif;
 
   /* SPACING: THE HARD GRID */
   --spacing-0_5: 0.125rem;
@@ -48,86 +91,186 @@
 }
 
 /* 3. ГЛОБАЛЬНЫЕ СТИЛИ */
-html, body {
+html,
+body {
   background-color: var(--color-background);
   color: var(--color-foreground);
   min-height: 100vh;
   margin: 0;
-  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: var(--font-body);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 @layer base {
-  * { 
+  * {
     border-color: var(--color-border);
   }
 }
 
 @layer utilities {
-  .animate-blob { 
-    animation: blob 7s infinite; 
+  .animate-blob {
+    animation: blob 7s infinite;
   }
-  .aurora-blur { 
+
+  .aurora-blur {
     filter: blur(100px);
     border-radius: 9999px;
     opacity: 0.3;
   }
-  
+
   /* Утилиты для цветов через CSS переменные */
-  .text-aurora-purple { color: var(--color-aurora-purple); }
-  .bg-aurora-purple { background-color: var(--color-aurora-purple); }
-  .border-aurora-purple { border-color: var(--color-aurora-purple); }
-  
-  .text-aurora-blue { color: var(--color-aurora-blue); }
-  .bg-aurora-blue { background-color: var(--color-aurora-blue); }
-  .border-aurora-blue { border-color: var(--color-aurora-blue); }
-  
-  .text-destructive-red { color: var(--color-destructive-red); }
-  .bg-destructive-red { background-color: var(--color-destructive-red); }
-  .border-destructive-red { border-color: var(--color-destructive-red); }
-  
-  .text-primary { color: var(--color-primary); }
-  .bg-primary { background-color: var(--color-primary); }
-  .border-primary { border-color: var(--color-primary); }
-  
-  .bg-background { background-color: var(--color-background); }
-  .text-foreground { color: var(--color-foreground); }
-  .bg-card { background-color: var(--color-card); }
-  .bg-muted { background-color: var(--color-muted); }
-  .border-border { border-color: var(--color-border); }
-  
-  .shadow-glow { box-shadow: var(--shadow-glow); }
-  .shadow-glass { box-shadow: var(--shadow-glass); }
-  
-  /* Маппинг старых классов Blackspike на новую тему */
-  .bg-bs-surface-0 { background-color: var(--color-background); }
-  .bg-bs-surface-1 { background-color: oklch(0.18 0.004 285.823); }
-  .bg-bs-surface-2 { background-color: var(--color-card); }
-  .bg-bs-surface-3 { background-color: var(--color-border); }
-  
-  .text-bs-foreground-light { color: var(--color-foreground); }
-  .text-bs-foreground-dark { color: var(--color-foreground); opacity: 0.7; }
-  
-  .border-bs-surface-3 { border-color: var(--color-border); }
-  
-  /* Шрифты */
-  .font-body { 
-    font-family: var(--font-inter, "Inter", ui-sans-serif, system-ui, sans-serif); 
+  .text-aurora-purple {
+    color: var(--color-aurora-purple);
   }
-  .font-display { 
-    font-family: var(--font-inter-display, "Inter Display", ui-sans-serif, system-ui, sans-serif); 
+
+  .bg-aurora-purple {
+    background-color: var(--color-aurora-purple);
+  }
+
+  .border-aurora-purple {
+    border-color: var(--color-aurora-purple);
+  }
+
+  .text-aurora-blue {
+    color: var(--color-aurora-blue);
+  }
+
+  .bg-aurora-blue {
+    background-color: var(--color-aurora-blue);
+  }
+
+  .border-aurora-blue {
+    border-color: var(--color-aurora-blue);
+  }
+
+  .text-destructive-red {
+    color: var(--color-destructive-red);
+  }
+
+  .bg-destructive-red {
+    background-color: var(--color-destructive-red);
+  }
+
+  .border-destructive-red {
+    border-color: var(--color-destructive-red);
+  }
+
+  .text-primary {
+    color: var(--color-primary);
+  }
+
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+
+  .border-primary {
+    border-color: var(--color-primary);
+  }
+
+  .bg-background {
+    background-color: var(--color-background);
+  }
+
+  .text-foreground {
+    color: var(--color-foreground);
+  }
+
+  .bg-card {
+    background-color: var(--color-card);
+  }
+
+  .bg-muted {
+    background-color: var(--color-muted);
+  }
+
+  .border-border {
+    border-color: var(--color-border);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .shadow-glass {
+    box-shadow: var(--shadow-glass);
+  }
+
+  /* Маппинг старых классов Blackspike на новую тему */
+  .bg-bs-surface-0 {
+    background-color: var(--color-background);
+  }
+
+  .bg-bs-surface-1 {
+    background-color: oklch(0.18 0.004 285.823);
+  }
+
+  .bg-bs-surface-2 {
+    background-color: var(--color-card);
+  }
+
+  .bg-bs-surface-3 {
+    background-color: var(--color-border);
+  }
+
+  .text-bs-foreground-light {
+    color: var(--color-foreground);
+  }
+
+  .text-bs-foreground-dark {
+    color: var(--color-foreground);
+    opacity: 0.7;
+  }
+
+  .border-bs-surface-3 {
+    border-color: var(--color-border);
+  }
+
+  /* Шрифты - используются переменные из @theme */
+  .font-body {
+    font-family: var(--font-body);
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-bebas {
+    font-family: var(--font-bebas);
+  }
+
+  .font-montserrat {
+    font-family: var(--font-montserrat);
   }
 }
 
 @keyframes blob {
-  0% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0, 0) scale(1); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
 }
 
 @keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
 }

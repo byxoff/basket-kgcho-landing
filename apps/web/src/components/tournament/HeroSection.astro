@@ -8,58 +8,126 @@ import logoBig from '../../assets/tournament/logo-big.png';
 import tournamentSettings from '../../content/tournament-settings/index.json';
 ---
 
-<section class="relative min-h-screen flex flex-col overflow-hidden bg-black">
+<section class="relative min-h-screen flex flex-col overflow-hidden bg-black pb-32 lg:pb-0">
   <!-- Фоновые элементы -->
-  <div class="absolute inset-0 z-0">
-    <Image src={heroBg} alt="" format="avif" quality="high" width={1920} height={1080} class="absolute w-full h-full object-cover opacity-90" loading="eager" />
-    <img src="/tournament/bg-elements-hero.svg" alt="" class="absolute w-full h-full object-cover opacity-70 mix-blend-screen" />
+  <div class="absolute inset-0 z-0 bg-black">
+    <!-- Main Image -->
+    <div class="absolute inset-0 w-full h-[120%] -top-[10%] scale-110 pointer-events-none will-change-transform">
+       <Image src={heroBg} alt="" format="avif" quality="high" width={1920} height={1080} class="w-full h-full object-cover" loading="eager" />
+    </div>
+    
+    <!-- Decor Elements (Balls/Glows) -->
+    <div id="hero-bg-elements" class="absolute inset-0 w-full h-[120%] -top-[10%] pointer-events-none transition-transform duration-100 ease-out will-change-transform">
+       <img src="/tournament/bg-elements-hero.svg" alt="" class="w-full h-full object-cover mix-blend-screen opacity-80" />
+    </div>
+
+    <!-- Затемнение Bottom (переход к следующему блоку) -->
+    <div class="absolute bottom-0 left-0 w-full h-[50%] z-[1] pointer-events-none" style="background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 60%, #000 100%);"></div>
   </div>
 
   <!-- Хедер с логотипом и навигацией -->
   <header class="relative z-10 flex gap-4 justify-between items-center pt-6 px-12 w-full max-lg:flex-col max-md:gap-4">
     <img src="/tournament/logo.svg" alt="Логотип КГЧО" class="w-60 h-auto" />
     
-    <nav class="hidden lg:flex gap-4 items-center">
-      <a href="#main" class="text-lg font-bold text-white no-underline uppercase transition-colors duration-200 hover:text-tournament-orange">Главная</a>
-      <a href="#headliners" class="text-lg font-bold text-white no-underline uppercase transition-colors duration-200 hover:text-tournament-orange">Хедлайнеры</a>
-      <a href="#schedule" class="text-lg font-bold text-white no-underline uppercase transition-colors duration-200 hover:text-tournament-orange">программа</a>
-      <a href="#shop" class="text-lg font-bold text-white no-underline uppercase transition-colors duration-200 hover:text-tournament-orange">магазин</a>
-      <a href="#partners" class="text-lg font-bold text-white no-underline uppercase transition-colors duration-200 hover:text-tournament-orange">партнеры</a>
-      <a href="#contacts" class="text-lg font-bold text-white no-underline uppercase transition-colors duration-200 hover:text-tournament-orange">контакты</a>
+    <nav class="hidden lg:flex gap-6 items-center">
+      <a href="#main" class="font-bebas text-[20px] font-bold text-white no-underline uppercase transition-colors duration-200 hover:text-tournament-orange">Главная</a>
+      <a href="#headliners" class="font-bebas text-[20px] font-bold text-white no-underline uppercase transition-colors duration-200 hover:text-tournament-orange">Хедлайнеры</a>
+      <a href="#schedule" class="font-bebas text-[20px] font-bold text-white no-underline uppercase transition-colors duration-200 hover:text-tournament-orange">программа</a>
+      <a href="#shop" class="font-bebas text-[20px] font-bold text-white no-underline uppercase transition-colors duration-200 hover:text-tournament-orange">магазин</a>
+      <a href="#partners" class="font-bebas text-[20px] font-bold text-white no-underline uppercase transition-colors duration-200 hover:text-tournament-orange">партнеры</a>
+      <a href="#contacts" class="font-bebas text-[20px] font-bold text-white no-underline uppercase transition-colors duration-200 hover:text-tournament-orange">контакты</a>
     </nav>
   </header>
 
   <!-- Основной контент -->
   <div class="relative z-10 flex-1 flex flex-col items-center justify-center px-8 gap-6 text-center max-w-6xl mx-auto lg:gap-5 md:gap-4 md:py-8">
     <!-- Большой логотип в центре -->
-    <div class="w-72 h-72 drop-shadow-orange lg:w-64 lg:h-64 md:w-52 md:h-52">
+    <div id="hero-logo" class="w-72 h-72 drop-shadow-orange lg:w-64 lg:h-64 md:w-52 md:h-52">
       <Image src={logoBig} alt="Логотип турнира" format="avif" quality="high" width={800} height={800} class="w-full h-full object-contain brightness-110 contrast-110" loading="eager" />
     </div>
 
     <!-- Заголовок -->
-    <h1 class="text-5xl font-bold text-white uppercase m-0 leading-tight max-w-4xl max-lg:text-6xl max-md:text-4xl md:leading-tight" set:html={tournamentSettings.title.replace(/\n/g, '<br />')} />
+    <h1 class="font-bebas font-bold text-[64px] text-white uppercase m-0 leading-[0.9] max-w-5xl tracking-normal text-balance" set:html={tournamentSettings.title.replace(/\n/g, '<br />')} />
     
-    <p class="text-3xl font-bold text-tournament-orange uppercase mt-0 mb-0 lg:text-xl md:text-lg">
+    <p class="font-bebas font-bold text-[36px] text-tournament-orange uppercase mt-2 mb-0 tracking-wide">
       {tournamentSettings.subtitle}
     </p>
 
-    <!-- Карточки с датой и местом -->
-    <div class="flex gap-5 flex-wrap justify-center mt-6">
-      <HeroCard 
-        icon="/tournament/icon-calendar.svg"
-        label="Дата проведения"
-        value={tournamentSettings.date}
-      />
-      
-      <HeroCard 
-        icon="/tournament/icon-location.svg"
-        label="Место проведения"
-        value={tournamentSettings.location}
-      />
+    <!-- Контейнер для карточек и кнопки (выравнивание ширины) -->
+    <div class="flex flex-col gap-5 mt-6 w-fit items-stretch">
+      <!-- Карточки с датой и местом -->
+      <div class="flex gap-5 flex-wrap justify-center">
+        <HeroCard 
+          icon="/tournament/icon-calendar.svg"
+          label="Дата проведения"
+          value={tournamentSettings.date}
+        />
+        
+        <HeroCard 
+          icon="/tournament/icon-location.svg"
+          label="Место проведения"
+          value={tournamentSettings.location}
+        />
+      </div>
+
+      <!-- Кнопка -->
+      <Button variant="primary" size="lg" class="shadow-orange hover:shadow-orange-xl w-full buy-tickets-trigger">Купить билеты</Button>
     </div>
 
-    <!-- Кнопка -->
-    <Button variant="primary" size="lg" class="mt-5 shadow-orange hover:shadow-orange-xl lg:mt-4 md:w-full md:max-w-sm md:mt-3">Купить билеты</Button>
   </div>
 
+  <script is:inline>
+    // Logic to open Yandex Tickets Widget
+    document.addEventListener('DOMContentLoaded', () => {
+      const buyButtons = document.querySelectorAll('.buy-tickets-trigger');
+      
+      buyButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          
+          if (window.YandexTicketsDealer) {
+            window.YandexTicketsDealer.push(['getDealer', function (dealer) {
+              const widget = dealer.Widget('ticketsteam-4262@55106690', 'session', {
+                target: document.getElementById('ya-widget-frame'),
+                onRequestClose: function() {
+                  widget.unmount();
+                  widget.destroy();
+                  document.getElementById('ya-widget-frame').classList.add('pointer-events-none');
+                },
+              });
+
+              document.getElementById('ya-widget-frame').classList.remove('pointer-events-none');
+              widget.mount({ style: { height: '600px', width: '100%', maxWidth: '1000px' } });
+            }]);
+          }
+        });
+      });
+    });
+  </script>
+
 </section>
+
+<script>
+  // Simple Parallax Effect
+  const bgElement = document.getElementById('hero-bg-elements');
+  const logoElement = document.getElementById('hero-logo');
+
+  if (bgElement || logoElement) {
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      
+      // Stop animating if scrolled far past hero (optimization)
+      if (scrolled > 1200) return;
+
+      if (bgElement) {
+        // Elements move slightly down as we scroll (feeling of depth/distance)
+        bgElement.style.transform = `translateY(${scrolled * 0.15}px)`; 
+      }
+
+      if (logoElement) {
+        // Logo moves a bit differently to create separation
+        logoElement.style.transform = `translateY(${scrolled * 0.05}px)`;
+      }
+    }, { passive: true });
+  }
+</script>

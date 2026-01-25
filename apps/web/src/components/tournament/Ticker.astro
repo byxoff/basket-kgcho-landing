@@ -1,20 +1,54 @@
 ---
 // Бегущая строка
+const items = [
+  "10000 зрителей",
+  "12 стран участников",
+  "2 дня",
+  "2 хэдлайнера"
+];
+
+// Функция для форматирования текста (цифры крупнее)
+const formatTickerItem = (text: string) => {
+  return text.split(/(\d[\d\s]*\+?%?)/).map(part => {
+    if (/\d/.test(part)) {
+      return `<span class="text-[48px] font-bold">${part}</span>`;
+    }
+    if (part.trim()) {
+      return `<span class="text-[24px] font-bold align-middle mx-1">${part}</span>`;
+    }
+    return "";
+  }).join("");
+};
+
+// Дублируем массив для бесшовной прокрутки (x4 чтобы точно хватило на широкие экраны)
+const tickerItems = [...items, ...items, ...items, ...items];
 ---
 
-<div class="relative z-[1] bg-tournament-orange py-5 overflow-hidden w-full">
-  <div class="flex gap-8 items-center whitespace-nowrap animate-ticker text-xl font-bold text-white uppercase">
-    <span class="px-4">1000+ зрителей онлайн</span>
-    <span>•</span>
-    <span class="px-4">24 команды</span>
-    <span>•</span>
-    <span class="px-4">2 дня турнира</span>
-    <span>•</span>
-    <span class="px-4">1000+ зрителей онлайн</span>
-    <span>•</span>
-    <span class="px-4">24 команды</span>
-    <span>•</span>
-    <span class="px-4">2 дня турнира</span>
-    <span>•</span>
+<div class="relative z-[2] bg-tournament-orange py-3 overflow-hidden w-full border-y border-white/10 font-bebas font-bold text-white uppercase leading-none select-none pointer-events-none">
+  <!-- Внутренний контейнер с анимацией -->
+  <div class="flex gap-6 items-center whitespace-nowrap ticker-track w-max">
+    
+    {tickerItems.map((item, index) => (
+      <div class="flex items-center gap-6">
+        <span set:html={formatTickerItem(item)} />
+        <span class="text-[24px] text-white">•</span>
+      </div>
+    ))}
+
   </div>
 </div>
+
+<style>
+  .ticker-track {
+    animation: ticker 40s linear infinite;
+  }
+
+  @keyframes ticker {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+</style>

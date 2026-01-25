@@ -9,40 +9,58 @@ import ScheduleCard from './ScheduleCard.astro';
 import scheduleData from '../../content/schedule/index.json';
 
 type ScheduleDay = { time: string; event: string };
+const { showSection = true } = scheduleData;
 ---
 
-<section class="relative bg-tournament-orange py-[100px] px-5 overflow-hidden min-h-[900px] md:py-[60px] md:px-4" id="schedule">
-  <div class="absolute top-0 left-0 w-full h-full pointer-events-none z-0 overflow-hidden after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[40%] after:bg-linear-to-bfter:from-transparent after:to-black/60 after:z-1">
-    <img src="/tournament/bg-elements-schedule.svg" alt="" class="absolute top-0 left-1/2 -translate-x-1/2 w-full min-w-[1920px] h-auto min-h-full object-cover object-top-center" />
+{showSection && (
+<section class="relative bg-[#D85921] py-[100px] px-5 overflow-hidden min-h-[900px] flex flex-col items-center" id="schedule">
+  <!-- Background Top Fade -->
+  <div class="absolute inset-0 z-0 bg-linear-to-b from-black/20 via-transparent to-transparent pointer-events-none"></div>
+
+  <!-- Background Elements -->
+  <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+    <!-- Player Left (Figma: x -384px, y 23px) -->
+    <div id="schedule-parallax-player" class="absolute left-[-380px] top-[20px] h-[1150px] w-auto z-[1] max-lg:hidden">
+        <img src="/tournament/schedule-player.png" alt="" class="h-full w-auto object-contain rotate-180 -scale-y-100" />
+    </div>
+    
+    <!-- Court Right (Figma: x 86%, rotate -70.39deg) -->
+    <div id="schedule-parallax-court" class="absolute right-[-400px] top-[20%] w-[1200px] h-auto z-[1] max-lg:hidden">
+        <img src="/tournament/schedule-court.png" alt="" class="w-full h-auto object-contain -rotate-[70deg]" />
+    </div>
+    
+    <!-- Затемнение Bottom -->
+    <!-- Затемнение Bottom -->
+    <div class="absolute bottom-0 left-0 w-full h-[317px] z-[2] pointer-events-none" style="background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.03) 12.34%, rgba(0, 0, 0, 0.7) 90%, #000 100%);"></div>
   </div>
 
-  <div class="relative z-1 max-w-[800px] flex flex-col items-center self-center justify-self-center">
+  <div class="relative z-10 w-full max-w-[1440px] flex flex-col items-center">
     <header class="text-center mb-[60px]">
-      <h2 class="text-[80px] font-bold text-white leading-[0.9] m-0 uppercase [text-shadow:0px_4px_10px_rgba(0,0,0,0.2)] md:text-5xl">Программа турнира</h2>
-      <p class="text-lg font-semibold text-tournament-dark mt-4 mb-0 uppercase tracking-wider">Полное расписание на 2 дня</p>
+      <h2 class="font-bebas font-bold text-[64px] text-white leading-none m-0 uppercase tracking-tight">Программа турнира</h2>
+      <p class="!font-montserrat font-semibold text-[16px] text-white/90 mt-4 mb-0 uppercase tracking-[0.2em]">Полное расписание на 2 дня</p>
     </header>
 
     <!-- Tabs -->
-    <div class="text-white flex gap-5 mb-[50px] bg-tournament-dark/10 p-2 rounded-xl max-lg:flex-col">
-      <button class="tournament-schedule__tab bg-transparent border-none text-tournament-dark py-4 px-[50px] rounded-lg cursor-pointer transition-all duration-300 flex flex-col items-center min-w-[200px] hover:bg-tournament-dark/5 active md:w-full md:min-w-0 md:py-4 md:px-4 md:flex-row md:justify-center md:gap-2.5 md:items-baseline" data-tab="day1">
-        <span class="text-[32px] text-white leading-none md:text-2xl">13 марта</span>
+    <div class="flex gap-4 mb-[50px]">
+      <button class="tournament-schedule__tab active flex items-center justify-center bg-[#0F0F0F] rounded-lg py-5 px-12 cursor-pointer transition-all duration-300 min-w-[240px] border-2 border-transparent hover:border-white/20" data-tab="day1">
+        <span class="font-montserrat text-[28px] font-semibold text-white leading-none">13 марта</span>
       </button>
-      <button class="tournament-schedule__tab bg-transparent border-none text-tournament-dark py-4 px-[50px] rounded-lg cursor-pointer transition-all duration-300 flex flex-col items-center min-w-[200px] hover:bg-tournament-dark/5 md:w-full md:min-w-0 md:py-4 md:px-4 md:flex-row md:justify-center md:gap-2.5 md:items-baseline" data-tab="day2">
-        <span class="text-[32px] text-white leading-none md:text-2xl">14 марта</span>
+      <button class="tournament-schedule__tab flex items-center justify-center bg-[#0F0F0F]/80 rounded-lg py-5 px-12 cursor-pointer transition-all duration-300 min-w-[240px] border-2 border-transparent hover:border-white/20" data-tab="day2">
+        <span class="font-montserrat text-[28px] font-semibold text-white/50 leading-none">14 марта</span>
       </button>
     </div>
 
     <!-- Content -->
-    <div class="w-full relative grid grid-cols-1">
+    <div class="w-full max-w-[800px] relative">
       <!-- Day 1 List -->
-      <div class="tournament-schedule__list col-start-1 col-end-2 row-start-1 row-end-2 flex flex-col gap-4 w-full opacity-0 invisible pointer-events-none translate-y-5 transition-all duration-400 active" id="day1">
+      <div class="tournament-schedule__list flex flex-col gap-3 w-full transition-all duration-500 active" id="day1">
         {scheduleData.day1.map((item) => (
           <ScheduleCard time={item.time} event={item.event} />
         ))}
       </div>
 
       <!-- Day 2 List -->
-      <div class="tournament-schedule__list col-start-1 col-end-2 row-start-1 row-end-2 flex flex-col gap-4 w-full opacity-0 invisible pointer-events-none translate-y-5 transition-all duration-400" id="day2">
+      <div class="tournament-schedule__list hidden flex flex-col gap-3 w-full transition-all duration-500" id="day2">
         {scheduleData.day2.map((item) => (
           <ScheduleCard time={item.time} event={item.event} />
         ))}
@@ -50,6 +68,7 @@ type ScheduleDay = { time: string; event: string };
     </div>
   </div>
 </section>
+)}
 
 <script>
   const tabs = document.querySelectorAll('.tournament-schedule__tab');
@@ -59,76 +78,73 @@ type ScheduleDay = { time: string; event: string };
     tab.addEventListener('click', () => {
       const targetId = tab.getAttribute('data-tab');
 
-      // Update tabs
+      // Update tabs styles
       tabs.forEach(t => {
         t.classList.remove('active');
-        t.classList.remove('bg-tournament-dark', 'text-white', 'shadow-[0_4px_15px_rgba(0,0,0,0.2)]');
-      });
-      tab.classList.add('active', 'bg-tournament-dark', 'text-white', 'shadow-[0_4px_15px_rgba(0,0,0,0.2)]');
-      
-      // Update tab day color for active
-      const tabDaySpans = tab.querySelectorAll('span:last-child');
-      tabDaySpans.forEach(span => {
-        span.classList.add('!text-tournament-orange', '!opacity-100');
-      });
-      
-      // Remove active day color from other tabs
-      tabs.forEach(t => {
-        if (t !== tab) {
-          const spans = t.querySelectorAll('span:last-child');
-          spans.forEach(span => {
-            span.classList.remove('!text-tournament-orange', '!opacity-100');
-          });
+        const span = t.querySelector('span');
+        if (span) {
+          span.classList.remove('text-white');
+          span.classList.add('text-white/50');
         }
       });
+      
+      tab.classList.add('active');
+      const activeSpan = tab.querySelector('span');
+      if (activeSpan) {
+        activeSpan.classList.remove('text-white/50');
+        activeSpan.classList.add('text-white');
+      }
 
-      // Update lists
+      // Update visibility of lists
       lists.forEach((l) => {
         if (l.id === targetId) {
-          l.classList.add('active', 'opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
-          l.classList.remove('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-5');
+          l.classList.remove('hidden');
+          setTimeout(() => l.classList.add('active'), 0);
         } else {
-          l.classList.remove('active', 'opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
-          l.classList.add('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-5');
+          l.classList.add('hidden');
+          l.classList.remove('active');
         }
       });
     });
   });
-  
-  // Hover effect for card icon
-  const cards = document.querySelectorAll('.schedule-card');
-  cards.forEach(card => {
-    const icon = card.querySelector('.schedule-card__icon');
-    if (icon) {
-      card.addEventListener('mouseenter', () => {
-        icon.classList.remove('opacity-0', '-translate-x-2.5');
-        icon.classList.add('opacity-100', 'translate-x-0');
-      });
-      card.addEventListener('mouseleave', () => {
-        icon.classList.add('opacity-0', '-translate-x-2.5');
-        icon.classList.remove('opacity-100', 'translate-x-0');
-      });
-    }
-  });
+
+  // Parallax for background elements
+  const player = document.getElementById('schedule-parallax-player');
+  const court = document.getElementById('schedule-parallax-court');
+
+  if (player || court) {
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const section = document.getElementById('schedule');
+      if (!section) return;
+
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+      const viewportBottom = scrolled + window.innerHeight;
+
+      if (viewportBottom > sectionTop && scrolled < sectionTop + sectionHeight) {
+        const relativeScroll = scrolled - sectionTop;
+        
+        if (player) {
+          player.style.transform = `translateY(${relativeScroll * 0.12}px)`;
+        }
+        if (court) {
+          court.style.transform = `translateY(${relativeScroll * 0.08}px)`;
+        }
+      }
+    }, { passive: true });
+  }
 </script>
 
 <style>
-  /* Special handling for active tab - using traditional CSS for specificity */
-  .tournament-schedule__tab.active {
-    background-color: #0F0F0F;
-    color: #FFFFFF;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  }
-  
-  .tournament-schedule__tab.active span:last-child {
-    color: #D85A21;
-    opacity: 1;
+  .tournament-schedule__list {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease-out;
   }
   
   .tournament-schedule__list.active {
     opacity: 1;
-    visibility: visible;
-    pointer-events: all;
     transform: translateY(0);
   }
 </style>

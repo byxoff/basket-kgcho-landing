@@ -1,35 +1,37 @@
 ---
 // Секция магазина официальной атрибутики
-import Image from "astro/components/Image.astro";
-import { HoverEffect } from "../ui/card-hover-effect";
-import shopBg from '../../assets/tournament/shop-bg.png';
+import ShopCard from './ShopCard.astro';
 import shopData from '../../content/shop/index.json';
 
-type ShopItem = {
-  title: string;
-  description: string;
-  price: string;
-  image: string;
-  link?: string;
-};
-
-const shopItems = shopData.items;
+const { items: shopItems, showSection = true } = shopData;
 ---
 
-<section class="relative py-20 px-8 bg-tournament-orange overflow-hidden md:py-12 md:px-4" id="shop">
+{showSection && (
+<section class="relative py-24 px-5 bg-black overflow-hidden flex flex-col items-center" id="shop">
+  <!-- Background -->
   <div class="absolute inset-0 z-0">
-    <Image src={shopBg} alt="" format="avif" quality="high" width={1920} height={1080} class="w-full h-full object-cover object-center" loading="lazy" />
-    <div class="absolute left-0 bottom-0 w-full h-[30%] bg-linear-to-b from-black/3 to-black pointer-events-none"></div>
+    <img src="/tournament/shop-section-bg.png" alt="" class="w-full h-full object-cover opacity-80" />
+    <!-- Gradient Fade Bottom -->
+    <div class="absolute bottom-0 left-0 w-full h-[317px] z-1 pointer-events-none" style="background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.03) 12.34%, rgba(0, 0, 0, 0.7) 90%, #000 100%);"></div>
   </div>
 
-  <div class="relative z-2 max-w-[1400px] mx-auto flex flex-col gap-12 items-center">
-    <div class="flex flex-col gap-2 items-center text-center">
-      <h2 class="text-6xl font-bold text-white lowercase m-0 leading-none md:text-[2.5rem]">Магазин</h2>
-      <p class="text-base font-semibold text-white m-0">Официальная атрибутика турнира</p>
-    </div>
+  <div class="relative z-10 w-full max-w-[1440px] flex flex-col items-center">
+    <header class="text-center mb-[60px]">
+      <h2 class="font-bebas font-bold text-[64px] text-white leading-none m-0 uppercase tracking-tight">Магазин</h2>
+      <p class="!font-montserrat font-semibold text-[16px] text-white/90 mt-4 mb-0 uppercase tracking-[0.2em]">Официальная атрибутика турнира</p>
+    </header>
 
-    <div class="w-full px-8 md:px-0">
-      <HoverEffect items={shopItems} client:load />
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-6 w-full max-w-[1400px] justify-items-center">
+       {shopItems.map((item) => (
+         <ShopCard 
+            title={item.title}
+            price={item.price}
+            image={item.image}
+            link={item.link}
+         />
+       ))}
     </div>
   </div>
 </section>
+)}
+
