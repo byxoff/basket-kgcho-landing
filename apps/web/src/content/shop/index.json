@@ -1,9 +1,10 @@
 {
+  "showSection": true,
   "items": [
     {
       "title": "Официальный мяч Турнира",
-      "description": "Профессиональный мяч для игры в баскетбол 3x3",
-      "price": "1490 ₽",
+      "description": "Мяч сезона 2525",
+      "price": "2555 ₽",
       "image": "/tournament/balls_2.png",
       "link": "#shop"
     },
