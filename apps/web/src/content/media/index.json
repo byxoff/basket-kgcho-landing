@@ -1,10 +1,31 @@
 {
+  "showSection": true,
   "videoUrl": "#",
   "gallery": [
-    { "image": "/tournament/logo-big.png", "link": "#", "alt": "Лучший момент 1" },
-    { "image": "/tournament/logo-big.png", "link": "#", "alt": "Лучший момент 2" },
-    { "image": "/tournament/logo-big.png", "link": "#", "alt": "Лучший момент 3" },
-    { "image": "/tournament/logo-big.png", "link": "#", "alt": "Лучший момент 4" },
-    { "image": "/tournament/logo-big.png", "link": "#", "alt": "Лучший момент 5" }
+    {
+      "image": "https://drive.google.com/file/d/16XySdTWYzXXbZKH1SKO0jUdKHA6aG8V5/view?usp=drive_link",
+      "link": "#",
+      "alt": "Данк"
+    },
+    {
+      "image": "/tournament/logo-big.png",
+      "link": "#",
+      "alt": "Лучший момент 2"
+    },
+    {
+      "image": "/tournament/logo-big.png",
+      "link": "#",
+      "alt": "Лучший момент 3"
+    },
+    {
+      "image": "/tournament/logo-big.png",
+      "link": "#",
+      "alt": "Лучший момент 4"
+    },
+    {
+      "image": "/tournament/logo-big.png",
+      "link": "#",
+      "alt": "Лучший момент 5"
+    }
   ]
 }
