@@ -1,9 +1,13 @@
 import { config, fields, singleton } from '@keystatic/core';
 
 export default config({
-  storage: {
-    kind: 'local',
-  },
+  storage:
+    process.env.NODE_ENV === 'development'
+      ? { kind: 'local' }
+      : {
+        kind: 'github',
+        repo: 'mvkamyshev/basket-kgcho-landing'
+      },
   singletons: {
     schedule: singleton({
       label: 'Расписание турнира',

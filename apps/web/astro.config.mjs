@@ -3,11 +3,13 @@ import tailwindcss from '@tailwindcss/vite'
 import react from '@astrojs/react'
 import mdx from '@astrojs/mdx'
 import keystatic from '@keystatic/astro'
-import vercel from '@astrojs/vercel'
+import node from '@astrojs/node'
 
 export default defineConfig({
-  output: 'static',
-  adapter: vercel(),
+  output: 'server',
+  adapter: node({
+    mode: 'standalone'
+  }),
   integrations: [
     react(),
     mdx(),
