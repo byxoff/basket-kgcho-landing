@@ -72,8 +72,8 @@ pnpm build:web
 
 ```bash
 # Клонируйте репозиторий
-git clone https://github.com/vash-akk/repo-name.git
-cd repo-name
+git clone https://github.com/byxoff/basket-kgcho-landing.git site
+cd site
 
 # Установите зависимости и соберите проект
 pnpm install

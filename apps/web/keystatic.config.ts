@@ -6,7 +6,7 @@ export default config({
       ? { kind: 'local' }
       : {
         kind: 'github',
-        repo: 'mvkamyshev/basket-kgcho-landing'
+        repo: 'byxoff/basket-kgcho-landing'
       },
   singletons: {
     schedule: singleton({

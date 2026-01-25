@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration
-REPO_URL="https://github.com/mvkamyshev/basket-kgcho-landing.git"
+REPO_URL="https://github.com/byxoff/basket-kgcho-landing.git"
 APP_DIR="basket-kgcho-landing"
 
 # Clone if not exists, otherwise pull
