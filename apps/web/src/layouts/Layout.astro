@@ -4,8 +4,11 @@ import "../assets/css/base.css"
 import "../assets/css/typography.css"
 import "../assets/css/layout.css"
 import "../assets/css/buttons.css"
-// Читаем настройки сайта (метрику)
-import siteSettings from '../../content/site-settings/index.json';
+// БЕЗОПАСНЫЙ ИМПОРТ НАСТРОЕК
+// Используем import.meta.glob, чтобы сборка не падала, если файл еще не создан в админке
+const settingsFiles = import.meta.glob('../content/site-settings/index.json', { eager: true });
+// Если файл есть - берем его, если нет - пустой объект
+const siteSettings = settingsFiles['../content/site-settings/index.json'] || { headScripts: '', bodyScripts: '' };
 const { title, description } = Astro.props
 const defaultTitle = "КГЧО Турнир | 13-14 марта 2026"
 const defaultDescription = "Турнир КГЧО по классическому волейболу. ДС «Юность». 13-14 марта 2026 года."
@@ -20,7 +23,9 @@ const defaultDescription = "Турнир КГЧО по классическом�
         window.location.href = window.location.href.replace('http:', 'https:');
       }
     </script>
+    
     <!-- Вставка скриптов из Админки (Head) -->
+    <!-- Astro сам умный: если переменной нет, он ничего не выведет, но проверка `?` нужна -->
     {siteSettings?.headScripts && <Fragment set:html={siteSettings.headScripts} />}
     <title>{ title ?? defaultTitle }</title>
     <link rel="icon" type="image/svg+xml" href="/tournament/logo.svg" />
@@ -48,26 +53,22 @@ const defaultDescription = "Турнир КГЧО по классическом�
   </head>
   <body id="top">
     <div id="ya-widget-frame" class="fixed inset-0 z-[9999] pointer-events-none empty:hidden bg-black/60 flex items-center justify-center">
-        <!-- Кнопка закрытия виджета (добавится скриптом) -->
     </div>
-    <!-- Вставка скриптов из Админки (Body) -->
     {siteSettings?.bodyScripts && <Fragment set:html={siteSettings.bodyScripts} />}
     <a class="fixed -top-20 focus-visible:top-0 p-3 bg-black/90 transition-all duration-300" href="#main">Skip to content</a>
     <main id="main">
       <slot />
     </main>
-    <!-- Скрипт для кнопки закрытия билетов -->
+    
+    <!-- Скрипт закрытия виджета -->
     <script is:inline>
       const widgetFrame = document.getElementById('ya-widget-frame');
-      
-      // Наблюдаем за виджетом: если он открылся, создаем кнопку закрытия
       const observer = new MutationObserver((mutations) => {
         if (widgetFrame.hasChildNodes() && !widgetFrame.querySelector('.close-widget-btn')) {
            const closeBtn = document.createElement('button');
            closeBtn.className = 'close-widget-btn absolute top-5 right-5 z-[10000] text-white bg-red-600 rounded-full w-10 h-10 flex items-center justify-center font-bold shadow-lg hover:bg-red-700 pointer-events-auto cursor-pointer';
            closeBtn.innerHTML = 'X';
            closeBtn.onclick = () => {
-             // Пытаемся найти instance виджета или просто очищаем фрейм
              widgetFrame.innerHTML = '';
              widgetFrame.classList.add('pointer-events-none');
            };
