@@ -108,6 +108,7 @@ export default config({
       path: 'apps/web/src/content/contacts/',
       format: { data: 'json' },
       schema: {
+        askQuestionLink: fields.text({ label: 'Ссылка кнопки "Задать вопрос"', validation: { isRequired: false } }),
         address: fields.text({ label: 'Адрес', multiline: true }),
         phone1: fields.text({ label: 'Телефон 1' }),
         phone2: fields.text({ label: 'Телефон 2', validation: { isRequired: false } }),

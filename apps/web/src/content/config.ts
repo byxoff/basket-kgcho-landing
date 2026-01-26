@@ -37,6 +37,8 @@ const partnersCollection = defineCollection({
   type: 'data',
   schema: z.object({
     showSection: z.boolean().optional(),
+    becomePartnerLink: z.string().optional(),
+    askQuestionLink: z.string().optional(),
     items: z.array(z.object({
       image: z.string().optional(),
       link: z.string().optional(),
@@ -60,6 +62,7 @@ const tournamentSettingsCollection = defineCollection({
 const contactsCollection = defineCollection({
   type: 'data',
   schema: z.object({
+    askQuestionLink: z.string().optional(),
     address: z.string(),
     phone1: z.string(),
     phone2: z.string().optional(),

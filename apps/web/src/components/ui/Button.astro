@@ -1,5 +1,5 @@
 ---
-interface Props {
+interface Props extends astroHTML.JSX.AnchorHTMLAttributes, astroHTML.JSX.ButtonHTMLAttributes {
   variant?: 'primary' | 'secondary' | 'outline';
   size?: 'sm' | 'md' | 'lg';
   href?: string;
@@ -10,7 +10,8 @@ const {
   variant = 'primary', 
   size = 'md',
   href,
-  class: className 
+  class: className,
+  ...rest
 } = Astro.props;
 
 const variants = {
@@ -31,6 +32,6 @@ const buttonClasses = `${baseClasses} ${variants[variant]} ${sizes[size]} ${clas
 const Tag = href ? 'a' : 'button';
 ---
 
-<Tag class={buttonClasses} href={href}>
+<Tag class={buttonClasses} href={href} {...rest}>
   <slot />
 </Tag>
