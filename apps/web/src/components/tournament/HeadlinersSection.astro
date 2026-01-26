@@ -2,10 +2,10 @@
 // Секция Хедлайнеры для турнира КГЧО
 import Image from "astro/components/Image.astro";
 import headlinersData from '../../content/headliners/index.json';
-
+// Функция для получения правильного пути к картинке (поддержка и строк, и импортов Vite)
+const headlinerImages = import.meta.glob('/src/assets/content/headliners/**/*.{jpeg,jpg,png,gif,webp,svg}');
 const { title, subtitle, items, showSection = true } = headlinersData;
 ---
-
 {showSection && (
 <section id="headliners" class="relative py-24 bg-black overflow-hidden">
   <!-- Фоновые элементы (по аналогии с Hero) -->
@@ -13,7 +13,6 @@ const { title, subtitle, items, showSection = true } = headlinersData;
     <div class="absolute inset-0 bg-linear-to-b from-black via-transparent to-black z-10 opacity-60"></div>
     <img src="/tournament/bg-elements-media.svg" alt="" class="absolute w-full h-full object-cover opacity-30 mix-blend-screen" />
   </div>
-
   <div class="bs-container relative z-10">
     <!-- Заголовок секции -->
     <div class="text-center mb-16">
@@ -24,16 +23,26 @@ const { title, subtitle, items, showSection = true } = headlinersData;
         {subtitle}
       </p>
     </div>
-
     <!-- Список карточек -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-      {items.map((item) => (
+      {items.map((item) => {
+        let imgImport = null;
+        if (item && item.image) {
+            const rawPath = item.image;
+            const fsPath = rawPath?.replace('@assets/content', '/src/assets/content');
+            imgImport = headlinerImages[fsPath];
+        }
+        return (
         <div class="group relative bg-[#1A1A1A] border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-tournament-orange/50 hover:shadow-2xl hover:shadow-tournament-orange/10">
           
           <!-- Пустое место под будущие изображения/заглушка -->
           <div class="aspect-video bg-[#242424] relative overflow-hidden">
             {item.image ? (
-              <img src={item.image} alt={item.title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+               imgImport ? (
+                  <Image src={imgImport()} alt={item.title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+               ) : (
+                  <img src={item.image} alt={item.title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+               )
             ) : (
               <div class="w-full h-full flex items-center justify-center opacity-10">
                 <img src="/tournament/logo.svg" alt="" class="w-32 h-auto" />
@@ -47,7 +56,6 @@ const { title, subtitle, items, showSection = true } = headlinersData;
               </span>
             </div>
           </div>
-
           <!-- Контент карточки -->
           <div class="p-8">
             <h3 class="font-bebas font-bold text-[32px] text-white uppercase mb-4 tracking-tight">
@@ -56,7 +64,6 @@ const { title, subtitle, items, showSection = true } = headlinersData;
             <p class="!font-montserrat font-medium text-white/50 text-[14px] leading-relaxed mb-8 line-clamp-2">
               {item.description}
             </p>
-
             <!-- Дата и Время -->
             <div class="flex flex-wrap gap-8 items-center border-t border-white/5 pt-6">
               <div class="flex items-center gap-3">
@@ -72,12 +79,11 @@ const { title, subtitle, items, showSection = true } = headlinersData;
             </div>
           </div>
         </div>
-      ))}
+      )})}
     </div>
   </div>
 </section>
 )}
-
 <style>
   #headliners {
     /* Дополнительные стили если нужно */
