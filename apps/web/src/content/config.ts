@@ -12,6 +12,10 @@ const scheduleCollection = defineCollection({
       time: z.string(),
       event: z.string(),
     })),
+    day3: z.array(z.object({
+      time: z.string(),
+      event: z.string(),
+    })).optional(),
   }),
 });
 // Коллекция для товаров магазина
