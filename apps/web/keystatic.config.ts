@@ -28,6 +28,13 @@ export default config({
           }),
           { label: 'День 2', itemLabel: (props) => `${props.fields.time.value} - ${props.fields.event.value}` }
         ),
+        day3: fields.array(
+          fields.object({
+            time: fields.text({ label: 'Время' }),
+            event: fields.text({ label: 'Событие' }),
+          }),
+          { label: 'День 3', itemLabel: (props) => `${props.fields.time.value} - ${props.fields.event.value}` }
+        ),
       },
     }),
     shop: singleton({
@@ -180,4 +187,3 @@ export default config({
     }),
   },
 });
-
