@@ -1,4 +1,30 @@
 {
   "showSection": true,
-  "items": []
+  "items": [
+    {
+      "image": "@assets/content/partners/items/0/image.png",
+      "link": "#",
+      "name": "РФБ"
+    },
+    {
+      "link": "#",
+      "name": "Партнёр 2"
+    },
+    {
+      "link": "#",
+      "name": "Партнёр 3"
+    },
+    {
+      "link": "#",
+      "name": "Партнёр 4"
+    },
+    {
+      "link": "#",
+      "name": "Партнёр 5"
+    },
+    {
+      "link": "#",
+      "name": "Партнёр 6"
+    }
+  ]
 }
