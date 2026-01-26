@@ -5,14 +5,32 @@ import media from '../../content/media/index.json';
 // Функция для получения правильного пути к картинке (поддержка и строк, и импортов Vite)
 // Используем RECURSIVE (**) glob import, чтобы находить картинки в подпапках (gallery/0/...)
 const images = import.meta.glob('/src/assets/content/media/**/*.{jpeg,jpg,png,gif,webp,svg}');
-const { showSection = true } = media;
+const { showSection = true, videoUrl } = media;
+// Функция для получения embed ссылки VK Video
+function getVkEmbedUrl(url) {
+  if (!url) return null;
+  // RegEx для разных форматов ссылок VK Video
+  // vk.com/video-223943791_456239019
+  // vk.com/video_ext.php?oid=...
+  const videoRegex = /video(-?\d+)_(\d+)/;
+  const match = url.match(videoRegex);
+  
+  if (match) {
+    const oid = match[1];
+    const id = match[2];
+    // Формируем ссылку для iframe
+    return `https://vk.com/video_ext.php?oid=${oid}&id=${id}&hd=2&autoplay=1`;
+  }
+  return null;
+}
+const vkEmbedUrl = getVkEmbedUrl(videoUrl);
+const isVkVideo = !!vkEmbedUrl;
 ---
 {showSection && (
 <section class="w-full bg-[#0F0F0F] flex flex-col overflow-hidden" id="media">
   
   <!-- Block 1: Header & Player -->
   <div class="relative w-full overflow-hidden flex justify-center pt-[67px] pb-[50px] z-[2]">
-    <!-- Background Top -->
     <div class="absolute inset-0 pointer-events-none z-0">
       <img src="/tournament/bg-elements-media.svg" class="absolute left-1/2 -translate-x-1/2 top-0 min-w-full h-auto opacity-50" alt="" />
     </div>
@@ -21,17 +39,57 @@ const { showSection = true } = media;
         <h2 class="font-bebas font-bold text-[64px] text-white leading-none m-0 uppercase tracking-tight">Медиа галерея</h2>
         <p class="!font-montserrat font-semibold text-[16px] text-white/90 mt-4 mb-0 tracking-[0.2em] uppercase text-center">Лучшие моменты прошлого турнира</p>
       </header>
-      <div class="w-[1160px] max-w-full aspect-video bg-[#2C2C2C] border-4 border-tournament-orange rounded-sm shadow-[0px_0px_30px_rgba(216,90,33,0.3)] flex justify-center items-center relative group">
-        <!-- Ссылка на видео (открывает в новой вкладке) -->
-        <a href={media.videoUrl || "#"} target="_blank" class="bg-none border-none cursor-pointer w-[142px] h-[142px] transition-transform duration-300 hover:scale-110 z-10 flex items-center justify-center rounded-full bg-black/50" aria-label="Воспроизвести видео">
+      <!-- Контейнер плеера -->
+      <div 
+        class="w-[1160px] max-w-full aspect-video bg-[#2C2C2C] border-4 border-tournament-orange rounded-sm shadow-[0px_0px_30px_rgba(216,90,33,0.3)] flex justify-center items-center relative group overflow-hidden"
+        id="video-player-container"
+        data-vk-url={vkEmbedUrl}
+        data-fallback-url={videoUrl}
+      >
+        
+        <!-- Кнопка Play (изначально видна) -->
+        <button 
+          id="play-video-btn" 
+          class="bg-none border-none cursor-pointer w-[142px] h-[142px] transition-transform duration-300 hover:scale-110 z-10 flex items-center justify-center rounded-full bg-black/50" 
+          aria-label="Воспроизвести видео"
+        >
           <img src="/tournament/icon-play.svg" alt="Play" class="w-full h-full drop-shadow-xl" />
-        </a>
-        <p class="absolute bottom-10 text-white/50 text-sm">{media.videoUrl ? 'Нажмите, чтобы открыть видео' : 'Видео недоступно'}</p>
+        </button>
+        <p id="video-placeholder-text" class="absolute bottom-10 text-white/50 text-sm">
+          {videoUrl ? 'Нажмите, чтобы открыть видео' : 'Видео недоступно'}
+        </p>
+        <!-- Место для iframe (добавится JS-ом) -->
       </div>
     </div>
   </div>
-  <!-- Divider -->
   <div class="relative w-full h-[46px] bg-tournament-orange z-[3] shadow-lg"></div>
+  <!-- Script для вставки видео -->
+  <script>
+    const container = document.getElementById('video-player-container');
+    const playBtn = document.getElementById('play-video-btn');
+    const textLabel = document.getElementById('video-placeholder-text');
+    if (container && playBtn) {
+      playBtn.addEventListener('click', () => {
+        const vkUrl = container.dataset.vkUrl;
+        const fallbackUrl = container.dataset.fallbackUrl;
+        if (vkUrl) {
+          // Если это VK Video -> вставляем iframe
+          container.innerHTML = `<iframe 
+            src="${vkUrl}" 
+            width="100%" 
+            height="100%" 
+            allow="autoplay; encrypted-media; fullscreen; picture-in-picture;" 
+            frameborder="0" 
+            allowfullscreen 
+            style="width: 100%; height: 100%; border: none;">
+          </iframe>`;
+        } else if (fallbackUrl) {
+          // Если другая ссылка -> открываем в новой вкладке (как раньше)
+          window.open(fallbackUrl, '_blank');
+        }
+      });
+    }
+  </script>
   <!-- Block 2: Gallery Grid -->
   <div class="relative w-full flex justify-center pt-[80px] pb-[120px] z-[1] bg-black">
     <div class="absolute inset-0 pointer-events-none z-0 opacity-60">
