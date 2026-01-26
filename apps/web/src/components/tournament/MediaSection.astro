@@ -1,13 +1,21 @@
 ---
 // Медиа галерея - лучшие моменты прошлого турнира
 import Image from "astro/components/Image.astro";
-import heroBg from '../../assets/tournament/hero-bg.png';
-import balls2 from '../../assets/tournament/balls_2.png';
-import mediaLogoBig from '../../assets/tournament/media-logo-big.png';
 import media from '../../content/media/index.json';
-const { showSection = true } = media;
+// Функция для получения правильного пути к картинке (поддержка и строк, и импортов Vite)
+const getImagePath = (imageField) => {
+  if (!imageField) return null;
+  // Если это строка (старый формат или прямой путь)
+  if (typeof imageField === 'string') return imageField;
+  // Если это объект (новый Keystatic image field может так сохранять) - но обычно он сохраняет строку пути
+  // В данном случае Keystatic сохранит путь типа "@assets/content/media/filename.jpg"
+  // Astro Image component сработает, если мы правильно настроим alias, но пока вернем как есть
+  return imageField;
+};
+// Проверка на наличие секции
+const showSection = media.showSection !== false;
+const images = import.meta.glob('/src/assets/content/media/*.{jpeg,jpg,png,gif,webp,svg}');
 ---
-
 {showSection && (
 <section class="w-full bg-[#0F0F0F] flex flex-col overflow-hidden" id="media">
   
@@ -17,47 +25,54 @@ const { showSection = true } = media;
     <div class="absolute inset-0 pointer-events-none z-0">
       <img src="/tournament/bg-elements-media.svg" class="absolute left-1/2 -translate-x-1/2 top-0 min-w-full h-auto opacity-50" alt="" />
     </div>
-
     <div class="relative z-10 w-full max-w-[1440px] flex flex-col items-center px-4">
       <header class="text-center mb-[54px]">
         <h2 class="font-bebas font-bold text-[64px] text-white leading-none m-0 uppercase tracking-tight">Медиа галерея</h2>
         <p class="!font-montserrat font-semibold text-[16px] text-white/90 mt-4 mb-0 tracking-[0.2em] uppercase text-center">Лучшие моменты прошлого турнира</p>
       </header>
-
-      <div class="w-[1160px] max-w-full aspect-video bg-[#2C2C2C] border-4 border-tournament-orange rounded-sm shadow-[0px_0px_30px_rgba(216,90,33,0.3)] flex justify-center items-center relative">
-        <a href={media.videoUrl} target="_blank" class="bg-none border-none cursor-pointer w-[142px] h-[142px] transition-transform duration-300 hover:scale-110" aria-label="Воспроизвести видео">
+      <div class="w-[1160px] max-w-full aspect-video bg-[#2C2C2C] border-4 border-tournament-orange rounded-sm shadow-[0px_0px_30px_rgba(216,90,33,0.3)] flex justify-center items-center relative group">
+        <!-- Ссылка на видео (открывает в новой вкладке) -->
+        <a href={media.videoUrl || "#"} target="_blank" class="bg-none border-none cursor-pointer w-[142px] h-[142px] transition-transform duration-300 hover:scale-110 z-10 flex items-center justify-center rounded-full bg-black/50" aria-label="Воспроизвести видео">
           <img src="/tournament/icon-play.svg" alt="Play" class="w-full h-full drop-shadow-xl" />
         </a>
+        <p class="absolute bottom-10 text-white/50 text-sm">{media.videoUrl ? 'Нажмите, чтобы открыть видео' : 'Видео недоступно'}</p>
       </div>
     </div>
   </div>
-
   <!-- Divider -->
   <div class="relative w-full h-[46px] bg-tournament-orange z-[3] shadow-lg"></div>
-
   <!-- Block 2: Gallery Grid -->
   <div class="relative w-full flex justify-center pt-[80px] pb-[120px] z-[1] bg-black">
-    <!-- Background Elements (Basketballs scattered) -->
     <div class="absolute inset-0 pointer-events-none z-0 opacity-60">
        <img src="/tournament/gallery-bg-balls.png" class="w-full h-full object-cover" alt="" />
     </div>
-
     <div class="relative z-10 w-full max-w-[1440px] px-4 flex flex-col items-center">
       <div class="relative w-full lg:h-[750px] h-auto max-w-[1397px]">
         
-        <!-- Center Logo (Desktop Only) -->
         <div class="absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 z-[2] w-[600px] pointer-events-none drop-shadow-2xl max-lg:hidden">
           <img src="/tournament/gallery-center-logo.png" alt="Logo" class="w-full h-auto animate-pulse-slow" />
         </div>
-
-        <!-- Windows Grid - 5 карточек с точным позиционированием -->
-        <div class="hidden lg:block">
-          {media.gallery.slice(0, 5).map((item, index) => (
-             <a  href={item.link || "#"} target="_blank"
+        <!-- Desktop Grid -->
+        <div class="hidden lg:block relative h-full">
+          {media.gallery && media.gallery.length > 0 && media.gallery.slice(0, 5).map((item, index) => {
+             // Разбираем путь к картинке для dynamic import
+             const rawPath = item.image;
+             // Убираем @assets/content и подставляем реальный путь
+             const fsPath = rawPath?.replace('@assets/content', '/src/assets/content');
+             const imgImport = images[fsPath];
+             
+             return (
+             <a href={item.link || "#"} target="_blank"
                 class={`gallery-card gallery-pos-${index + 1} group`}
-                style={`background-image: url('${item.image}');`}
               >
-                <div class="w-full h-full bg-black/40 group-hover:bg-transparent transition-colors duration-500">
+                {/* Если это локальная картинка через Keystatic */}
+                {imgImport ? (
+                   <Image src={imgImport()} alt={item.alt || ""} class="w-full h-full object-cover" />
+                ) : (
+                   /* Fallback если картинка внешняя или путь сломался */
+                   <img src={rawPath} alt={item.alt || ""} class="w-full h-full object-cover" />
+                )}
+                <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500">
                   {item.alt && (
                     <div class="absolute bottom-0 left-0 w-full bg-tournament-orange/90 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none">
                       <p class="text-white text-xs font-bold uppercase text-center m-0 font-bebas tracking-wider">{item.alt}</p>
@@ -65,33 +80,35 @@ const { showSection = true } = media;
                   )}
                 </div>
               </a>
-          ))}
+          )})}
         </div>
-
         <!-- Mobile/Tablet Grid -->
         <div class="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
-           {media.gallery.map((item) => (
-             <a href={item.link || "#"} target="_blank" class="block aspect-video bg-[#2C2C2C] border-2 border-tournament-orange rounded-lg overflow-hidden">
-                <img src={item.image} alt={item.alt} class="w-full h-full object-cover" />
+           {media.gallery && media.gallery.map((item) => {
+             const rawPath = item.image;
+             const fsPath = rawPath?.replace('@assets/content', '/src/assets/content');
+             const imgImport = images[fsPath];
+             return (
+             <a href={item.link || "#"} target="_blank" class="block aspect-video bg-[#2C2C2C] border-2 border-tournament-orange rounded-lg overflow-hidden relative">
+                 {imgImport ? (
+                   <Image src={imgImport()} alt={item.alt || ""} class="w-full h-full object-cover" />
+                ) : (
+                   <img src={rawPath} alt={item.alt || ""} class="w-full h-full object-cover" />
+                )}
              </a>
-           ))}
+           )})}
         </div>
-
       </div>
     </div>
   </div>
-
 </section>
 )}
-
 <style>
   .gallery-card {
     position: absolute;
     width: 448px;
     height: 264px;
     background-color: #2C2C2C;
-    background-size: cover;
-    background-position: center;
     border: 3px solid #D85921;
     border-radius: 4px;
     overflow: hidden;
@@ -99,26 +116,19 @@ const { showSection = true } = media;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     z-index: 1;
   }
-
   .gallery-card:hover {
     transform: scale(1.05);
     z-index: 5;
     border-color: #ffffff;
     box-shadow: 0px 15px 50px rgba(216, 89, 33, 0.4);
   }
-
-  /* Точное позиционирование на основе Figma (относительно контейнера 1397x750) */
-  .gallery-pos-1 { top: 0; left: 0; }             /* Rectangle 12 */
-  .gallery-pos-2 { top: 0; right: 0; }            /* Rectangle 15 */
-  .gallery-pos-3 { top: 350px; right: 80px; }     /* Rectangle 13 (чуть внутрь) */
+  .gallery-pos-1 { top: 0; left: 0; }
+  .gallery-pos-2 { top: 0; right: 0; }
+  .gallery-pos-3 { top: 350px; right: 80px; }
   .gallery-pos-4 { bottom: 0; left: 50%; transform: translateX(-50%); } 
   .gallery-pos-4:hover { transform: translateX(-50%) scale(1.05); } 
-  .gallery-pos-5 { top: 350px; left: 80px; }      /* Rectangle 14 (чуть внутрь) */
-
-  .animate-pulse-slow {
-    animation: pulse-slow 4s ease-in-out infinite;
-  }
-
+  .gallery-pos-5 { top: 350px; left: 80px; }
+  .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
   @keyframes pulse-slow {
     0%, 100% { opacity: 1; transform: translateY(0); }
     50% { opacity: 0.9; transform: translateY(-10px); }
