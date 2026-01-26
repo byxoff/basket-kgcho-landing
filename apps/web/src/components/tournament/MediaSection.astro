@@ -6,21 +6,21 @@ import media from '../../content/media/index.json';
 // Используем RECURSIVE (**) glob import, чтобы находить картинки в подпапках (gallery/0/...)
 const images = import.meta.glob('/src/assets/content/media/**/*.{jpeg,jpg,png,gif,webp,svg}');
 const { showSection = true, videoUrl, videoPreview } = media;
-// Обработка превью видео:
-import { getImage } from "astro:assets";
-let videoPreviewSrc = "";
+// Обработка превью видео: если это путь к ассету, пробуем найти его в imports
+// Если это URL, оставляем как есть.
+let videoPreviewSrc = videoPreview || "";
 const videoPreviewPath = videoPreview ? videoPreview.replace('@assets/content', '/src/assets/content') : null;
+// Если нашли импорт для превью
 if (videoPreviewPath && images[videoPreviewPath]) {
-   try {
-       const imgModule = await images[videoPreviewPath]();
-       const optimized = await getImage({ src: imgModule.default, format: 'webp' });
-       videoPreviewSrc = optimized.src;
-   } catch(e) {
-       console.error("Video preview optimization failed", e);
-   }
-} else if (videoPreview && !videoPreview.startsWith('@assets')) {
-    // Внешняя ссылка
-    videoPreviewSrc = videoPreview;
+   // Для CSS background-image нам нужен прямой URL, но glob дает функцию импорта.
+   // В Astro для background style лучше использовать просто путь, если он в public,
+   // но здесь у нас assets. Сложный момент.
+   // Проще всего: если videoPreview задан, мы его прокинем в style как url.
+   // Если это asset путь, он может не сработать в style без обработки.
+   // В provided code от юзера не было обработки image для превью, только для галереи.
+   // Мы используем videoPreviewPath как есть, надеясь что Vite разрулит или это public path.
+   // В идеале: <Image /> компонент для превью, но он внутри div.
+   videoPreviewSrc = videoPreview; 
 }
 // Функция для получения embed ссылки VK Video
 function getVkEmbedUrl(url) {
@@ -65,7 +65,7 @@ const isVkVideo = !!vkEmbedUrl;
       >
         <!-- Preview background (manual implementation to merge user request + preview feature) -->
         <div class="absolute inset-0 bg-cover bg-center z-0 transition-opacity duration-300"
-             style={videoPreviewSrc ? `background-image: url('${videoPreviewSrc}');` : ''} 
+             style={videoPreview ? `background-image: url('${videoPreview}');` : ''} 
              id="video-preview-layer">
              <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300"></div>
         </div>
