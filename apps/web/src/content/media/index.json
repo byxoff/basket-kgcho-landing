@@ -27,6 +27,9 @@
       "image": "@assets/content/media/gallery/4/image.jpg",
       "link": "#",
       "alt": "Лучший момент 5"
+    },
+    {
+      "image": "@assets/content/media/gallery/5/image.jpg"
     }
   ]
 }
