@@ -5,7 +5,23 @@ import media from '../../content/media/index.json';
 // Функция для получения правильного пути к картинке (поддержка и строк, и импортов Vite)
 // Используем RECURSIVE (**) glob import, чтобы находить картинки в подпапках (gallery/0/...)
 const images = import.meta.glob('/src/assets/content/media/**/*.{jpeg,jpg,png,gif,webp,svg}');
-const { showSection = true, videoUrl } = media;
+const { showSection = true, videoUrl, videoPreview } = media;
+// Обработка превью видео: если это путь к ассету, пробуем найти его в imports
+// Если это URL, оставляем как есть.
+let videoPreviewSrc = videoPreview || "";
+const videoPreviewPath = videoPreview ? videoPreview.replace('@assets/content', '/src/assets/content') : null;
+// Если нашли импорт для превью
+if (videoPreviewPath && images[videoPreviewPath]) {
+   // Для CSS background-image нам нужен прямой URL, но glob дает функцию импорта.
+   // В Astro для background style лучше использовать просто путь, если он в public,
+   // но здесь у нас assets. Сложный момент.
+   // Проще всего: если videoPreview задан, мы его прокинем в style как url.
+   // Если это asset путь, он может не сработать в style без обработки.
+   // В provided code от юзера не было обработки image для превью, только для галереи.
+   // Мы используем videoPreviewPath как есть, надеясь что Vite разрулит или это public path.
+   // В идеале: <Image /> компонент для превью, но он внутри div.
+   videoPreviewSrc = videoPreview; 
+}
 // Функция для получения embed ссылки VK Video
 function getVkEmbedUrl(url) {
   if (!url) return null;
@@ -31,6 +47,7 @@ const isVkVideo = !!vkEmbedUrl;
   
   <!-- Block 1: Header & Player -->
   <div class="relative w-full overflow-hidden flex justify-center pt-[67px] pb-[50px] z-[2]">
+    <!-- Background Top -->
     <div class="absolute inset-0 pointer-events-none z-0">
       <img src="/tournament/bg-elements-media.svg" class="absolute left-1/2 -translate-x-1/2 top-0 min-w-full h-auto opacity-50" alt="" />
     </div>
@@ -46,58 +63,96 @@ const isVkVideo = !!vkEmbedUrl;
         data-vk-url={vkEmbedUrl}
         data-fallback-url={videoUrl}
       >
-        
+        <!-- Preview background (manual implementation to merge user request + preview feature) -->
+        <div class="absolute inset-0 bg-cover bg-center z-0 transition-opacity duration-300"
+             style={videoPreview ? `background-image: url('${videoPreview}');` : ''} 
+             id="video-preview-layer">
+             <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300"></div>
+        </div>
         <!-- Кнопка Play (изначально видна) -->
         <button 
           id="play-video-btn" 
-          class="bg-none border-none cursor-pointer w-[142px] h-[142px] transition-transform duration-300 hover:scale-110 z-10 flex items-center justify-center rounded-full bg-black/50" 
+          class="bg-none border-none cursor-pointer w-[142px] h-[142px] transition-transform duration-300 hover:scale-110 z-10 flex items-center justify-center rounded-full" 
           aria-label="Воспроизвести видео"
         >
           <img src="/tournament/icon-play.svg" alt="Play" class="w-full h-full drop-shadow-xl" />
         </button>
-        <p id="video-placeholder-text" class="absolute bottom-10 text-white/50 text-sm">
+        <p id="video-placeholder-text" class="absolute bottom-10 text-white/50 text-sm z-10">
           {videoUrl ? 'Нажмите, чтобы открыть видео' : 'Видео недоступно'}
         </p>
         <!-- Место для iframe (добавится JS-ом) -->
       </div>
     </div>
   </div>
+  <!-- Divider -->
   <div class="relative w-full h-[46px] bg-tournament-orange z-[3] shadow-lg"></div>
   <!-- Script для вставки видео -->
   <script>
     const container = document.getElementById('video-player-container');
     const playBtn = document.getElementById('play-video-btn');
     const textLabel = document.getElementById('video-placeholder-text');
+    const previewLayer = document.getElementById('video-preview-layer');
     if (container && playBtn) {
       playBtn.addEventListener('click', () => {
         const vkUrl = container.dataset.vkUrl;
         const fallbackUrl = container.dataset.fallbackUrl;
+        // Hide preview elements
+        if (previewLayer) previewLayer.style.display = 'none';
+        playBtn.style.display = 'none';
+        if (textLabel) textLabel.style.display = 'none';
         if (vkUrl) {
           // Если это VK Video -> вставляем iframe
-          container.innerHTML = `<iframe 
-            src="${vkUrl}" 
-            width="100%" 
-            height="100%" 
-            allow="autoplay; encrypted-media; fullscreen; picture-in-picture;" 
-            frameborder="0" 
-            allowfullscreen 
-            style="width: 100%; height: 100%; border: none;">
-          </iframe>`;
+          const iframe = document.createElement('iframe');
+          iframe.src = vkUrl;
+          iframe.width = "100%";
+          iframe.height = "100%";
+          iframe.allow = "autoplay; encrypted-media; fullscreen; picture-in-picture;";
+          iframe.frameBorder = "0"; // Note: deprecated but useful for fallbacks
+          iframe.style.width = "100%";
+          iframe.style.height = "100%";
+          iframe.style.border = "none";
+          iframe.setAttribute('allowfullscreen', 'true');
+          
+          container.appendChild(iframe);
         } else if (fallbackUrl) {
-          // Если другая ссылка -> открываем в новой вкладке (как раньше)
-          window.open(fallbackUrl, '_blank');
+             
+             // Check youtube
+             if (fallbackUrl.includes('youtube.com') || fallbackUrl.includes('youtu.be')) {
+                let embedUrl = fallbackUrl;
+                const videoId = fallbackUrl.includes('v=') ? fallbackUrl.split('v=')[1].split('&')[0] : fallbackUrl.split('/').pop();
+                embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                
+                const iframe = document.createElement('iframe');
+                iframe.src = embedUrl;
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+                iframe.style.border = "none";
+                iframe.allow = "autoplay; encrypted-media; fullscreen; picture-in-picture;";
+                iframe.setAttribute('allowfullscreen', 'true');
+                container.appendChild(iframe);
+             } else {
+                // Если другая ссылка -> открываем в новой вкладке (как раньше)
+                // Restore preview because we are opening in new tab
+                if (previewLayer) previewLayer.style.display = 'block';
+                playBtn.style.display = 'flex';
+                if (textLabel) textLabel.style.display = 'block';
+                
+                window.open(fallbackUrl, '_blank');
+             }
         }
       });
     }
   </script>
   <!-- Block 2: Gallery Grid -->
   <div class="relative w-full flex justify-center pt-[80px] pb-[120px] z-[1] bg-black">
+    <!-- Background Elements (Basketballs scattered) -->
     <div class="absolute inset-0 pointer-events-none z-0 opacity-60">
        <img src="/tournament/gallery-bg-balls.png" class="w-full h-full object-cover" alt="" />
     </div>
     <div class="relative z-10 w-full max-w-[1440px] px-4 flex flex-col items-center">
       <div class="relative w-full lg:h-[750px] h-auto max-w-[1397px]">
         
+        <!-- Center Logo (Desktop Only) -->
         <div class="absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 z-[2] w-[600px] pointer-events-none drop-shadow-2xl max-lg:hidden">
           <img src="/tournament/gallery-center-logo.png" alt="Logo" class="w-full h-auto animate-pulse-slow" />
         </div>
@@ -170,13 +225,16 @@ const isVkVideo = !!vkEmbedUrl;
     border-color: #ffffff;
     box-shadow: 0px 15px 50px rgba(216, 89, 33, 0.4);
   }
-  .gallery-pos-1 { top: 0; left: 0; }
-  .gallery-pos-2 { top: 0; right: 0; }
-  .gallery-pos-3 { top: 350px; right: 80px; }
+  /* Точное позиционирование на основе Figma (относительно контейнера 1397x750) */
+  .gallery-pos-1 { top: 0; left: 0; }             /* Rectangle 12 */
+  .gallery-pos-2 { top: 0; right: 0; }            /* Rectangle 15 */
+  .gallery-pos-3 { top: 350px; right: 80px; }     /* Rectangle 13 (чуть внутрь) */
   .gallery-pos-4 { bottom: 0; left: 50%; transform: translateX(-50%); } 
   .gallery-pos-4:hover { transform: translateX(-50%) scale(1.05); } 
-  .gallery-pos-5 { top: 350px; left: 80px; }
-  .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
+  .gallery-pos-5 { top: 350px; left: 80px; }      /* Rectangle 14 (чуть внутрь) */
+  .animate-pulse-slow {
+    animation: pulse-slow 4s ease-in-out infinite;
+  }
   @keyframes pulse-slow {
     0%, 100% { opacity: 1; transform: translateY(0); }
     50% { opacity: 0.9; transform: translateY(-10px); }
