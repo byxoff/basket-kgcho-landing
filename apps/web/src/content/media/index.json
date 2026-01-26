@@ -1,5 +1,27 @@
 {
   "showSection": true,
-  "videoUrl": "",
-  "gallery": []
+  "videoUrl": "https://drive.google.com/drive/folders/1GV6YcPsd11WLdChWFL2oq7Hke3r6JNw-?hl=ru",
+  "gallery": [
+    {
+      "image": "@assets/content/media/gallery/0/image.jpg",
+      "link": "#",
+      "alt": "Данк"
+    },
+    {
+      "link": "#",
+      "alt": "Лучший момент 2"
+    },
+    {
+      "link": "#",
+      "alt": "Лучший момент 3"
+    },
+    {
+      "link": "#",
+      "alt": "Лучший момент 4"
+    },
+    {
+      "link": "#",
+      "alt": "Лучший момент 5"
+    }
+  ]
 }
