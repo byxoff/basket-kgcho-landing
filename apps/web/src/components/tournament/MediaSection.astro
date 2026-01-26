@@ -10,17 +10,18 @@ const { showSection = true, videoUrl, videoPreview } = media;
 // Если это URL, оставляем как есть.
 import { getImage } from "astro:assets";
 let videoPreviewSrc = videoPreview || "";
-if (videoPreviewSrc && videoPreviewSrc.startsWith('@assets/content')) {
-    const videoPreviewPath = videoPreviewSrc.replace('@assets/content', '/src/assets/content');
-    if (images[videoPreviewPath]) {
-        try {
-            const imgModule = await images[videoPreviewPath]();
-            const optimizedImg = await getImage({ src: imgModule.default, format: 'webp' });
-            videoPreviewSrc = optimizedImg.src;
-        } catch (e) {
-            console.error("Failed to load video preview:", videoPreviewPath, e);
-        }
-    }
+try {
+  if (videoPreviewSrc && videoPreviewSrc.startsWith('@assets/content')) {
+      const videoPreviewPath = videoPreviewSrc.replace('@assets/content', '/src/assets/content');
+      if (images && images[videoPreviewPath]) {
+          const imgModule = await images[videoPreviewPath]();
+          const optimizedImg = await getImage({ src: imgModule.default, format: 'webp' });
+          videoPreviewSrc = optimizedImg.src;
+      }
+  }
+} catch (e) {
+  console.error("Error processing video preview image:", e);
+  // Fallback or leave as is (broken path)
 }
 // Функция для получения embed ссылки VK Video
 function getVkEmbedUrl(url) {
