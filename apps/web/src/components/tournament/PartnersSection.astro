@@ -5,8 +5,8 @@ import Button from '../ui/Button.astro';
 import partnersBg from '../../assets/tournament/partners.png';
 import partnersData from '../../content/partners/index.json';
 // Функция для получения правильного пути к картинке (поддержка и строк, и импортов Vite)
-// Используем glob import, чтобы найти все картинки в папке partners
-const partnerImages = import.meta.glob('/src/assets/content/partners/*.{jpeg,jpg,png,gif,webp,svg}');
+// Используем RECURSIVE (**) glob import, чтобы находить картинки в подпапках
+const partnerImages = import.meta.glob('/src/assets/content/partners/**/*.{jpeg,jpg,png,gif,webp,svg}');
 const { items: partnerItems, showSection = true, becomePartnerLink, askQuestionLink } = partnersData;
 ---
 {showSection && (
