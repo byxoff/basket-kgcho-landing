@@ -1,5 +1,4 @@
 import { defineCollection, z } from 'astro:content';
-
 // Коллекция для расписания турнира
 const scheduleCollection = defineCollection({
   type: 'data',
@@ -15,7 +14,6 @@ const scheduleCollection = defineCollection({
     })),
   }),
 });
-
 // Коллекция для товаров магазина
 const shopCollection = defineCollection({
   type: 'data',
@@ -30,7 +28,6 @@ const shopCollection = defineCollection({
     })),
   }),
 });
-
 // Коллекция для партнёров
 const partnersCollection = defineCollection({
   type: 'data',
@@ -43,7 +40,6 @@ const partnersCollection = defineCollection({
     })),
   }),
 });
-
 // Коллекция для настроек турнира (Hero секция)
 const tournamentSettingsCollection = defineCollection({
   type: 'data',
@@ -56,7 +52,6 @@ const tournamentSettingsCollection = defineCollection({
     heroBg: z.string().optional(),
   }),
 });
-
 // Коллекция для контактов
 const contactsCollection = defineCollection({
   type: 'data',
@@ -69,13 +64,13 @@ const contactsCollection = defineCollection({
     tgUrl: z.string().optional(),
   }),
 });
-
 // Коллекция для медиа
 const mediaCollection = defineCollection({
   type: 'data',
   schema: z.object({
     showSection: z.boolean().optional(),
     videoUrl: z.string().optional(),
+    videoPreview: z.string().optional(),
     gallery: z.array(z.object({
       image: z.string(),
       link: z.string().optional(),
@@ -83,7 +78,6 @@ const mediaCollection = defineCollection({
     })),
   }),
 });
-
 // Коллекция для хедлайнеров
 const headlinersCollection = defineCollection({
   type: 'data',
@@ -101,7 +95,6 @@ const headlinersCollection = defineCollection({
     })),
   }),
 });
-
 export const collections = {
   schedule: scheduleCollection,
   shop: shopCollection,
