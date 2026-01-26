@@ -4,9 +4,11 @@ import Image from "astro/components/Image.astro";
 import Button from '../ui/Button.astro';
 import partnersBg from '../../assets/tournament/partners.png';
 import partnersData from '../../content/partners/index.json';
-const { items: partnerItems, showSection = true } = partnersData;
+// Функция для получения правильного пути к картинке (поддержка и строк, и импортов Vite)
+// Используем glob import, чтобы найти все картинки в папке partners
+const partnerImages = import.meta.glob('/src/assets/content/partners/*.{jpeg,jpg,png,gif,webp,svg}');
+const { items: partnerItems, showSection = true, becomePartnerLink, askQuestionLink } = partnersData;
 ---
-
 {showSection && (
 <section class="relative py-24 px-5 bg-black overflow-hidden flex flex-col items-center" id="partners">
   <!-- Background -->
@@ -16,21 +18,31 @@ const { items: partnerItems, showSection = true } = partnersData;
     <!-- Gradient Overlays -->
     <div class="absolute bottom-0 left-0 w-full h-[317px] z-1 pointer-events-none" style="background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.03) 12.34%, rgba(0, 0, 0, 0.7) 90%, #000 100%);"></div>
   </div>
-
   <div class="relative z-10 w-full max-w-[1440px] flex flex-col items-center">
     <!-- Header -->
     <header class="text-center mb-[60px]">
       <h2 class="font-bebas font-bold text-[64px] text-white leading-none m-0 uppercase tracking-tight">Партнеры</h2>
       <p class="!font-montserrat font-semibold text-[16px] text-white/90 mt-4 mb-0 uppercase tracking-[0.2em]">Официальная атрибутика турнира</p>
     </header>
-
     <!-- Partners Grid (6x2 in design) -->
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-[24px] w-full max-w-[1398px] mb-[64px]">
-      {Array.from({ length: 12 }).map((_, i) => (
+      {Array.from({ length: 12 }).map((_, i) => {
+        const item = partnerItems[i];
+        let imgImport = null;
+        if (item && item.image) {
+            const rawPath = item.image;
+            const fsPath = rawPath?.replace('@assets/content', '/src/assets/content');
+            imgImport = partnerImages[fsPath];
+        }
+        return (
         <div class="bg-black border border-[#D85921]/50 h-[205px] rounded-[3px] flex items-center justify-center p-4 transition-all duration-300 hover:border-white/50 hover:shadow-[0_0_30px_rgba(216,89,33,0.2)]">
-          {partnerItems[i] ? (
-            <a href={partnerItems[i].link} target="_blank" class="w-full h-full flex items-center justify-center">
-              <img src={partnerItems[i].image} alt={partnerItems[i].name} class="max-w-full max-h-full object-contain filter grayscale brightness-200 hover:grayscale-0 transition-all duration-300" />
+          {item ? (
+            <a href={item.link} target="_blank" class="w-full h-full flex items-center justify-center">
+               {imgImport ? (
+                   <Image src={imgImport()} alt={item.name} class="max-w-full max-h-full object-contain filter grayscale brightness-200 hover:grayscale-0 transition-all duration-300" />
+                ) : (
+                   <img src={item.image} alt={item.name} class="max-w-full max-h-full object-contain filter grayscale brightness-200 hover:grayscale-0 transition-all duration-300" />
+                )}
             </a>
           ) : (
              <div class="w-full h-full flex items-center justify-center opacity-10">
@@ -38,19 +50,22 @@ const { items: partnerItems, showSection = true } = partnersData;
              </div>
           )}
         </div>
-      ))}
+      )})}
     </div>
-
     <!-- Buttons -->
     <div class="flex flex-col md:flex-row gap-6 items-center">
       <Button 
         variant="primary" 
+        href={becomePartnerLink}
+        target="_blank"
         class="w-[330px] h-[72px] !font-bebas !text-[28px] !font-bold flex items-center justify-center"
       >
         Стать партнером проекта
       </Button>
       <Button 
         variant="primary" 
+        href={askQuestionLink}
+        target="_blank"
         class="w-[330px] h-[72px] !font-bebas !text-[28px] !font-bold flex items-center justify-center"
       >
         задать вопрос
@@ -59,4 +74,3 @@ const { items: partnerItems, showSection = true } = partnersData;
   </div>
 </section>
 )}
-
