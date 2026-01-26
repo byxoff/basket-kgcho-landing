@@ -3,18 +3,9 @@
 import Image from "astro/components/Image.astro";
 import media from '../../content/media/index.json';
 // Функция для получения правильного пути к картинке (поддержка и строк, и импортов Vite)
-const getImagePath = (imageField) => {
-  if (!imageField) return null;
-  // Если это строка (старый формат или прямой путь)
-  if (typeof imageField === 'string') return imageField;
-  // Если это объект (новый Keystatic image field может так сохранять) - но обычно он сохраняет строку пути
-  // В данном случае Keystatic сохранит путь типа "@assets/content/media/filename.jpg"
-  // Astro Image component сработает, если мы правильно настроим alias, но пока вернем как есть
-  return imageField;
-};
-// Проверка на наличие секции
-const showSection = media.showSection !== false;
-const images = import.meta.glob('/src/assets/content/media/*.{jpeg,jpg,png,gif,webp,svg}');
+// Используем RECURSIVE (**) glob import, чтобы находить картинки в подпапках (gallery/0/...)
+const images = import.meta.glob('/src/assets/content/media/**/*.{jpeg,jpg,png,gif,webp,svg}');
+const { showSection = true } = media;
 ---
 {showSection && (
 <section class="w-full bg-[#0F0F0F] flex flex-col overflow-hidden" id="media">
@@ -55,7 +46,6 @@ const images = import.meta.glob('/src/assets/content/media/*.{jpeg,jpg,png,gif,w
         <!-- Desktop Grid -->
         <div class="hidden lg:block relative h-full">
           {media.gallery && media.gallery.length > 0 && media.gallery.slice(0, 5).map((item, index) => {
-             // Разбираем путь к картинке для dynamic import
              const rawPath = item.image;
              // Убираем @assets/content и подставляем реальный путь
              const fsPath = rawPath?.replace('@assets/content', '/src/assets/content');
