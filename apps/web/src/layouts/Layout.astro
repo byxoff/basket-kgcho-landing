@@ -1,59 +1,41 @@
 ---
-
 import '../assets/css/global.css'
 import "../assets/css/base.css"
 import "../assets/css/typography.css"
 import "../assets/css/layout.css"
 import "../assets/css/buttons.css"
-
+// Читаем настройки сайта (метрику)
+import siteSettings from '../../content/site-settings/index.json';
 const { title, description } = Astro.props
-
 const defaultTitle = "КГЧО Турнир | 13-14 марта 2026"
 const defaultDescription = "Турнир КГЧО по классическому волейболу. ДС «Юность». 13-14 марта 2026 года."
-
 ---
-
 <html lang="ru">
-
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript">
-      (function(m,e,t,r,i,k,a){
-          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-          m[i].l=1*new Date();
-          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106407948', 'ym');
-
-      ym(106407948, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    
+    <script is:inline>
+      if (window.location.protocol === 'http:' && window.location.hostname !== 'localhost') {
+        window.location.href = window.location.href.replace('http:', 'https:');
+      }
     </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/106407948" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-
+    <!-- Вставка скриптов из Админки (Head) -->
+    {siteSettings?.headScripts && <Fragment set:html={siteSettings.headScripts} />}
     <title>{ title ?? defaultTitle }</title>
-
     <link rel="icon" type="image/svg+xml" href="/tournament/logo.svg" />
-
     <meta name="description" content={ description ?? defaultDescription } />
     <meta name="theme-color" content="#D85A21" />
-
     <meta property="og:title" content={ title ?? defaultTitle } />
     <meta property="og:description" content={ description ?? defaultDescription } />
-
-    <!-- Подключаем Google Fonts для Montserrat и Bebas Neue -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-
     <!-- Yandex Tickets Dealer Config -->
     <script is:inline>
       window.YandexTicketsDealer = window.YandexTicketsDealer || [];
       YandexTicketsDealer.push(['setDefaultClientKey', '2c4a0e91-c3fa-4469-9e2f-acffa4a5ddd2']);
       YandexTicketsDealer.push(['setDefaultRegionId', 56]);
-
       (function () {
         var rnd = '?' + new Date().getTime() * Math.random();
         var script = document.createElement('script');
@@ -63,22 +45,37 @@ const defaultDescription = "Турнир КГЧО по классическом�
         target.parentNode.insertBefore(script, target);
       })();
     </script>
-
   </head>
-
   <body id="top">
-    <!-- Container for Yandex Ticket Widget -->
-    <div id="ya-widget-frame" class="fixed inset-0 z-[9999] pointer-events-none empty:hidden bg-black/60 flex items-center justify-center"></div>
-
-
-    <!-- Skip link -->
+    <div id="ya-widget-frame" class="fixed inset-0 z-[9999] pointer-events-none empty:hidden bg-black/60 flex items-center justify-center">
+        <!-- Кнопка закрытия виджета (добавится скриптом) -->
+    </div>
+    <!-- Вставка скриптов из Админки (Body) -->
+    {siteSettings?.bodyScripts && <Fragment set:html={siteSettings.bodyScripts} />}
     <a class="fixed -top-20 focus-visible:top-0 p-3 bg-black/90 transition-all duration-300" href="#main">Skip to content</a>
-
-    <!-- Main slot -->
     <main id="main">
       <slot />
     </main>
-
+    <!-- Скрипт для кнопки закрытия билетов -->
+    <script is:inline>
+      const widgetFrame = document.getElementById('ya-widget-frame');
+      
+      // Наблюдаем за виджетом: если он открылся, создаем кнопку закрытия
+      const observer = new MutationObserver((mutations) => {
+        if (widgetFrame.hasChildNodes() && !widgetFrame.querySelector('.close-widget-btn')) {
+           const closeBtn = document.createElement('button');
+           closeBtn.className = 'close-widget-btn absolute top-5 right-5 z-[10000] text-white bg-red-600 rounded-full w-10 h-10 flex items-center justify-center font-bold shadow-lg hover:bg-red-700 pointer-events-auto cursor-pointer';
+           closeBtn.innerHTML = 'X';
+           closeBtn.onclick = () => {
+             // Пытаемся найти instance виджета или просто очищаем фрейм
+             widgetFrame.innerHTML = '';
+             widgetFrame.classList.add('pointer-events-none');
+           };
+           widgetFrame.appendChild(closeBtn);
+           widgetFrame.classList.remove('pointer-events-none');
+        }
+      });
+      observer.observe(widgetFrame, { childList: true });
+    </script>
   </body>
 </html>
-
