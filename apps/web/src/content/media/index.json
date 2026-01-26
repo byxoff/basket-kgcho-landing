@@ -1,6 +1,7 @@
 {
   "showSection": true,
   "videoUrl": "https://vksport.vkvideo.ru/video-206280383_456242616",
+  "videoPreview": "@assets/content/media/videoPreview.png",
   "gallery": [
     {
       "image": "@assets/content/media/gallery/0/image.jpg",
