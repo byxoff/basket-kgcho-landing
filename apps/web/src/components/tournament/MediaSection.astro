@@ -2,25 +2,44 @@
 // Медиа галерея - лучшие моменты прошлого турнира
 import Image from "astro/components/Image.astro";
 import media from '../../content/media/index.json';
+import { getImage } from "astro:assets";
 // Функция для получения правильного пути к картинке (поддержка и строк, и импортов Vite)
 // Используем RECURSIVE (**) glob import, чтобы находить картинки в подпапках (gallery/0/...)
 const images = import.meta.glob('/src/assets/content/media/**/*.{jpeg,jpg,png,gif,webp,svg}');
 const { showSection = true, videoUrl, videoPreview } = media;
-// Обработка превью видео: если это путь к ассету, пробуем найти его в imports
-// Если это URL, оставляем как есть.
-let videoPreviewSrc = videoPreview || "";
-const videoPreviewPath = videoPreview ? videoPreview.replace('@assets/content', '/src/assets/content') : null;
-// Если нашли импорт для превью
-if (videoPreviewPath && images[videoPreviewPath]) {
-   // Для CSS background-image нам нужен прямой URL, но glob дает функцию импорта.
-   // В Astro для background style лучше использовать просто путь, если он в public,
-   // но здесь у нас assets. Сложный момент.
-   // Проще всего: если videoPreview задан, мы его прокинем в style как url.
-   // Если это asset путь, он может не сработать в style без обработки.
-   // В provided code от юзера не было обработки image для превью, только для галереи.
-   // Мы используем videoPreviewPath как есть, надеясь что Vite разрулит или это public path.
-   // В идеале: <Image /> компонент для превью, но он внутри div.
-   videoPreviewSrc = videoPreview; 
+let videoPreviewSrc = "";
+// Безопасное разрешение картинки для превью
+if (videoPreview) {
+  // 1. Обработка локальных ассетов Keystatic
+  if (videoPreview.startsWith('@assets/content')) {
+     const fsPath = videoPreview.replace('@assets/content', '/src/assets/content');
+     
+     // Проверяем, есть ли такой файл в glob-импортах
+     if (images[fsPath]) {
+        try {
+           // Получаем модуль картинки
+           const imgModule = await images[fsPath]();
+           // Оптимизируем через Astro getImage
+           const optimized = await getImage({ 
+              src: imgModule.default, 
+              format: 'webp',
+              width: 1280, // Оптимальная ширина для превью
+              quality: 80 
+           });
+           videoPreviewSrc = optimized.src;
+        } catch (e) {
+           console.error(`[MediaSection] Preview image optimization failed for ${fsPath}:`, e);
+           // При ошибке просто оставляем пустым, чтобы не рушить страницу
+        }
+     } else {
+        console.warn(`[MediaSection] Preview image not found in glob: ${fsPath}. Check file existence and path.`);
+        // Для отладки: выводим, что вообще есть (первые 5)
+        // console.log("Available images:", Object.keys(images).slice(0, 5));
+     }
+  } else {
+     // 2. Если это просто URL (например, image.jpg или https://...)
+     videoPreviewSrc = videoPreview;
+  }
 }
 // Функция для получения embed ссылки VK Video
 function getVkEmbedUrl(url) {
@@ -40,7 +59,6 @@ function getVkEmbedUrl(url) {
   return null;
 }
 const vkEmbedUrl = getVkEmbedUrl(videoUrl);
-const isVkVideo = !!vkEmbedUrl;
 ---
 {showSection && (
 <section class="w-full bg-[#0F0F0F] flex flex-col overflow-hidden" id="media">
@@ -63,9 +81,10 @@ const isVkVideo = !!vkEmbedUrl;
         data-vk-url={vkEmbedUrl}
         data-fallback-url={videoUrl}
       >
-        <!-- Preview background (manual implementation to merge user request + preview feature) -->
+        <!-- Preview background -->
+        <!-- Используем videoPreviewSrc, полученный из getImage -->
         <div class="absolute inset-0 bg-cover bg-center z-0 transition-opacity duration-300"
-             style={videoPreview ? `background-image: url('${videoPreview}');` : ''} 
+             style={videoPreviewSrc ? `background-image: url('${videoPreviewSrc}');` : ''} 
              id="video-preview-layer">
              <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300"></div>
         </div>
