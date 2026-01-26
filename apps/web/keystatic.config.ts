@@ -41,7 +41,11 @@ export default config({
             title: fields.text({ label: 'Название' }),
             description: fields.text({ label: 'Описание', multiline: true }),
             price: fields.text({ label: 'Цена' }),
-            image: fields.text({ label: 'Изображение (путь)' }),
+            image: fields.image({
+              label: 'Изображение',
+              directory: 'apps/web/src/assets/content/shop',
+              publicPath: '@assets/content/shop'
+            }),
             link: fields.text({ label: 'Ссылка', validation: { isRequired: false } }),
           }),
           { label: 'Товары', itemLabel: (props) => props.fields.title.value || 'Новый товар' }
@@ -54,9 +58,15 @@ export default config({
       format: { data: 'json' },
       schema: {
         showSection: fields.checkbox({ label: 'Отображать блок', defaultValue: true }),
+        becomePartnerLink: fields.text({ label: 'Ссылка кнопки "Стать партнером"', validation: { isRequired: false } }),
+        askQuestionLink: fields.text({ label: 'Ссылка кнопки "Задать вопрос"', validation: { isRequired: false } }),
         items: fields.array(
           fields.object({
-            image: fields.text({ label: 'Изображение (путь)', validation: { isRequired: false } }),
+            image: fields.image({
+              label: 'Логотип',
+              directory: 'apps/web/src/assets/content/partners',
+              publicPath: '@assets/content/partners'
+            }),
             link: fields.text({ label: 'Ссылка', validation: { isRequired: false } }),
             name: fields.text({ label: 'Название', validation: { isRequired: false } }),
           }),
@@ -69,12 +79,21 @@ export default config({
       path: 'apps/web/src/content/tournament-settings/',
       format: { data: 'json' },
       schema: {
-        title: fields.text({ label: 'Заголовок' }),
+        title: fields.text({ label: 'Заголовок (можно html)' }),
         subtitle: fields.text({ label: 'Подзаголовок' }),
         date: fields.text({ label: 'Дата проведения' }),
         location: fields.text({ label: 'Место проведения' }),
-        logo: fields.text({ label: 'Логотип (путь)', validation: { isRequired: false } }),
-        heroBg: fields.text({ label: 'Фон Hero (путь)', validation: { isRequired: false } }),
+        logo: fields.image({
+          label: 'Логотип турнира',
+          directory: 'apps/web/src/assets/content/settings',
+          publicPath: '@assets/content/settings'
+        }),
+        heroBg: fields.image({
+          label: 'Фон Hero секции',
+          directory: 'apps/web/src/assets/content/settings',
+          publicPath: '@assets/content/settings'
+        }),
+        ticketLink: fields.text({ label: 'Ссылка на билеты (кнопка)', description: 'Оставьте пустым, чтобы открывался виджет Яндекс.Тикетов' }),
       },
     }),
     contacts: singleton({
@@ -105,7 +124,11 @@ export default config({
         }),
         gallery: fields.array(
           fields.object({
-            image: fields.text({ label: 'Изображение (путь)' }),
+            image: fields.image({
+              label: 'Изображение',
+              directory: 'apps/web/src/assets/content/media',
+              publicPath: '@assets/content/media'
+            }),
             link: fields.text({ label: 'Ссылка (опционально)', validation: { isRequired: false } }),
             alt: fields.text({ label: 'Описание (alt)', validation: { isRequired: false } }),
           }),
@@ -128,7 +151,11 @@ export default config({
             description: fields.text({ label: 'Краткое описание', multiline: true }),
             date: fields.text({ label: 'Дата' }),
             time: fields.text({ label: 'Время' }),
-            image: fields.text({ label: 'Изображение (путь)', validation: { isRequired: false } }),
+            image: fields.image({
+              label: 'Изображение',
+              directory: 'apps/web/src/assets/content/headliners',
+              publicPath: '@assets/content/headliners'
+            }),
           }),
           { label: 'События', itemLabel: (props) => props.fields.title.value || 'Новое событие' }
         ),
@@ -153,3 +180,4 @@ export default config({
     }),
   },
 });
+
