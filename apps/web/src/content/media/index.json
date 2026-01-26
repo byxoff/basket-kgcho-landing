@@ -4,32 +4,19 @@
   "videoPreview": "@assets/content/media/videoPreview.png",
   "gallery": [
     {
-      "image": "@assets/content/media/gallery/0/image.jpg",
-      "link": "#",
-      "alt": "Данк"
+      "image": "@assets/content/media/gallery/0/image.jpg"
     },
     {
-      "image": "@assets/content/media/gallery/1/image.jpg",
-      "link": "#",
-      "alt": "Конкурс по броскам сверху"
+      "image": "@assets/content/media/gallery/1/image.jpg"
     },
     {
-      "image": "@assets/content/media/gallery/2/image.jpg",
-      "link": "#",
-      "alt": "Лучший момент 3"
+      "image": "@assets/content/media/gallery/2/image.jpg"
     },
     {
-      "image": "@assets/content/media/gallery/3/image.jpg",
-      "link": "#",
-      "alt": "Лучший момент 4"
+      "image": "@assets/content/media/gallery/3/image.jpg"
     },
     {
-      "image": "@assets/content/media/gallery/4/image.jpg",
-      "link": "#",
-      "alt": "Лучший момент 5"
-    },
-    {
-      "image": "@assets/content/media/gallery/5/image.jpg"
+      "image": "@assets/content/media/gallery/4/image.jpg"
     }
   ]
 }
