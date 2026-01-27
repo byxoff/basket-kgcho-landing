@@ -1,12 +1,14 @@
 ---
 // Секция магазина официальной атрибутики
 import ShopCard from './ShopCard.astro';
-import shopData from '../../content/shop/index.json';
-
 // Функция для получения правильного пути к картинке (поддержка и строк, и импортов Vite)
 const shopImages = import.meta.glob('/src/assets/content/shop/**/*.{jpeg,jpg,png,gif,webp,svg}');
 
-const { items: shopItems, showSection = true } = shopData;
+// Safe Data Load
+const shopFiles = import.meta.glob('../../content/shop/index.json', { eager: true });
+const shopData = shopFiles['../../content/shop/index.json'] || { items: [] };
+
+const { items: shopItems = [], showSection = true } = shopData;
 ---
 
 {showSection && (

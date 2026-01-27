@@ -1,11 +1,15 @@
 ---
 // Медиа галерея - лучшие моменты прошлого турнира
 import Image from "astro/components/Image.astro";
-import media from '../../content/media/index.json';
 import { getImage } from "astro:assets";
 // Функция для получения правильного пути к картинке (поддержка и строк, и импортов Vite)
 // Используем RECURSIVE (**) glob import, чтобы находить картинки в подпапках (gallery/0/...)
 const images = import.meta.glob('/src/assets/content/media/**/*.{jpeg,jpg,png,gif,webp,svg}');
+
+// Safe Data Load
+const mediaFiles = import.meta.glob('../../content/media/index.json', { eager: true });
+const media = mediaFiles['../../content/media/index.json'] || {};
+
 const { showSection = true, videoUrl, videoPreview } = media;
 let videoPreviewSrc = "";
 // Безопасное разрешение картинки для превью

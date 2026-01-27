@@ -203,6 +203,11 @@ export default config({
           publicPath: '@assets/content/seo',
           description: 'Картинка, которая подтягивается при отправке ссылки в Telegram/VK'
         }),
+        favicon: fields.image({
+          label: 'Фавиконка сайта (SVG, PNG, ICO)',
+          directory: 'apps/web/src/assets/content/seo',
+          publicPath: '@assets/content/seo'
+        }),
       },
     }),
     siteSettings: singleton({

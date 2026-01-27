@@ -4,7 +4,10 @@ import Image from "astro/components/Image.astro";
 import Button from '../ui/Button.astro';
 import vkIcon from '../../assets/tournament/vk.png';
 import tgIcon from '../../assets/tournament/tg.png';
-import contacts from '../../content/contacts/index.json';
+
+// Safe Data Load
+const contactsFiles = import.meta.glob('../../content/contacts/index.json', { eager: true });
+const contacts = contactsFiles['../../content/contacts/index.json'] || {};
 const { askQuestionLink, askQuestionLinkNewTab } = contacts;
 ---
 <footer class="relative py-24 px-5 bg-[#D85A21] overflow-hidden" id="contacts">

@@ -39,10 +39,27 @@ if (defaultImage.startsWith('@assets/content')) {
          ogImageUrl = optimized.src;
       } catch (e) {
          console.error('OG Image optimization failed:', e);
-         // Fallback to raw path if fail, though likely wont work due to @assets prefix
          ogImageUrl = "/tournament/logo-big.png"; 
       }
    }
+}
+
+// Favicon Logic
+let faviconUrl = "/tournament/logo.svg";
+if (seoSettings.favicon) {
+    if (seoSettings.favicon.startsWith('@assets/content')) {
+       const fsPath = seoSettings.favicon.replace('@assets/content', '/src/assets/content');
+       if (images[fsPath]) {
+           try {
+              const mod = await images[fsPath]();
+              // Create a 32x32 PNG for favicon compat
+              const fav = await getImage({ src: mod.default, format: 'png', width: 32, height: 32 });
+              faviconUrl = fav.src;
+           } catch(e) { console.error('Favicon resolve failed', e); }
+       }
+    } else {
+       faviconUrl = seoSettings.favicon;
+    }
 }
 
 // Формируем полный URL
@@ -57,7 +74,7 @@ const tournamentSettings = tournamentFiles['../content/tournament-settings/index
 const widgetClientKey = tournamentSettings.widgetClientKey || '2c4a0e91-c3fa-4469-9e2f-acffa4a5ddd2';
 const widgetRegionId = tournamentSettings.widgetRegionId || 56;
 
-console.log('SEO Debug:', { settingsTitle: seoSettings.defaultTitle, finalTitle: title ?? defaultTitle, ogFullUrl });
+console.log('SEO Debug:', { settingsTitle: seoSettings.defaultTitle, finalTitle: title ?? defaultTitle, ogFullUrl, faviconUrl });
 ---
 <html lang="ru">
   <head>
@@ -74,7 +91,7 @@ console.log('SEO Debug:', { settingsTitle: seoSettings.defaultTitle, finalTitle:
     <!-- Astro сам умный: если переменной нет, он ничего не выведет, но проверка `?` нужна -->
     {siteSettings?.headScripts && <Fragment set:html={siteSettings.headScripts} />}
     <title>{ title ?? defaultTitle }</title>
-    <link rel="icon" type="image/svg+xml" href="/tournament/logo.svg" />
+    <link rel="icon" href={faviconUrl} />
     <meta name="description" content={ description ?? defaultDescription } />
     <meta name="theme-color" content="#D85A21" />
     <meta property="og:title" content={ title ?? defaultTitle } />
