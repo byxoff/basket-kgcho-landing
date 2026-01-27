@@ -63,6 +63,33 @@ function getVkEmbedUrl(url) {
   return null;
 }
 const vkEmbedUrl = getVkEmbedUrl(videoUrl);
+
+// --- PREPARE LIGHTBOX DATA ---
+// We need to resolve all images for the lightbox upfront to avoid duplicates
+// and ensure we have high-quality versions.
+const galleryItems = media.gallery || [];
+const lightboxData = await Promise.all(galleryItems.map(async (item) => {
+    let src = item.image; // Fallback
+    
+    // Resolve Astro Image
+    if (item.image && item.image.startsWith('@assets/content')) {
+        const fsPath = item.image.replace('@assets/content', '/src/assets/content');
+        if (images[fsPath]) {
+            try {
+                const mod = await images[fsPath]();
+                // We use a high-res version for the lightbox
+                const optimized = await getImage({ src: mod.default, format: 'webp', width: 1920, quality: 90 });
+                src = optimized.src;
+            } catch (e) { console.error('Lightbox image error:', fsPath, e); }
+        }
+    }
+    return {
+        src: src,
+        caption: item.alt || '',
+        link: item.link,
+        openInNewTab: item.openInNewTab
+    };
+}));
 ---
 {showSection && (
 <section class="w-full bg-[#0F0F0F] flex flex-col overflow-hidden" id="media">
@@ -154,8 +181,7 @@ const vkEmbedUrl = getVkEmbedUrl(videoUrl);
                 iframe.setAttribute('allowfullscreen', 'true');
                 container.appendChild(iframe);
              } else {
-                // Если другая ссылка -> открываем в новой вкладке (как раньше)
-                // Restore preview because we are opening in new tab
+                // Если другая ссылка -> открываем в новой вкладке
                 if (previewLayer) previewLayer.style.display = 'block';
                 playBtn.style.display = 'flex';
                 if (textLabel) textLabel.style.display = 'block';
@@ -189,7 +215,8 @@ const vkEmbedUrl = getVkEmbedUrl(videoUrl);
              
              return (
              <a href={item.link || "#"} target={item.openInNewTab ? "_blank" : "_self"}
-                class={`gallery-card gallery-pos-${index + 1} group`}
+                class={`gallery-card gallery-pos-${index + 1} group gallery-trigger`}
+                data-index={index}
               >
                 {/* Если это локальная картинка через Keystatic */}
                 {imgImport ? (
@@ -210,12 +237,15 @@ const vkEmbedUrl = getVkEmbedUrl(videoUrl);
         </div>
         <!-- Mobile/Tablet Grid -->
         <div class="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
-           {media.gallery && media.gallery.map((item) => {
+           {media.gallery && media.gallery.map((item, index) => {
              const rawPath = item.image;
              const fsPath = rawPath?.replace('@assets/content', '/src/assets/content');
              const imgImport = images[fsPath];
              return (
-             <a href={item.link || "#"} target={item.openInNewTab ? "_blank" : "_self"} class="block aspect-video bg-[#2C2C2C] border-2 border-tournament-orange rounded-lg overflow-hidden relative">
+             <a href={item.link || "#"} target={item.openInNewTab ? "_blank" : "_self"} 
+                class="block aspect-video bg-[#2C2C2C] border-2 border-tournament-orange rounded-lg overflow-hidden relative gallery-trigger"
+                data-index={index}
+             >
                  {imgImport ? (
                    <Image src={imgImport()} alt={item.alt || ""} class="w-full h-full object-cover" />
                 ) : (
@@ -293,7 +323,7 @@ const vkEmbedUrl = getVkEmbedUrl(videoUrl);
   </div>
 </div>
 
-<script>
+<script define:vars={{ lightboxData }}>
   // Lightbox Logic
   document.addEventListener('DOMContentLoaded', () => {
     const lightbox = document.getElementById('lightbox');
@@ -303,42 +333,42 @@ const vkEmbedUrl = getVkEmbedUrl(videoUrl);
     const prevBtn = document.getElementById('lightbox-prev');
     const nextBtn = document.getElementById('lightbox-next');
     
-    // Select both desktop and mobile gallery links
-    const triggers = document.querySelectorAll('.gallery-card, .lg\\:hidden a.block');
+    // Select triggers by class
+    const triggers = document.querySelectorAll('.gallery-trigger');
     let currentIndex = 0;
     
-    // Function to show image at index
+    // Function to show image at index from DATA, ignoring DOM
     const showImage = (index) => {
-      if (index < 0) index = triggers.length - 1;
-      if (index >= triggers.length) index = 0;
+      // Wrap around logic
+      if (index < 0) index = lightboxData.length - 1;
+      if (index >= lightboxData.length) index = 0;
+      
       currentIndex = index;
+      const data = lightboxData[index];
       
-      const trigger = triggers[index];
-      const img = trigger.querySelector('img');
-      const captionText = img.getAttribute('alt');
-      
-      // Use original source if possible, otherwise use current src
-      // Assuming layout creates high-res enough images or acceptable webp
-      const src = img.currentSrc || img.src;
-      
-      lightboxImg.src = src;
-      lightboxCaption.textContent = captionText || '';
-      
-      // Update open original link
-      const openOriginalBtn = document.getElementById('lightbox-open-original');
-      if (openOriginalBtn) {
-        openOriginalBtn.href = src;
+      if (data) {
+        lightboxImg.src = data.src;
+        lightboxCaption.textContent = data.caption;
+        
+        // Update open original link
+        const openOriginalBtn = document.getElementById('lightbox-open-original');
+        if (openOriginalBtn) {
+            openOriginalBtn.href = data.src;
+        }
       }
     };
 
     // Open Lightbox
-    triggers.forEach((trigger, index) => {
+    triggers.forEach((trigger) => {
       // Add visual cue
       trigger.style.cursor = 'zoom-in';
       
       trigger.addEventListener('click', (e) => {
         e.preventDefault();
+        // Get index from data attribute
+        const index = parseInt(trigger.dataset.index || '0', 10);
         showImage(index);
+        
         lightbox.classList.remove('hidden');
         // Small delay for fade in
         requestAnimationFrame(() => {
