@@ -36,11 +36,11 @@ const { showSection = true } = scheduleData;
     <!-- Tabs -->
     <!-- Tabs -->
     <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8 md:mb-[50px]">
-      <button class="tournament-schedule__tab active flex items-center justify-center bg-[#0F0F0F] rounded-lg py-3 px-4 md:py-5 md:px-12 cursor-pointer transition-all duration-300 min-w-[140px] md:min-w-[240px] border-2 border-transparent hover:border-white/20" data-tab="day1">
-        <span class="font-montserrat text-lg md:text-[28px] font-semibold text-white leading-none">13 марта</span>
+      <button class="tournament-schedule__tab flex items-center justify-center bg-[#0F0F0F]/80 rounded-lg py-3 px-4 md:py-5 md:px-12 cursor-pointer transition-all duration-300 min-w-[140px] md:min-w-[240px] border-2 border-transparent hover:border-white/20" data-tab="day1">
+        <span class="font-montserrat text-lg md:text-[28px] font-semibold text-white/50 leading-none">13 марта</span>
       </button>
-      <button class="tournament-schedule__tab flex items-center justify-center bg-[#0F0F0F]/80 rounded-lg py-3 px-4 md:py-5 md:px-12 cursor-pointer transition-all duration-300 min-w-[140px] md:min-w-[240px] border-2 border-transparent hover:border-white/20" data-tab="day2">
-        <span class="font-montserrat text-lg md:text-[28px] font-semibold text-white/50 leading-none">14 марта</span>
+      <button class="tournament-schedule__tab active flex items-center justify-center bg-[#0F0F0F] rounded-lg py-3 px-4 md:py-5 md:px-12 cursor-pointer transition-all duration-300 min-w-[140px] md:min-w-[240px] border-2 border-transparent hover:border-white/20" data-tab="day2">
+        <span class="font-montserrat text-lg md:text-[28px] font-semibold text-white leading-none">14 марта</span>
       </button>
       <button class="tournament-schedule__tab flex items-center justify-center bg-[#0F0F0F]/80 rounded-lg py-3 px-4 md:py-5 md:px-12 cursor-pointer transition-all duration-300 min-w-[140px] md:min-w-[240px] border-2 border-transparent hover:border-white/20" data-tab="day3">
         <span class="font-montserrat text-lg md:text-[28px] font-semibold text-white/50 leading-none">15 марта</span>
@@ -49,13 +49,13 @@ const { showSection = true } = scheduleData;
     <!-- Content -->
     <div class="w-full max-w-[800px] relative">
       <!-- Day 1 List -->
-      <div class="tournament-schedule__list flex flex-col gap-3 w-full transition-all duration-500 active" id="day1">
+      <div class="tournament-schedule__list hidden flex flex-col gap-3 w-full transition-all duration-500" id="day1">
         {scheduleData.day1.map((item) => (
           <ScheduleCard time={item.time} event={item.event} />
         ))}
       </div>
       <!-- Day 2 List -->
-      <div class="tournament-schedule__list hidden flex flex-col gap-3 w-full transition-all duration-500" id="day2">
+      <div class="tournament-schedule__list active flex flex-col gap-3 w-full transition-all duration-500" id="day2">
         {scheduleData.day2.map((item) => (
           <ScheduleCard time={item.time} event={item.event} />
         ))}
@@ -83,6 +83,10 @@ const { showSection = true } = scheduleData;
       // Update tabs styles
       tabs.forEach(t => {
         t.classList.remove('active');
+        // Reset background to inactive (transparent)
+        t.classList.remove('bg-[#0F0F0F]');
+        t.classList.add('bg-[#0F0F0F]/80');
+        
         const span = t.querySelector('span');
         if (span) {
           span.classList.remove('text-white');
@@ -90,7 +94,12 @@ const { showSection = true } = scheduleData;
         }
       });
       
+      // Set active styles
       tab.classList.add('active');
+      // Set background to active (solid)
+      tab.classList.remove('bg-[#0F0F0F]/80');
+      tab.classList.add('bg-[#0F0F0F]');
+      
       const activeSpan = tab.querySelector('span');
       if (activeSpan) {
         activeSpan.classList.remove('text-white/50');
