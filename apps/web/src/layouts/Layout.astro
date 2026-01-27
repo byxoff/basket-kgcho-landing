@@ -17,8 +17,39 @@ const seoSettings = seoFiles['../content/seo/index.json'] || {};
 const { title, description, image } = Astro.props
 
 const defaultTitle = seoSettings.defaultTitle || "КГЧО Турнир | 13-14 марта 2026"
-const defaultDescription = seoSettings.defaultDescription || "Турнир КГЧО по классическому волейболу. ДС «Юность». 13-14 марта 2026 года."
-const defaultImage = seoSettings.ogImage || "/tournament/logo-big.png" // Fallback to logo if not set
+const defaultDescription = seoSettings.defaultDescription || "Международный турнир по баскетболу 3Х3. Челябинск, ДС «Юность». 13-14 марта 2026 года."
+const defaultImage = seoSettings.ogImage || "/tournament/logo-big.png"
+const images = import.meta.glob('/src/assets/content/seo/**/*.{jpeg,jpg,png,gif,webp,svg}');
+
+import { getImage } from "astro:assets";
+let ogImageUrl = defaultImage;
+
+// Если картинка из Keystatic (@assets/content...), пытаемся ее найти и оптимизировать
+if (defaultImage.startsWith('@assets/content')) {
+   const fsPath = defaultImage.replace('@assets/content', '/src/assets/content');
+   if (images[fsPath]) {
+      try {
+         const imgModule = await images[fsPath]();
+         const optimized = await getImage({
+            src: imgModule.default,
+            format: 'jpeg', // Для соцсетей лучше jpeg/png
+            width: 1200,    // Стандарт для OG
+            height: 630
+         });
+         ogImageUrl = optimized.src;
+      } catch (e) {
+         console.error('OG Image optimization failed:', e);
+         // Fallback to raw path if fail, though likely wont work due to @assets prefix
+         ogImageUrl = "/tournament/logo-big.png"; 
+      }
+   }
+}
+
+// Формируем полный URL
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url.origin);
+const ogFullUrl = new URL(ogImageUrl, canonicalURL.origin).href;
+
+console.log('SEO Debug:', { settingsTitle: seoSettings.defaultTitle, finalTitle: title ?? defaultTitle, ogFullUrl });
 ---
 <html lang="ru">
   <head>
@@ -40,7 +71,7 @@ const defaultImage = seoSettings.ogImage || "/tournament/logo-big.png" // Fallba
     <meta name="theme-color" content="#D85A21" />
     <meta property="og:title" content={ title ?? defaultTitle } />
     <meta property="og:description" content={ description ?? defaultDescription } />
-    <meta property="og:image" content={ image ?? defaultImage } />
+    <meta property="og:image" content={ ogFullUrl } />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">

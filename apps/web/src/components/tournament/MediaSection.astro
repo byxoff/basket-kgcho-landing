@@ -259,3 +259,131 @@ const vkEmbedUrl = getVkEmbedUrl(videoUrl);
     50% { opacity: 0.9; transform: translateY(-10px); }
   }
 </style>
+
+<!-- Lightbox Viewer -->
+<div id="lightbox" class="fixed inset-0 z-[9999] bg-black/95 hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4 backdrop-blur-sm" aria-hidden="true">
+  <!-- Close Button -->
+  <button id="lightbox-close" class="absolute top-5 right-5 text-white/70 hover:text-white transition-colors z-50 p-2 cursor-pointer">
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+  </button>
+  
+  <!-- Navigation Prev -->
+  <button id="lightbox-prev" class="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-tournament-orange transition-colors z-50 p-4 cursor-pointer">
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  
+  <!-- Navigation Next -->
+  <button id="lightbox-next" class="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-tournament-orange transition-colors z-50 p-4 cursor-pointer">
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+  </button>
+  
+  <!-- Open Original Button (Top Right, left of close) -->
+  <a id="lightbox-open-original" href="#" target="_blank" class="absolute top-5 right-20 text-white/70 hover:text-white transition-colors z-50 p-2 cursor-pointer" title="Открыть в новой вкладке">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+
+  <!-- Image Container -->
+  <div class="relative w-full h-full flex flex-col items-center justify-center pointer-events-none">
+     <img id="lightbox-img" src="" alt="Gallery Preview" class="max-w-[90vw] max-h-[85vh] object-contain shadow-2xl rounded-sm pointer-events-auto select-none transition-transform duration-300" />
+     <p id="lightbox-caption" class="text-white/90 font-montserrat text-lg mt-4 text-center max-w-2xl px-4 pointer-events-auto"></p>
+  </div>
+</div>
+
+<script>
+  // Lightbox Logic
+  document.addEventListener('DOMContentLoaded', () => {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const closeBtn = document.getElementById('lightbox-close');
+    const prevBtn = document.getElementById('lightbox-prev');
+    const nextBtn = document.getElementById('lightbox-next');
+    
+    // Select both desktop and mobile gallery links
+    const triggers = document.querySelectorAll('.gallery-card, .lg\\:hidden a.block');
+    let currentIndex = 0;
+    
+    // Function to show image at index
+    const showImage = (index) => {
+      if (index < 0) index = triggers.length - 1;
+      if (index >= triggers.length) index = 0;
+      currentIndex = index;
+      
+      const trigger = triggers[index];
+      const img = trigger.querySelector('img');
+      const captionText = img.getAttribute('alt');
+      
+      // Use original source if possible, otherwise use current src
+      // Assuming layout creates high-res enough images or acceptable webp
+      const src = img.currentSrc || img.src;
+      
+      lightboxImg.src = src;
+      lightboxCaption.textContent = captionText || '';
+      
+      // Update open original link
+      const openOriginalBtn = document.getElementById('lightbox-open-original');
+      if (openOriginalBtn) {
+        openOriginalBtn.href = src;
+      }
+    };
+
+    // Open Lightbox
+    triggers.forEach((trigger, index) => {
+      // Add visual cue
+      trigger.style.cursor = 'zoom-in';
+      
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        showImage(index);
+        lightbox.classList.remove('hidden');
+        // Small delay for fade in
+        requestAnimationFrame(() => {
+          lightbox.classList.remove('opacity-0');
+        });
+        document.body.style.overflow = 'hidden'; // Lock scroll
+      });
+    });
+
+    // Close Lightbox
+    const closeLightbox = () => {
+      lightbox.classList.add('opacity-0');
+      setTimeout(() => {
+        lightbox.classList.add('hidden');
+        lightboxImg.src = '';
+      }, 300);
+      document.body.style.overflow = '';
+    };
+
+    closeBtn.addEventListener('click', closeLightbox);
+    
+    // Close on click outside
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox || e.target.closest('.relative') === lightbox.querySelector('.relative')) {
+        // Did not click the image itself (the relative container helps center it, but e.target check is safer)
+        if (e.target !== lightboxImg && e.target !== prevBtn && e.target !== nextBtn && !prevBtn.contains(e.target) && !nextBtn.contains(e.target)) {
+           closeLightbox();
+        }
+      }
+    });
+
+    // Navigation
+    prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showImage(currentIndex - 1);
+    });
+    
+    nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showImage(currentIndex + 1);
+    });
+
+    // Keyboard support
+    document.addEventListener('keydown', (e) => {
+      if (lightbox.classList.contains('hidden')) return;
+      
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+      if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+    });
+  });
+</script>
