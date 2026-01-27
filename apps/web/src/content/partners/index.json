@@ -1,47 +1,59 @@
 {
   "showSection": true,
   "becomePartnerLink": "https://drive.google.com/file/d/1LJDng_IFG_wR5y3OkHzOR1mWn-sNq1lR/view",
+  "becomePartnerLinkNewTab": true,
   "askQuestionLink": "https://t.me/Natallishaaaa",
+  "askQuestionLinkNewTab": true,
   "items": [
     {
       "image": "@assets/content/partners/items/0/image.png",
+      "openInNewTab": false,
       "name": "РФБ"
     },
     {
       "image": "@assets/content/partners/items/1/image.png",
+      "openInNewTab": false,
       "name": "Фонд Поддержки Спорта"
     },
     {
       "image": "@assets/content/partners/items/2/image.png",
+      "openInNewTab": false,
       "name": "Федерация Баскетбола Челябинской области"
     },
     {
       "image": "@assets/content/partners/items/3/image.png",
+      "openInNewTab": false,
       "name": "РМК-Арена"
     },
     {
       "image": "@assets/content/partners/items/4/image.png",
+      "openInNewTab": false,
       "name": "Альфа Банк"
     },
     {
       "image": "@assets/content/partners/items/5/image.png",
+      "openInNewTab": false,
       "name": "Радио Континеталь"
     },
     {
       "image": "@assets/content/partners/items/6/image.png",
+      "openInNewTab": false,
       "name": "Ниагара"
     },
     {
       "image": "@assets/content/partners/items/7/image.png",
+      "openInNewTab": false,
       "name": " Xpage"
     },
     {
       "image": "@assets/content/partners/items/8/image.png",
+      "openInNewTab": false,
       "name": "Business Media"
     },
     {
       "image": "@assets/content/partners/items/9/image.png",
       "link": "#",
+      "openInNewTab": false,
       "name": "ИКАР"
     }
   ]
