@@ -54,6 +54,7 @@ export default config({
               publicPath: '@assets/content/shop'
             }),
             link: fields.text({ label: 'Ссылка', validation: { isRequired: false } }),
+            openInNewTab: fields.checkbox({ label: 'Открывать в новой вкладке', defaultValue: false }),
           }),
           { label: 'Товары', itemLabel: (props) => props.fields.title.value || 'Новый товар' }
         ),
@@ -66,7 +67,9 @@ export default config({
       schema: {
         showSection: fields.checkbox({ label: 'Отображать блок', defaultValue: true }),
         becomePartnerLink: fields.text({ label: 'Ссылка кнопки "Стать партнером"', validation: { isRequired: false } }),
+        becomePartnerLinkNewTab: fields.checkbox({ label: 'Открывать "Стать партнером" в новой вкладке', defaultValue: false }),
         askQuestionLink: fields.text({ label: 'Ссылка кнопки "Задать вопрос"', validation: { isRequired: false } }),
+        askQuestionLinkNewTab: fields.checkbox({ label: 'Открывать "Задать вопрос" в новой вкладке', defaultValue: false }),
         items: fields.array(
           fields.object({
             image: fields.image({
@@ -75,6 +78,7 @@ export default config({
               publicPath: '@assets/content/partners'
             }),
             link: fields.text({ label: 'Ссылка', validation: { isRequired: false } }),
+            openInNewTab: fields.checkbox({ label: 'Открывать в новой вкладке', defaultValue: false }),
             name: fields.text({ label: 'Название', validation: { isRequired: false } }),
           }),
           { label: 'Партнёры', itemLabel: (props) => props.fields.name.value || 'Новый партнёр' }
@@ -101,6 +105,12 @@ export default config({
           publicPath: '@assets/content/settings'
         }),
         ticketLink: fields.text({ label: 'Ссылка на билеты (кнопка)', description: 'Оставьте пустым, чтобы открывался виджет Яндекс.Тикетов' }),
+        ticketLinkNewTab: fields.checkbox({ label: 'Открывать ссылку на билеты в новой вкладке', defaultValue: false }),
+
+        // Widget Settings
+        widgetClientKey: fields.text({ label: 'Widget: Client Key', description: 'Ключ клиента Яндекс.Билеты' }),
+        widgetRegionId: fields.text({ label: 'Widget: Region ID', description: 'ID региона Яндекс.Билеты' }),
+        widgetName: fields.text({ label: 'Widget: Name/ID', description: 'Имя виджета для вызова (например, ticketsteam-4262@55106690)' }),
       },
     }),
     contacts: singleton({
@@ -109,6 +119,7 @@ export default config({
       format: { data: 'json' },
       schema: {
         askQuestionLink: fields.text({ label: 'Ссылка кнопки "Задать вопрос"', validation: { isRequired: false } }),
+        askQuestionLinkNewTab: fields.checkbox({ label: 'Открывать "Задать вопрос" в новой вкладке', defaultValue: false }),
         address: fields.text({ label: 'Адрес', multiline: true }),
         phone1: fields.text({ label: 'Телефон 1' }),
         phone2: fields.text({ label: 'Телефон 2', validation: { isRequired: false } }),
@@ -138,6 +149,7 @@ export default config({
               publicPath: '@assets/content/media'
             }),
             link: fields.text({ label: 'Ссылка (опционально)', validation: { isRequired: false } }),
+            openInNewTab: fields.checkbox({ label: 'Открывать в новой вкладке', defaultValue: false }),
             alt: fields.text({ label: 'Описание (alt)', validation: { isRequired: false } }),
           }),
           { label: 'Галерея (5 фото)', itemLabel: (props) => props.fields.alt.value || 'Фото' }

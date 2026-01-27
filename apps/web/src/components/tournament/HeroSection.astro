@@ -69,12 +69,20 @@ import tournamentSettings from '../../content/tournament-settings/index.json';
       </div>
 
       <!-- Кнопка -->
-      <Button variant="primary" size="lg" class="shadow-orange hover:shadow-orange-xl w-full buy-tickets-trigger">Купить билеты</Button>
+      <Button 
+        variant="primary" 
+        size="lg" 
+        class={`shadow-orange hover:shadow-orange-xl w-full ${!tournamentSettings.ticketLink ? 'buy-tickets-trigger' : ''}`}
+        href={tournamentSettings.ticketLink || "#"}
+        target={tournamentSettings.ticketLinkNewTab ? "_blank" : "_self"}
+      >
+        Купить билеты
+      </Button>
     </div>
 
   </div>
 
-  <script is:inline>
+  <script is:inline define:vars={{ widgetName: tournamentSettings.widgetName || 'ticketsteam-4262@55106690' }}>
     // Logic to open Yandex Tickets Widget
     document.addEventListener('DOMContentLoaded', () => {
       const buyButtons = document.querySelectorAll('.buy-tickets-trigger');
@@ -85,7 +93,7 @@ import tournamentSettings from '../../content/tournament-settings/index.json';
           
           if (window.YandexTicketsDealer) {
             window.YandexTicketsDealer.push(['getDealer', function (dealer) {
-              const widget = dealer.Widget('ticketsteam-4262@55106690', 'session', {
+              const widget = dealer.Widget(widgetName, 'session', {
                 target: document.getElementById('ya-widget-frame'),
                 onRequestClose: function() {
                   widget.unmount();

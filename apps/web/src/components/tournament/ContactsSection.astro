@@ -5,7 +5,7 @@ import Button from '../ui/Button.astro';
 import vkIcon from '../../assets/tournament/vk.png';
 import tgIcon from '../../assets/tournament/tg.png';
 import contacts from '../../content/contacts/index.json';
-const { askQuestionLink } = contacts;
+const { askQuestionLink, askQuestionLinkNewTab } = contacts;
 ---
 <footer class="relative py-24 px-5 bg-[#D85A21] overflow-hidden" id="contacts">
   <!-- Background Gradient -->
@@ -65,7 +65,7 @@ const { askQuestionLink } = contacts;
             <Button 
                 variant="secondary" 
                 href={askQuestionLink}
-                target="_blank"
+                target={askQuestionLinkNewTab ? "_blank" : "_self"}
                 class="w-[571px] h-[72px] max-w-full !bg-black !text-white !font-bebas !text-[28px] !font-bold flex items-center justify-center shadow-2xl transition-all hover:brightness-125"
             >
                 задать вопрос

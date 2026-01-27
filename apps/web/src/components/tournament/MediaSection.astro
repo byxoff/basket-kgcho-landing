@@ -184,7 +184,7 @@ const vkEmbedUrl = getVkEmbedUrl(videoUrl);
              const imgImport = images[fsPath];
              
              return (
-             <a href={item.link || "#"} target="_blank"
+             <a href={item.link || "#"} target={item.openInNewTab ? "_blank" : "_self"}
                 class={`gallery-card gallery-pos-${index + 1} group`}
               >
                 {/* Если это локальная картинка через Keystatic */}
@@ -211,7 +211,7 @@ const vkEmbedUrl = getVkEmbedUrl(videoUrl);
              const fsPath = rawPath?.replace('@assets/content', '/src/assets/content');
              const imgImport = images[fsPath];
              return (
-             <a href={item.link || "#"} target="_blank" class="block aspect-video bg-[#2C2C2C] border-2 border-tournament-orange rounded-lg overflow-hidden relative">
+             <a href={item.link || "#"} target={item.openInNewTab ? "_blank" : "_self"} class="block aspect-video bg-[#2C2C2C] border-2 border-tournament-orange rounded-lg overflow-hidden relative">
                  {imgImport ? (
                    <Image src={imgImport()} alt={item.alt || ""} class="w-full h-full object-cover" />
                 ) : (

@@ -1,15 +1,15 @@
----
 interface Props {
   title: string;
   price: string;
   image: string;
   link?: string;
+  openInNewTab?: boolean;
 }
 
-const { title, price, image, link = "#" } = Astro.props;
+const { title, price, image, link = "#", openInNewTab = false } = Astro.props;
 ---
 
-<a href={link} class="group block w-[451px] max-w-full transition-transform duration-300 hover:-translate-y-1">
+<a href={link} target={openInNewTab ? "_blank" : "_self"} class="group block w-[451px] max-w-full transition-transform duration-300 hover:-translate-y-1">
   <div class="flex flex-col gap-[5px]">
     
     <!-- Image Box (Rectangle 10) -->

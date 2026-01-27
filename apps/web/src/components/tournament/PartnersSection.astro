@@ -7,7 +7,7 @@ import partnersData from '../../content/partners/index.json';
 // Функция для получения правильного пути к картинке (поддержка и строк, и импортов Vite)
 // Используем RECURSIVE (**) glob import, чтобы находить картинки в подпапках
 const partnerImages = import.meta.glob('/src/assets/content/partners/**/*.{jpeg,jpg,png,gif,webp,svg}');
-const { items: partnerItems, showSection = true, becomePartnerLink, askQuestionLink } = partnersData;
+const { items: partnerItems, showSection = true, becomePartnerLink, askQuestionLink, becomePartnerLinkNewTab, askQuestionLinkNewTab } = partnersData;
 ---
 {showSection && (
 <section class="relative py-24 px-5 bg-black overflow-hidden flex flex-col items-center" id="partners">
@@ -37,7 +37,7 @@ const { items: partnerItems, showSection = true, becomePartnerLink, askQuestionL
         return (
         <div class="bg-black border border-[#D85921]/50 h-[205px] rounded-[3px] flex items-center justify-center p-4 transition-all duration-300 hover:border-white/50 hover:shadow-[0_0_30px_rgba(216,89,33,0.2)]">
           {item ? (
-            <a href={item.link} target="_blank" class="w-full h-full flex items-center justify-center">
+            <a href={item.link} target={item.openInNewTab ? "_blank" : "_self"} class="w-full h-full flex items-center justify-center">
                {imgImport ? (
                    <Image src={imgImport()} alt={item.name} class="max-w-full max-h-full object-contain filter grayscale brightness-200 hover:grayscale-0 transition-all duration-300" />
                 ) : (
@@ -57,7 +57,7 @@ const { items: partnerItems, showSection = true, becomePartnerLink, askQuestionL
       <Button 
         variant="primary" 
         href={becomePartnerLink}
-        target="_blank"
+        target={becomePartnerLinkNewTab ? "_blank" : "_self"}
         class="w-[330px] h-[72px] !font-bebas !text-[28px] !font-bold flex items-center justify-center"
       >
         Стать партнером проекта
@@ -65,7 +65,7 @@ const { items: partnerItems, showSection = true, becomePartnerLink, askQuestionL
       <Button 
         variant="primary" 
         href={askQuestionLink}
-        target="_blank"
+        target={askQuestionLinkNewTab ? "_blank" : "_self"}
         class="w-[330px] h-[72px] !font-bebas !text-[28px] !font-bold flex items-center justify-center"
       >
         задать вопрос

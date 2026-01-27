@@ -49,6 +49,14 @@ if (defaultImage.startsWith('@assets/content')) {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url.origin);
 const ogFullUrl = new URL(ogImageUrl, canonicalURL.origin).href;
 
+// Safe import for tournament settings to get widget config
+const tournamentFiles = import.meta.glob('../content/tournament-settings/index.json', { eager: true });
+const tournamentSettings = tournamentFiles['../content/tournament-settings/index.json'] || {};
+
+// Widget Config Defaults
+const widgetClientKey = tournamentSettings.widgetClientKey || '2c4a0e91-c3fa-4469-9e2f-acffa4a5ddd2';
+const widgetRegionId = tournamentSettings.widgetRegionId || 56;
+
 console.log('SEO Debug:', { settingsTitle: seoSettings.defaultTitle, finalTitle: title ?? defaultTitle, ogFullUrl });
 ---
 <html lang="ru">
@@ -76,10 +84,10 @@ console.log('SEO Debug:', { settingsTitle: seoSettings.defaultTitle, finalTitle:
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- Yandex Tickets Dealer Config -->
-    <script is:inline>
+    <script is:inline define:vars={{ widgetClientKey, widgetRegionId }}>
       window.YandexTicketsDealer = window.YandexTicketsDealer || [];
-      YandexTicketsDealer.push(['setDefaultClientKey', '2c4a0e91-c3fa-4469-9e2f-acffa4a5ddd2']);
-      YandexTicketsDealer.push(['setDefaultRegionId', 56]);
+      YandexTicketsDealer.push(['setDefaultClientKey', widgetClientKey]);
+      YandexTicketsDealer.push(['setDefaultRegionId', parseInt(widgetRegionId)]);
       (function () {
         var rnd = '?' + new Date().getTime() * Math.random();
         var script = document.createElement('script');
