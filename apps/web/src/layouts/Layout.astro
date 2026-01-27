@@ -9,9 +9,16 @@ import "../assets/css/buttons.css"
 const settingsFiles = import.meta.glob('../content/site-settings/index.json', { eager: true });
 // Если файл есть - берем его, если нет - пустой объект
 const siteSettings = settingsFiles['../content/site-settings/index.json'] || { headScripts: '', bodyScripts: '' };
-const { title, description } = Astro.props
-const defaultTitle = "КГЧО Турнир | 13-14 марта 2026"
-const defaultDescription = "Турнир КГЧО по классическому волейболу. ДС «Юность». 13-14 марта 2026 года."
+
+// SEO Settings
+const seoFiles = import.meta.glob('../content/seo/index.json', { eager: true });
+const seoSettings = seoFiles['../content/seo/index.json'] || {};
+
+const { title, description, image } = Astro.props
+
+const defaultTitle = seoSettings.defaultTitle || "КГЧО Турнир | 13-14 марта 2026"
+const defaultDescription = seoSettings.defaultDescription || "Турнир КГЧО по классическому волейболу. ДС «Юность». 13-14 марта 2026 года."
+const defaultImage = seoSettings.ogImage || "/tournament/logo-big.png" // Fallback to logo if not set
 ---
 <html lang="ru">
   <head>
@@ -33,6 +40,7 @@ const defaultDescription = "Турнир КГЧО по классическом�
     <meta name="theme-color" content="#D85A21" />
     <meta property="og:title" content={ title ?? defaultTitle } />
     <meta property="og:description" content={ description ?? defaultDescription } />
+    <meta property="og:image" content={ image ?? defaultImage } />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">

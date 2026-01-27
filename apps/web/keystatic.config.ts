@@ -169,6 +169,21 @@ export default config({
         ),
       },
     }),
+    seo: singleton({
+      label: 'SEO Настройки',
+      path: 'apps/web/src/content/seo/',
+      format: { data: 'json' },
+      schema: {
+        defaultTitle: fields.text({ label: 'Заголовок по умолчанию (Title)', description: 'Используется, если на странице не задан свой заголовок' }),
+        defaultDescription: fields.text({ label: 'Описание по умолчанию (Description)', multiline: true, description: 'Отображается в поисковиках и соцсетях (Telegram, VK)' }),
+        ogImage: fields.image({
+          label: 'OG Изображение (для соцсетей)',
+          directory: 'apps/web/src/assets/content/seo',
+          publicPath: '@assets/content/seo',
+          description: 'Картинка, которая подтягивается при отправке ссылки в Telegram/VK'
+        }),
+      },
+    }),
     siteSettings: singleton({
       label: 'Скрипты и Метрика',
       path: 'apps/web/src/content/site-settings/',
