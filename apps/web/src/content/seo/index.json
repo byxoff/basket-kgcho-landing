@@ -1,5 +1,6 @@
 {
   "defaultTitle": "Международный кубок 3Х3 / 13-15 марта 2026 / Челябинск",
   "defaultDescription": "Международный турнир по баскетболу 3Х3 / 13-15 марта 2026 / ДС «Юность»\"",
-  "ogImage": "@assets/content/seo/ogImage.jpg"
+  "ogImage": "@assets/content/seo/ogImage.jpg",
+  "favicon": "@assets/content/seo/favicon.png"
 }
