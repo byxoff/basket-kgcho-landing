@@ -3,6 +3,9 @@
 import ShopCard from './ShopCard.astro';
 import shopData from '../../content/shop/index.json';
 
+// Функция для получения правильного пути к картинке (поддержка и строк, и импортов Vite)
+const shopImages = import.meta.glob('/src/assets/content/shop/**/*.{jpeg,jpg,png,gif,webp,svg}');
+
 const { items: shopItems, showSection = true } = shopData;
 ---
 
@@ -22,15 +25,24 @@ const { items: shopItems, showSection = true } = shopData;
     </header>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-6 w-full max-w-[1400px] justify-items-center">
-       {shopItems.map((item) => (
+       {shopItems.map((item) => {
+         let imgImport = null;
+         if (item && item.image) {
+             const rawPath = item.image;
+             // Превращаем @assets/content/shop/image.png -> /src/assets/content/shop/image.png
+             const fsPath = rawPath?.replace('@assets/content', '/src/assets/content');
+             imgImport = shopImages[fsPath];
+         }
+         return (
          <ShopCard 
             title={item.title}
             price={item.price}
             image={item.image}
+            imgImport={imgImport}
             link={item.link}
             openInNewTab={item.openInNewTab}
          />
-       ))}
+       )})}
     </div>
   </div>
 </section>

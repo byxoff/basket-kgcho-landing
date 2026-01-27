@@ -1,13 +1,16 @@
 ---
+import { Image } from "astro:assets";
+
 interface Props {
   title: string;
   price: string;
   image: string;
+  imgImport?: any; // Promise/Function from import.meta.glob
   link?: string;
   openInNewTab?: boolean;
 }
 
-const { title, price, image, link = "#", openInNewTab = false } = Astro.props;
+const { title, price, image, imgImport, link = "#", openInNewTab = false } = Astro.props;
 ---
 
 <a href={link} target={openInNewTab ? "_blank" : "_self"} class="group block w-[451px] max-w-full transition-transform duration-300 hover:-translate-y-1">
@@ -15,7 +18,11 @@ const { title, price, image, link = "#", openInNewTab = false } = Astro.props;
     
     <!-- Image Box (Rectangle 10) -->
     <div class="w-full h-[308px] bg-white rounded-[4px] overflow-hidden flex items-center justify-center">
-      <img src={image} alt={title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+      {imgImport ? (
+        <Image src={imgImport()} alt={title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+      ) : (
+        <img src={image} alt={title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+      )}
     </div>
 
     <!-- Content Box (Rectangle 11) -->

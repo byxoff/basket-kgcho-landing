@@ -3,9 +3,40 @@
 import Image from "astro/components/Image.astro";
 import Button from '../ui/Button.astro';
 import HeroCard from './HeroCard.astro';
-import heroBg from '../../assets/tournament/hero-bg.png';
-import logoBig from '../../assets/tournament/logo-big.png';
-import tournamentSettings from '../../content/tournament-settings/index.json';
+import heroBgDefault from '../../assets/tournament/hero-bg.png';
+import logoBigDefault from '../../assets/tournament/logo-big.png';
+
+// Safe Import Settings
+const settingsFiles = import.meta.glob('../../content/tournament-settings/index.json', { eager: true });
+const tournamentSettings = settingsFiles['../../content/tournament-settings/index.json'] || {};
+
+// Glob for dynamic images (Settings images)
+const settingsImages = import.meta.glob('/src/assets/content/settings/**/*.{jpeg,jpg,png,gif,webp,svg}');
+
+// Resolve Hero BG
+let heroBgImage = heroBgDefault;
+if (tournamentSettings.heroBg) {
+    // Keystatic saves as @assets/content/settings/file.png -> map to /src/assets/content/settings/file.png
+    const fsPath = tournamentSettings.heroBg.replace('@assets/content', '/src/assets/content');
+    if (settingsImages[fsPath]) {
+        try {
+             const mod = await settingsImages[fsPath]();
+             heroBgImage = mod.default;
+        } catch(e) { console.error("Hero BG load failed", e); }
+    }
+}
+
+// Resolve Logo
+let logoImage = logoBigDefault;
+if (tournamentSettings.logo) {
+    const fsPath = tournamentSettings.logo.replace('@assets/content', '/src/assets/content');
+    if (settingsImages[fsPath]) {
+        try {
+             const mod = await settingsImages[fsPath]();
+             logoImage = mod.default;
+        } catch(e) { console.error("Hero Logo load failed", e); }
+    }
+}
 ---
 
 <section class="relative min-h-screen flex flex-col overflow-hidden bg-black pb-32 lg:pb-0">
@@ -13,7 +44,7 @@ import tournamentSettings from '../../content/tournament-settings/index.json';
   <div class="absolute inset-0 z-0 bg-black">
     <!-- Main Image -->
     <div class="absolute inset-0 w-full h-[120%] -top-[10%] scale-110 pointer-events-none will-change-transform">
-       <Image src={heroBg} alt="" format="avif" quality="high" width={1920} height={1080} class="w-full h-full object-cover" loading="eager" />
+       <Image src={heroBgImage} alt="" format="avif" quality="high" width={1920} height={1080} class="w-full h-full object-cover" loading="eager" />
     </div>
     
     <!-- Decor Elements (Balls/Glows) -->
@@ -41,11 +72,11 @@ import tournamentSettings from '../../content/tournament-settings/index.json';
   <div class="relative z-10 flex-1 flex flex-col items-center justify-center px-4 md:px-8 gap-6 text-center max-w-6xl mx-auto lg:gap-5 md:gap-4 md:py-8">
     <!-- Большой логотип в центре -->
     <div id="hero-logo" class="w-72 h-72 drop-shadow-orange lg:w-64 lg:h-64 md:w-52 md:h-52">
-      <Image src={logoBig} alt="Логотип турнира" format="avif" quality="high" width={800} height={800} class="w-full h-full object-contain brightness-110 contrast-110" loading="eager" />
+      <Image src={logoImage} alt="Логотип турнира" format="avif" quality="high" width={800} height={800} class="w-full h-full object-contain brightness-110 contrast-110" loading="eager" />
     </div>
 
     <!-- Заголовок -->
-    <h1 class="font-bebas font-bold text-4xl sm:text-5xl md:text-[64px] text-white uppercase m-0 leading-[0.9] max-w-5xl tracking-normal text-balance" set:html={tournamentSettings.title.replace(/\n/g, '<br />')} />
+    <h1 class="font-bebas font-bold text-4xl sm:text-5xl md:text-[64px] text-white uppercase m-0 leading-[0.9] max-w-5xl tracking-normal text-balance" set:html={tournamentSettings?.title?.replace(/\n/g, '<br />') || ''} />
     
     <p class="font-bebas font-bold text-[36px] text-tournament-orange uppercase mt-2 mb-0 tracking-wide">
       {tournamentSettings.subtitle}
@@ -82,7 +113,7 @@ import tournamentSettings from '../../content/tournament-settings/index.json';
 
   </div>
 
-  <script is:inline define:vars={{ widgetName: tournamentSettings.widgetName || 'ticketsteam-4262@55106690' }}>
+  <script is:inline define:vars={{ widgetName: tournamentSettings?.widgetName || 'ticketsteam-4262@55106690' }}>
     // Logic to open Yandex Tickets Widget
     document.addEventListener('DOMContentLoaded', () => {
       const buyButtons = document.querySelectorAll('.buy-tickets-trigger');
