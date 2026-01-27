@@ -4,6 +4,7 @@ import "../assets/css/base.css"
 import "../assets/css/typography.css"
 import "../assets/css/layout.css"
 import "../assets/css/buttons.css"
+import { getImage } from "astro:assets";
 // БЕЗОПАСНЫЙ ИМПОРТ НАСТРОЕК
 // Используем import.meta.glob, чтобы сборка не падала, если файл еще не создан в админке
 const settingsFiles = import.meta.glob('../content/site-settings/index.json', { eager: true });
@@ -20,7 +21,6 @@ const defaultTitle = seoSettings.defaultTitle || "Международный к�
 const defaultDescription = seoSettings.defaultDescription || 'Международный турнир по баскетболу 3Х3 / 13-15 марта 2026 / ДС «Юность»"'
 const defaultImage = seoSettings.ogImage || "/tournament/logo-big.png";
 const images = import.meta.glob('/src/assets/content/seo/**/*.{jpeg,jpg,png,gif,webp,svg}');
-import { getImage } from "astro:assets";
 
 let ogImageUrl = defaultImage;
 
