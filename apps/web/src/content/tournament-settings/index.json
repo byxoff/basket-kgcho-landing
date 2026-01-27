@@ -3,7 +3,8 @@
   "subtitle": "НА КУБОК ГУБЕРНАТОРА ЧЕЛЯБИНСКОЙ ОБЛАСТИ",
   "date": "13-15 марта 2026",
   "location": "ДС «Юность»",
-  "ticketLinkNewTab": false,
+  "ticketLink": "https://afisha.yandex.ru/chelyabinsk/sport/mezhdunarodnyi-turnir-po-basketbolu-3x3",
+  "ticketLinkNewTab": true,
   "tickerItems": [
     "10000 зрителей",
     "12 стран участников",
