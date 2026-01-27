@@ -16,8 +16,8 @@ const seoSettings = seoFiles['../content/seo/index.json'] || {};
 
 const { title, description, image } = Astro.props
 
-const defaultTitle = seoSettings.defaultTitle || "КГЧО Турнир | 13-14 марта 2026"
-const defaultDescription = seoSettings.defaultDescription || "Международный турнир по баскетболу 3Х3. Челябинск, ДС «Юность». 13-14 марта 2026 года."
+const defaultTitle = seoSettings.defaultTitle || "Международный кубок 3Х3 / 13-15 марта 2026 / Челябинск"
+const defaultDescription = seoSettings.defaultDescription || 'Международный турнир по баскетболу 3Х3 / 13-15 марта 2026 / ДС «Юность»"'
 const defaultImage = seoSettings.ogImage || "/tournament/logo-big.png"
 const images = import.meta.glob('/src/assets/content/seo/**/*.{jpeg,jpg,png,gif,webp,svg}');
 
