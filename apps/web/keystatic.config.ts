@@ -107,6 +107,15 @@ export default config({
         ticketLink: fields.text({ label: 'Ссылка на билеты (кнопка)', description: 'Оставьте пустым, чтобы открывался виджет Яндекс.Тикетов' }),
         ticketLinkNewTab: fields.checkbox({ label: 'Открывать ссылку на билеты в новой вкладке', defaultValue: false }),
 
+        // Ticker Items
+        tickerItems: fields.array(
+          fields.text({ label: 'Текст (например: 10000 участников)' }),
+          {
+            label: 'Бегущая строка',
+            itemLabel: (props) => props.value || 'Новый элемент'
+          }
+        ),
+
         // Widget Settings
         widgetClientKey: fields.text({ label: 'Widget: Client Key', description: 'Ключ клиента Яндекс.Билеты' }),
         widgetRegionId: fields.text({ label: 'Widget: Region ID', description: 'ID региона Яндекс.Билеты' }),

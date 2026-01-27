@@ -1,20 +1,29 @@
----
-// Бегущая строка
-const items = [
+// Ticker.astro
+
+// Безопасный импорт настроек (если файла нет во время сборки)
+const tournamentFiles = import.meta.glob('../../content/tournament-settings/index.json', { eager: true });
+const tournamentSettings = tournamentFiles['../../content/tournament-settings/index.json'] || { tickerItems: [] };
+
+const defaultItems = [
   "10000 зрителей",
   "12 стран участников",
   "2 дня",
   "2 хэдлайнера"
 ];
 
+const items = (tournamentSettings.tickerItems && tournamentSettings.tickerItems.length > 0) 
+  ? tournamentSettings.tickerItems 
+  : defaultItems;
+
 // Функция для форматирования текста (цифры крупнее)
 const formatTickerItem = (text: string) => {
   return text.split(/(\d[\d\s]*\+?%?)/).map(part => {
     if (/\d/.test(part)) {
-      return `<span class="text-[48px] font-bold">${part}</span>`;
+      return `<span class="text-[48px] font-bold leading-none">${part}</span>`;
     }
     if (part.trim()) {
-      return `<span class="text-[24px] font-bold align-middle mx-1">${part}</span>`;
+      // Убрали align-middle, чтобы работало items-baseline родителя
+      return `<span class="text-[24px] font-bold mx-1 leading-none text-white/90 translate-y-[-2px]">${part}</span>`; 
     }
     return "";
   }).join("");
@@ -24,14 +33,14 @@ const formatTickerItem = (text: string) => {
 const tickerItems = [...items, ...items, ...items, ...items];
 ---
 
-<div class="relative z-[2] bg-tournament-orange py-3 overflow-hidden w-full border-y border-white/10 font-bebas font-bold text-white uppercase leading-none select-none pointer-events-none">
+<div class="relative z-[2] bg-tournament-orange py-5 overflow-hidden w-full border-y border-white/10 font-bebas font-bold text-white uppercase leading-none select-none pointer-events-none">
   <!-- Внутренний контейнер с анимацией -->
-  <div class="flex gap-6 items-center whitespace-nowrap ticker-track w-max">
+  <div class="flex gap-12 items-baseline whitespace-nowrap ticker-track w-max">
     
     {tickerItems.map((item, index) => (
-      <div class="flex items-center gap-6">
+      <div class="flex items-baseline gap-2">
         <span set:html={formatTickerItem(item)} />
-        <span class="text-[24px] text-white">•</span>
+        <span class="text-[24px] text-white/50 relative top-[-5px]">•</span>
       </div>
     ))}
 
