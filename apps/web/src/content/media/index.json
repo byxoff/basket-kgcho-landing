@@ -4,19 +4,44 @@
   "videoPreview": "@assets/content/media/videoPreview.png",
   "gallery": [
     {
-      "image": "@assets/content/media/gallery/0/image.jpg"
+      "image": "@assets/content/media/gallery/0/image.jpg",
+      "openInNewTab": false
     },
     {
-      "image": "@assets/content/media/gallery/1/image.jpg"
+      "image": "@assets/content/media/gallery/1/image.jpg",
+      "openInNewTab": false
     },
     {
-      "image": "@assets/content/media/gallery/2/image.jpg"
+      "image": "@assets/content/media/gallery/2/image.jpg",
+      "openInNewTab": false
     },
     {
-      "image": "@assets/content/media/gallery/3/image.jpg"
+      "image": "@assets/content/media/gallery/3/image.jpg",
+      "openInNewTab": false
     },
     {
-      "image": "@assets/content/media/gallery/4/image.jpg"
+      "image": "@assets/content/media/gallery/4/image.jpg",
+      "openInNewTab": false
+    },
+    {
+      "image": "@assets/content/media/gallery/5/image.jpg",
+      "openInNewTab": false
+    },
+    {
+      "image": "@assets/content/media/gallery/6/image.jpg",
+      "openInNewTab": false
+    },
+    {
+      "image": "@assets/content/media/gallery/7/image.jpg",
+      "openInNewTab": false
+    },
+    {
+      "image": "@assets/content/media/gallery/8/image.jpg",
+      "openInNewTab": false
+    },
+    {
+      "image": "@assets/content/media/gallery/9/image.jpg",
+      "openInNewTab": false
     }
   ]
 }
