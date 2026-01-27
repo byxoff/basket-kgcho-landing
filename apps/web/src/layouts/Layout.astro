@@ -18,10 +18,10 @@ const { title, description, image } = Astro.props
 
 const defaultTitle = seoSettings.defaultTitle || "Международный кубок 3Х3 / 13-15 марта 2026 / Челябинск"
 const defaultDescription = seoSettings.defaultDescription || 'Международный турнир по баскетболу 3Х3 / 13-15 марта 2026 / ДС «Юность»"'
-const defaultImage = seoSettings.ogImage || "/tournament/logo-big.png"
+const defaultImage = seoSettings.ogImage || "/tournament/logo-big.png";
 const images = import.meta.glob('/src/assets/content/seo/**/*.{jpeg,jpg,png,gif,webp,svg}');
-
 import { getImage } from "astro:assets";
+
 let ogImageUrl = defaultImage;
 
 // Если картинка из Keystatic (@assets/content...), пытаемся ее найти и оптимизировать
