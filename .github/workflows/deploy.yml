@@ -26,10 +26,8 @@ jobs:
             pnpm install
             pnpm --filter web build
             
-            export KEYSTATIC_GITHUB_CLIENT_ID=Iv23lifqBojRYH3rs170
-            export KEYSTATIC_GITHUB_CLIENT_SECRET=243ec8a65f80826917a4cd4cd8a365cc7989c07e
-            export KEYSTATIC_SECRET=basket_tournament_secret_key_2026
-            export HOST=127.0.0.1
-            export PORT=4321
             pm2 delete basket-site || true
-            pm2 start apps/web/dist/server/entry.mjs --name basket-site
+            pm2 start ecosystem.config.cjs
+            pm2 save
+            sleep 3
+            pm2 logs basket-site --lines 30 --nostream
