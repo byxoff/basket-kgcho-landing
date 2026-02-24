@@ -31,3 +31,18 @@ jobs:
             pm2 save
             sleep 3
             pm2 logs basket-site --lines 30 --nostream
+
+            # Диагностика сервера
+            echo "=== DIAGNOSTICS ==="
+            echo "--- nginx status ---"
+            sudo systemctl status nginx 2>&1 || echo "nginx not running as systemd service"
+            nginx -t 2>&1 || echo "nginx config test failed"
+            echo "--- nginx sites ---"
+            ls -la /etc/nginx/sites-enabled/ 2>/dev/null || ls -la /etc/nginx/conf.d/ 2>/dev/null || echo "no nginx sites found"
+            cat /etc/nginx/sites-enabled/* 2>/dev/null || cat /etc/nginx/conf.d/*.conf 2>/dev/null || echo "no nginx configs"
+            echo "--- listening ports ---"
+            ss -tlnp 2>/dev/null || netstat -tlnp 2>/dev/null
+            echo "--- curl localhost ---"
+            curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:4321 2>&1
+            echo ""
+            echo "=== END DIAGNOSTICS ==="
