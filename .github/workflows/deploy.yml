@@ -14,7 +14,29 @@ jobs:
           username: root
           password: ${{ secrets.SSH_ROOT_PASSWORD }}
           script: |
-            # Создать конфиг для сайта если его нет
+            # Проверить и открыть файрвол
+            echo "=== FIREWALL CHECK ==="
+            ufw status 2>&1 || echo "ufw not active"
+            iptables -L INPUT -n --line-numbers 2>&1 | head -40
+            echo "=== END FIREWALL ==="
+
+            # Открыть порты 80/443 для всех (не только Cloudflare)
+            if iptables -L INPUT -n | grep -q "cf-"; then
+              echo "Cloudflare-only firewall rules detected, opening ports for all..."
+              # Добавить правила для 80/443 от всех до Cloudflare-правил
+              iptables -I INPUT 1 -p tcp --dport 80 -j ACCEPT
+              iptables -I INPUT 1 -p tcp --dport 443 -j ACCEPT
+              iptables-save > /etc/iptables.rules 2>/dev/null || true
+              echo "Ports 80/443 opened for all IPs"
+            elif ufw status 2>/dev/null | grep -q "active"; then
+              ufw allow 80/tcp
+              ufw allow 443/tcp
+              echo "UFW: ports 80/443 opened"
+            else
+              echo "No Cloudflare-specific firewall rules found"
+            fi
+
+            # Nginx конфиг для сайта
             CONF="/etc/nginx/conf.d/3x3chelbasket.conf"
             if [ ! -f "$CONF" ]; then
               cat > "$CONF" << 'NGINX'
@@ -39,6 +61,7 @@ jobs:
               echo "nginx config created and reloaded"
             else
               echo "nginx config already exists"
+              nginx -t && systemctl reload nginx
             fi
 
       - name: Deploy app (fastuser)
