@@ -31,4 +31,5 @@ jobs:
             export KEYSTATIC_SECRET=basket_tournament_secret_key_2026
             export HOST=127.0.0.1
             export PORT=4321
-            pm2 restart basket-site --update-env || pm2 start apps/web/dist/server/entry.mjs --name basket-site
+            pm2 delete basket-site || true
+            pm2 start apps/web/dist/server/entry.mjs --name basket-site
