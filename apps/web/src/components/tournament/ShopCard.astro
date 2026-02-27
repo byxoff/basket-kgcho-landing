@@ -4,7 +4,7 @@ import { Image } from "astro:assets";
 interface Props {
   title: string;
   price: string;
-  image: string;
+  image?: string | null;
   imgImport?: any; // Promise/Function from import.meta.glob
   link?: string;
   openInNewTab?: boolean;
@@ -20,8 +20,10 @@ const { title, price, image, imgImport, link = "#", openInNewTab = false } = Ast
     <div class="w-full h-[308px] bg-white rounded-[4px] overflow-hidden flex items-center justify-center">
       {imgImport ? (
         <Image src={imgImport()} alt={title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-      ) : (
+      ) : image ? (
         <img src={image} alt={title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+      ) : (
+        <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400 text-sm">Нет фото</div>
       )}
     </div>
 

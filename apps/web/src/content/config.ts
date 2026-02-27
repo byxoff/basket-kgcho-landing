@@ -27,8 +27,9 @@ const shopCollection = defineCollection({
       title: z.string(),
       description: z.string(),
       price: z.string(),
-      image: z.string(),
+      image: z.string().nullable().optional(),
       link: z.string().optional(),
+      openInNewTab: z.boolean().optional(),
     })),
   }),
 });
