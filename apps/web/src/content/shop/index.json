@@ -2,11 +2,12 @@
   "showSection": true,
   "items": [
     {
-      "title": "Мяч Турнира",
-      "description": "Мяч сезона 2525",
-      "price": "2555 ₽",
-      "link": "#shop",
-      "openInNewTab": false
+      "title": "Бейсболка",
+      "description": "Кепка с круглым козырьком.",
+      "price": "1990 ₽",
+      "image": "@assets/content/shop/items/0/image.png",
+      "link": "https://vk.com/market/product/anorak-mezhdunarodnyj-kubok-gubernatora-3kh3-229951816-15522949",
+      "openInNewTab": true
     },
     {
       "title": "Официальный мяч Турнира",
