@@ -15,6 +15,11 @@ const shopFiles = import.meta.glob('../../content/shop/index.json', { eager: tru
 const shopData = shopFiles['../../content/shop/index.json'] || {};
 const showShop = shopData.showSection ?? false;
 
+// Headliners settings (для условной навигации)
+const headlinersFiles = import.meta.glob('../../content/headliners/index.json', { eager: true });
+const headlinersData = headlinersFiles['../../content/headliners/index.json'] || {};
+const showHeadliners = headlinersData.showSection ?? false;
+
 // Glob for dynamic images (Settings images)
 const settingsImages = import.meta.glob('/src/assets/content/settings/**/*.{jpeg,jpg,png,gif,webp,svg}');
 
@@ -67,6 +72,7 @@ if (tournamentSettings.logo) {
     
     <nav class="hidden lg:flex gap-6 items-center">
       <a href="#main" class="font-bebas text-[20px] font-bold text-white no-underline uppercase transition-colors duration-200 hover:text-tournament-orange">Главная</a>
+      {showHeadliners && <a href="#headliners" class="font-bebas text-[20px] font-bold text-white no-underline uppercase transition-colors duration-200 hover:text-tournament-orange">хедлайнеры</a>}
       <a href="#schedule" class="font-bebas text-[20px] font-bold text-white no-underline uppercase transition-colors duration-200 hover:text-tournament-orange">программа</a>
       {showShop && <a href="#shop" class="font-bebas text-[20px] font-bold text-white no-underline uppercase transition-colors duration-200 hover:text-tournament-orange">магазин</a>}
       <a href="#partners" class="font-bebas text-[20px] font-bold text-white no-underline uppercase transition-colors duration-200 hover:text-tournament-orange">партнеры</a>
