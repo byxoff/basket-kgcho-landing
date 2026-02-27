@@ -1,14 +1,15 @@
 {
-  "showSection": false,
+  "showSection": true,
   "title": "ХЭДЛАЙНЕРЫ",
   "subtitle": "Главные события прошлого турнира",
   "items": [
     {
       "badge": "2 день",
-      "title": "Финал мужского турнира",
-      "description": "Тимати",
+      "title": "Финал турнира",
+      "description": "Лучший исполнитель",
       "date": "14 марта",
-      "time": "14:30"
+      "time": "14:30",
+      "image": "@assets/content/headliners/items/0/image.png"
     },
     {
       "badge": "2 день",
