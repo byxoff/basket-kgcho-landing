@@ -1,47 +1,47 @@
 {
-  "showSection": false,
+  "showSection": true,
   "items": [
     {
       "title": "Мяч Турнира",
       "description": "Мяч сезона 2525",
       "price": "2555 ₽",
-      "image": null,
-      "link": "#shop"
+      "link": "#shop",
+      "openInNewTab": false
     },
     {
       "title": "Официальный мяч Турнира",
       "description": "Профессиональный мяч для игры в баскетбол 3x3",
       "price": "1490 ₽",
-      "image": null,
-      "link": "#shop"
+      "link": "#shop",
+      "openInNewTab": false
     },
     {
       "title": "Официальный мяч Турнира",
       "description": "Профессиональный мяч для игры в баскетбол 3x3",
       "price": "1490 ₽",
-      "image": null,
-      "link": "#shop"
+      "link": "#shop",
+      "openInNewTab": false
     },
     {
       "title": "Официальный мяч Турнира",
       "description": "Профессиональный мяч для игры в баскетбол 3x3",
       "price": "1490 ₽",
-      "image": null,
-      "link": "#shop"
+      "link": "#shop",
+      "openInNewTab": false
     },
     {
       "title": "Официальный мяч Турнира",
       "description": "Профессиональный мяч для игры в баскетбол 3x3",
       "price": "1490 ₽",
-      "image": null,
-      "link": "#shop"
+      "link": "#shop",
+      "openInNewTab": false
     },
     {
       "title": "Официальный мяч Турнира",
       "description": "Профессиональный мяч для игры в баскетбол 3x3",
       "price": "1490 ₽",
-      "image": null,
-      "link": "#shop"
+      "link": "#shop",
+      "openInNewTab": false
     }
   ]
 }
