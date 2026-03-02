@@ -8,6 +8,38 @@
       "image": "@assets/content/shop/items/0/image.png",
       "link": "https://vk.com/market/product/anorak-mezhdunarodnyj-kubok-gubernatora-3kh3-229951816-15522949",
       "openInNewTab": true
+    },
+    {
+      "title": "Бейсболка",
+      "description": "Кепка с круглым козырьком.",
+      "price": "1990",
+      "image": "@assets/content/shop/items/1/image.png",
+      "link": "https://vk.com/market/product/kepka-mezhdunarodnyj-kubok-gubernatora-3kh3-229951816-15522967",
+      "openInNewTab": true
+    },
+    {
+      "title": "Бейсболка",
+      "description": "Бейсболка с прямым козырьком.",
+      "price": "1990",
+      "image": "@assets/content/shop/items/2/image.png",
+      "link": "https://vk.com/market/product/bejsbolka-mezhdunarodnyj-kubok-gubernatora-3kh3-229951816-15522976",
+      "openInNewTab": true
+    },
+    {
+      "title": "Футболка премиум",
+      "description": "Футболка Международного Кубка Губернатора 2026! Размеры: M/L/XL/XXL Плотность: 240 г. Футболка Международного Кубка Губернатора – это символ престижного спортивного события, объединяющего участников из разных стран.",
+      "price": "2900",
+      "image": "@assets/content/shop/items/3/image.png",
+      "link": "https://vk.com/market/product/futbolka-mezhdunarodnyj-turnir-po-basketbolu-3kh3-2-229951816-15522905",
+      "openInNewTab": false
+    },
+    {
+      "title": "Футболка (Премиальный пошив)",
+      "description": "Футболка Международного Кубка Губернатора 2026! Размеры: M/L/XL/XXL Плотность: 240 г. Футболка Международного Кубка Губернатора – это символ престижного спортивного события, объединяющего участников из разных стран.",
+      "price": "2900",
+      "image": "@assets/content/shop/items/4/image.png",
+      "link": "https://vk.com/market/product/futbolka-mezhdunarodnyj-turnir-po-basketbolu-3kh3-3-229951816-15522912",
+      "openInNewTab": false
     }
   ]
 }
