@@ -56,6 +56,45 @@
       "image": "@assets/content/shop/items/6/image.png",
       "link": "https://vk.com/market/product/futbolka-mezhdunarodnyj-turnir-po-basketbolu-3kh3-1-229951816-15522821",
       "openInNewTab": true
+    },
+    {
+      "title": "Футболка детская",
+      "description": "Футболка детская Международного Кубка Губернатора 3х3. Размеры: 140/158 Плотность: 240 г.",
+      "price": "1990",
+      "image": "@assets/content/shop/items/7/image.png",
+      "link": "https://vk.com/market/product/futbolka-detskaya-mezhdunarodnyj-turnir-po-basketbolu-3kh3-229951816-15523722",
+      "openInNewTab": true
+    },
+    {
+      "title": "Футболка детская",
+      "description": "Футболка детская Международного Кубка Губернатора 3х3. Размеры: 140/158 Плотность: 240 г.",
+      "price": "1990",
+      "image": "@assets/content/shop/items/8/image.png",
+      "link": "https://vk.com/market/product/futbolka-detskaya-mezhdunarodnyj-turnir-po-basketbolu-3kh3-229951816-15523768",
+      "openInNewTab": true
+    },
+    {
+      "title": "Термобутылка",
+      "description": "ТЕРМОС «МЕЖДУНАРОДНЫЙ КУБОК ГУБЕРНАТОРА 3х3»",
+      "price": "1200",
+      "image": "@assets/content/shop/items/9/image.png",
+      "link": "https://vk.com/market/product/termos-mezhdunarodnyj-kubok-gubernatora-3kh3-229951816-15522990",
+      "openInNewTab": true
+    },
+    {
+      "title": "Термобутылка",
+      "description": "ТЕРМОС «МЕЖДУНАРОДНЫЙ КУБОК ГУБЕРНАТОРА 3х3»",
+      "price": "1200",
+      "image": "@assets/content/shop/items/10/image.png",
+      "openInNewTab": false
+    },
+    {
+      "title": "Термобутылка",
+      "description": "ТЕРМОБУТЫЛКА «МЕЖДУНАРОДНЫЙ КУБОК ГУБЕРНАТОРА 3х3»",
+      "price": "1650",
+      "image": "@assets/content/shop/items/11/image.png",
+      "link": "https://vk.com/market/product/termobutylka-mezhdunarodnyj-kubok-gubernatora-3kh3-229951816-15522982",
+      "openInNewTab": true
     }
   ]
 }
