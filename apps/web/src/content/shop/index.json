@@ -1,48 +1,13 @@
 {
-  "showSection": false,
+  "showSection": true,
   "items": [
     {
-      "title": "Бейсболка",
-      "description": "Кепка с круглым козырьком.",
-      "price": "1990 ₽",
+      "title": "Анорак (Премиальный пошив)",
+      "description": "Толстовка анорак — это комбинированный элемент одежды, объединяющий особенности толстовки и анорака. Размеры: L,XL,XXL Плотность - 470 г.",
+      "price": "6000",
       "image": "@assets/content/shop/items/0/image.png",
       "link": "https://vk.com/market/product/anorak-mezhdunarodnyj-kubok-gubernatora-3kh3-229951816-15522949",
       "openInNewTab": true
-    },
-    {
-      "title": "Официальный мяч Турнира",
-      "description": "Профессиональный мяч для игры в баскетбол 3x3",
-      "price": "1490 ₽",
-      "link": "#shop",
-      "openInNewTab": false
-    },
-    {
-      "title": "Официальный мяч Турнира",
-      "description": "Профессиональный мяч для игры в баскетбол 3x3",
-      "price": "1490 ₽",
-      "link": "#shop",
-      "openInNewTab": false
-    },
-    {
-      "title": "Официальный мяч Турнира",
-      "description": "Профессиональный мяч для игры в баскетбол 3x3",
-      "price": "1490 ₽",
-      "link": "#shop",
-      "openInNewTab": false
-    },
-    {
-      "title": "Официальный мяч Турнира",
-      "description": "Профессиональный мяч для игры в баскетбол 3x3",
-      "price": "1490 ₽",
-      "link": "#shop",
-      "openInNewTab": false
-    },
-    {
-      "title": "Официальный мяч Турнира",
-      "description": "Профессиональный мяч для игры в баскетбол 3x3",
-      "price": "1490 ₽",
-      "link": "#shop",
-      "openInNewTab": false
     }
   ]
 }
