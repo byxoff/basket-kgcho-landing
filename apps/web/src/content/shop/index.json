@@ -31,7 +31,7 @@
       "price": "2900",
       "image": "@assets/content/shop/items/3/image.png",
       "link": "https://vk.com/market/product/futbolka-mezhdunarodnyj-turnir-po-basketbolu-3kh3-2-229951816-15522905",
-      "openInNewTab": false
+      "openInNewTab": true
     },
     {
       "title": "Футболка (Премиальный пошив)",
@@ -39,7 +39,23 @@
       "price": "2900",
       "image": "@assets/content/shop/items/4/image.png",
       "link": "https://vk.com/market/product/futbolka-mezhdunarodnyj-turnir-po-basketbolu-3kh3-3-229951816-15522912",
-      "openInNewTab": false
+      "openInNewTab": true
+    },
+    {
+      "title": "Футболка премиум",
+      "description": "Футболка Международного Кубка Губернатора 2026! Размеры: M/L/XL/XXL Плотность: 240 г. Футболка Международного Кубка Губернатора – это символ престижного спортивного события, объединяющего участников из разных стран.",
+      "price": "2900",
+      "image": "@assets/content/shop/items/5/image.png",
+      "link": "https://vk.com/market/product/futbolka-mezhdunarodnyj-turnir-po-basketbolu-3kh3-4-229951816-15522918",
+      "openInNewTab": true
+    },
+    {
+      "title": "Футболка премиум",
+      "description": "Футболка Международного Кубка Губернатора 2026! Размеры: M/L/XL/XXL Плотность: 240 г. Футболка Международного Кубка Губернатора – это символ престижного спортивного события, объединяющего участников из разных стран.",
+      "price": "2900",
+      "image": "@assets/content/shop/items/6/image.png",
+      "link": "https://vk.com/market/product/futbolka-mezhdunarodnyj-turnir-po-basketbolu-3kh3-1-229951816-15522821",
+      "openInNewTab": true
     }
   ]
 }
