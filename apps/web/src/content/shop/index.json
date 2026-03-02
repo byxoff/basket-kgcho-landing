@@ -86,7 +86,7 @@
       "description": "ТЕРМОС «МЕЖДУНАРОДНЫЙ КУБОК ГУБЕРНАТОРА 3х3»",
       "price": "1200 ₽",
       "image": "@assets/content/shop/items/10/image.png",
-      "openInNewTab": false
+      "openInNewTab": true
     },
     {
       "title": "Термобутылка",
